@@ -1,4 +1,5 @@
 library(spant)
+library(doParallel)
 library(ggplot2)
 library(cowplot)
 
@@ -65,8 +66,7 @@ set.seed(1)
 
 # simulate mrs data
 lb_para   <- 6
-# noise_N   <- 32
-noise_N   <- 3
+noise_N   <- 32
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
 broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1,
                                 phase = 0)
@@ -76,8 +76,7 @@ mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
 
 ed_pppm_start <- 2
 ed_pppm_end   <- 25
-# ed_pppm_N     <- 10
-ed_pppm_N     <- 3
+ed_pppm_N     <- 10
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                            length.out = ed_pppm_N))
 
@@ -87,17 +86,23 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
   res_list <- readRDS(fname) 
 } else {
+  cores <- 32
+  cl <- makeCluster(cores, type = "FORK")
+  registerDoParallel(cl)
+  
   res_list <- vector(mode = "list", length = (ed_pppm_N + 1))
   for (n in 1:ed_pppm_N) {
     
     opts  <- abfit_opts(auto_bl_flex = FALSE, ed_pppm = ed_pppm_vec[n])
     
     res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
-                             basis = full_basis)
+                             basis = full_basis, parallel = TRUE)
   }
   
-  res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", basis = full_basis)
+  res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", basis = full_basis,
+                               parallel = TRUE)
   
+  stopCluster(cl)
   cat("Saving precomputed results :", fname, "\n")
   saveRDS(res_list, fname)
 }
