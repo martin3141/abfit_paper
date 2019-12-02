@@ -68,7 +68,7 @@ set.seed(1)
 lb_para   <- 6
 noise_N   <- 4
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
-broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1,
+broad_sig <- sim_resonances(freq = 1.3, amp = 0, lw = 100, lg = 1,
                                 phase = 0)
 mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
@@ -80,7 +80,7 @@ ed_pppm_N     <- 15
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                            length.out = ed_pppm_N))
 
-fname <- "fig4.rds"        # precomputed results
+fname <- "fig5.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -164,6 +164,6 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 
 print(full_plot)
 
-cairo_pdf("fig4.pdf", width = 6.92, height = 5.5)
+cairo_pdf("fig5.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
