@@ -66,7 +66,7 @@ set.seed(1)
 
 # simulate mrs data
 lb_para   <- 6
-noise_N   <- 4
+noise_N   <- 32
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
 broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1,
                                 phase = 0)
@@ -86,7 +86,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
   res_list <- readRDS(fname) 
 } else {
-  cores <- 4
+  cores <- 32
   cl <- makeCluster(cores, type = "FORK")
   registerDoParallel(cl)
   
