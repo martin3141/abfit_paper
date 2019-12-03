@@ -4,7 +4,7 @@
 #SBATCH --ntasks 32
 #SBATCH --nodes 1
 #SBATCH --cpus-per-task 1
-#SBATCH --time 00:30:00
+#SBATCH --time 01:00:00
 #SBATCH --account wilsonmp-mrs-analysis
 #SBATCH --qos castles
 
