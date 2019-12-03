@@ -46,6 +46,7 @@ full_basis_list  <- append(metab_basis_list, list(mm_exp))
 
 full_basis <- sim_basis(full_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
+
 # metab values from de Graff book
 
 amps <- c( 0.80,  # 1  Ala

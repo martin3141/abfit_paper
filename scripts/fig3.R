@@ -15,29 +15,31 @@ source("~/abfit/abfit.R")
 
 ft <- def_acq_paras()$ft
 
-ala  <- get_mol_paras("ala")
-asp  <- get_mol_paras("asp")
-cr   <- get_mol_paras("cr")
-gaba <- get_mol_paras("gaba")
-glc  <- get_mol_paras("glc")
-gln  <- get_mol_paras("gln")
-glu  <- get_mol_paras("glu")
-gpc  <- get_mol_paras("gpc")
-gsh  <- get_mol_paras("gsh")
-ins  <- get_mol_paras("ins")
-lac  <- get_mol_paras("lac")
-mm   <- get_mol_paras("mm_3t", ft)
-naa  <- get_mol_paras("naa")
-naag <- get_mol_paras("naag")
-pch  <- get_mol_paras("pch")
-pcr  <- get_mol_paras("pcr")
-sins <- get_mol_paras("sins")
-tau  <- get_mol_paras("tau")
+ala    <- get_mol_paras("ala")
+asp    <- get_mol_paras("asp")
+cr     <- get_mol_paras("cr")
+gaba   <- get_mol_paras("gaba")
+glc    <- get_mol_paras("glc")
+gln    <- get_mol_paras("gln")
+glu    <- get_mol_paras("glu")
+gpc    <- get_mol_paras("gpc")
+gsh    <- get_mol_paras("gsh")
+ins    <- get_mol_paras("ins")
+lac    <- get_mol_paras("lac")
+naa    <- get_mol_paras("naa")
+naag   <- get_mol_paras("naag")
+pch    <- get_mol_paras("pch")
+pcr    <- get_mol_paras("pcr")
+sins   <- get_mol_paras("sins")
+tau    <- get_mol_paras("tau")
+mm_exp <- get_mol_paras("mm_3t", ft)
 
-basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac, mm,
-                   naa, naag, pch, pcr, sins, tau)
+metab_basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac,
+                         naa, naag, pch, pcr, sins, tau)
 
-full_basis <- sim_basis(basis_list, pul_seq = seq_slaser_ideal,
+full_basis_list  <- append(metab_basis_list, list(mm_exp))
+
+full_basis <- sim_basis(full_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
 
 # metab values from de Graff book
@@ -53,13 +55,13 @@ amps <- c( 0.80,  # 1  Ala
            2.25,  # 9  GSH
            6.50,  # 10 Ins
            0.60,  # 11 Lac
-          30.00,  # 12 MM
           12.25,  # 13 NAA
            1.50,  # 14 NAAG
            0.60,  # 15 PCh
            4.25,  # 16 PCr
            0.35,  # 17 sIns
-           4.00)  # 18 Tau
+           4.00,  # 18 Tau
+          30.00)  # 12 MMexp
 
 set.seed(1)
 
@@ -72,7 +74,7 @@ broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1,
 
 mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
-mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
+mrs_data       <- rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
 
 ed_pppm_start <- 2
 ed_pppm_end   <- 25
@@ -113,10 +115,9 @@ deriv_mat <- diff(diag(bl_comps), lag = 1, differences = 2)
 
 # calc amp est errors and smooth residuals to check for modelling quality
 for (n in 1:ed_pppm_N) {
-  amp_inds <- c(6:23)
-  amp_inds <- amp_inds[-12]               # remove MM
+  amp_inds <- c(6:22)
   fit_amp_mat  <- res_list[[n]]$res_tab[amp_inds]
-  true_amp_mat <- matrix(amps[-12], nrow(fit_amp_mat), ncol(fit_amp_mat),
+  true_amp_mat <- matrix(amps[-18], nrow(fit_amp_mat), ncol(fit_amp_mat),
                          byrow = TRUE)
   
   error           <- (true_amp_mat - fit_amp_mat) ^ 2
@@ -125,7 +126,6 @@ for (n in 1:ed_pppm_N) {
   error_vec[n]    <- mean_error
   sd_error_vec[n] <- sd_error
   
- 
   # auto-smooth residual to find a good baseline freedom estimate
   fit_tab               <- res_list[[n]]$fits$`1.fit`
   resid_list[[n]]       <- fit_tab$Data - fit_tab$Fit - fit_tab$Baseline

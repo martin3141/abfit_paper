@@ -24,7 +24,6 @@ calc_yhat <- function(y, spline_basis, deriv_mat, lambda) {
 # generate a smooth function
 x      <- seq(0, 4.6 * pi, length.out = 200)
 ytrue  <- sin(x)
-
 y      <- ytrue + rnorm(200, 0, 0.3)  # add noise
 
 comps        <- 50                    # number of spline functions in the basis
