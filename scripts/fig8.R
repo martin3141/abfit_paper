@@ -3,6 +3,10 @@ library(doParallel)
 library(ggplot2)
 library(cowplot)
 
+# are we going to run the fitting in parallel, and if so how many jobs?
+parallel_fits <- TRUE
+jobs <- 32
+
 theme_set(theme_cowplot(font_size = 10))
 
 # change the working directory to the source file location
@@ -16,29 +20,31 @@ source("~/abfit/abfit.R")
 
 ft <- def_acq_paras()$ft
 
-ala  <- get_mol_paras("ala")
-asp  <- get_mol_paras("asp")
-cr   <- get_mol_paras("cr")
-gaba <- get_mol_paras("gaba")
-glc  <- get_mol_paras("glc")
-gln  <- get_mol_paras("gln")
-glu  <- get_mol_paras("glu")
-gpc  <- get_mol_paras("gpc")
-gsh  <- get_mol_paras("gsh")
-ins  <- get_mol_paras("ins")
-lac  <- get_mol_paras("lac")
-mm   <- get_mol_paras("mm_3t", ft)
-naa  <- get_mol_paras("naa")
-naag <- get_mol_paras("naag")
-pch  <- get_mol_paras("pch")
-pcr  <- get_mol_paras("pcr")
-sins <- get_mol_paras("sins")
-tau  <- get_mol_paras("tau")
+ala    <- get_mol_paras("ala")
+asp    <- get_mol_paras("asp")
+cr     <- get_mol_paras("cr")
+gaba   <- get_mol_paras("gaba")
+glc    <- get_mol_paras("glc")
+gln    <- get_mol_paras("gln")
+glu    <- get_mol_paras("glu")
+gpc    <- get_mol_paras("gpc")
+gsh    <- get_mol_paras("gsh")
+ins    <- get_mol_paras("ins")
+lac    <- get_mol_paras("lac")
+naa    <- get_mol_paras("naa")
+naag   <- get_mol_paras("naag")
+pch    <- get_mol_paras("pch")
+pcr    <- get_mol_paras("pcr")
+sins   <- get_mol_paras("sins")
+tau    <- get_mol_paras("tau")
+mm_exp <- get_mol_paras("mm_3t", ft)
 
-basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac, mm,
-                   naa, naag, pch, pcr, sins, tau)
+metab_basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac,
+                         naa, naag, pch, pcr, sins, tau)
 
-full_basis <- sim_basis(basis_list, pul_seq = seq_slaser_ideal,
+full_basis_list  <- append(metab_basis_list, list(mm_exp))
+
+full_basis <- sim_basis(full_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
 
 # metab values from de Graff book
@@ -54,13 +60,13 @@ amps <- c( 0.80,  # 1  Ala
            2.25,  # 9  GSH
            6.50,  # 10 Ins
            0.60,  # 11 Lac
-          30.00,  # 12 MM
           12.25,  # 13 NAA
            1.50,  # 14 NAAG
            0.60,  # 15 PCh
            4.25,  # 16 PCr
            0.35,  # 17 sIns
-           4.00)  # 18 Tau
+           4.00,  # 18 Tau
+          30.00)  # 12 MMexp
 
 set.seed(1)
 
@@ -86,9 +92,10 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
   res_list <- readRDS(fname) 
 } else {
-  cores <- 32
-  cl <- makeCluster(cores, type = "FORK")
-  registerDoParallel(cl)
+  if (parallel_fits) {
+    cl <- makeCluster(jobs, type = "FORK")
+    registerDoParallel(cl)
+  }
   
   res_list <- vector(mode = "list", length = (ed_pppm_N + 1))
   for (n in 1:ed_pppm_N) {
@@ -102,7 +109,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", basis = full_basis,
                                parallel = TRUE)
   
-  stopCluster(cl)
+  if (parallel_fits) stopCluster(cl)
   cat("Saving precomputed results :", fname, "\n")
   saveRDS(res_list, fname)
 }
@@ -112,10 +119,9 @@ sd_error_vec     <- rep(NA, ed_pppm_N)
 
 # calc amp est errors
 for (n in 1:ed_pppm_N) {
-  amp_inds <- c(6:23)
-  amp_inds <- amp_inds[-12]               # remove MM
+  amp_inds <- c(6:22)
   fit_amp_mat  <- res_list[[n]]$res_tab[amp_inds]
-  true_amp_mat <- matrix(amps[-12], nrow(fit_amp_mat), ncol(fit_amp_mat),
+  true_amp_mat <- matrix(amps[-18], nrow(fit_amp_mat), ncol(fit_amp_mat),
                          byrow = TRUE)
   
   error           <- (true_amp_mat - fit_amp_mat) ^ 2
@@ -162,7 +168,7 @@ p4 <- function() {
 full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
                        label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
 
-print(full_plot)
+# print(full_plot)
 
 cairo_pdf("fig8.pdf", width = 6.92, height = 5.5)
 print(full_plot)

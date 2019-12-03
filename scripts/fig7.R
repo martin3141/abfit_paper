@@ -3,6 +3,10 @@ library(doParallel)
 library(ggplot2)
 library(cowplot)
 
+# are we going to run the fitting in parallel, and if so how many jobs?
+parallel_fits <- TRUE
+jobs <- 32
+
 theme_set(theme_cowplot(font_size = 10))
 
 # change the working directory to the source file location
@@ -105,9 +109,10 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
   res_list <- readRDS(fname) 
 } else {
-  cores <- 32
-  cl <- makeCluster(cores, type = "FORK")
-  registerDoParallel(cl)
+  if (parallel_fits) {
+    cl <- makeCluster(jobs, type = "FORK")
+    registerDoParallel(cl)
+  }
   
   res_list <- vector(mode = "list", length = (ed_pppm_N + 1))
   for (n in 1:ed_pppm_N) {
@@ -121,7 +126,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", basis = approx_basis,
                                parallel = TRUE)
   
-  stopCluster(cl)
+  if (parallel_fits) stopCluster(cl)
   cat("Saving precomputed results :", fname, "\n")
   saveRDS(res_list, fname)
 }
@@ -133,7 +138,7 @@ sd_error_vec     <- rep(NA, ed_pppm_N)
 for (n in 1:ed_pppm_N) {
   amp_inds <- c(6:22)
   fit_amp_mat  <- res_list[[n]]$res_tab[amp_inds]
-  true_amp_mat <- matrix(amps[-12], nrow(fit_amp_mat), ncol(fit_amp_mat),
+  true_amp_mat <- matrix(amps[-18], nrow(fit_amp_mat), ncol(fit_amp_mat),
                          byrow = TRUE)
   
   error           <- (true_amp_mat - fit_amp_mat) ^ 2
@@ -180,7 +185,7 @@ p4 <- function() {
 full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
                        label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
 
-print(full_plot)
+# print(full_plot)
 
 cairo_pdf("fig7.pdf", width = 6.92, height = 5.5)
 print(full_plot)
