@@ -69,6 +69,7 @@ noise_N   <- 32
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
 broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1,
                                 phase = 0)
+
 mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
 mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
@@ -77,7 +78,7 @@ ed_pppm_start <- 2
 ed_pppm_end   <- 25
 ed_pppm_N     <- 10
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
-                          length.out = ed_pppm_N))
+                       length.out = ed_pppm_N))
 
 fname <- "fig3.rds"        # precomputed results
 
@@ -89,7 +90,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   for (n in 1:ed_pppm_N) {
     
     
-    opts  <- abfit_opts(auto_bl_flex = FALSE, ed_pppm = ed_pppm_vec[n],
+    opts  <- abfit_opts(auto_bl_flex = FALSE, bl_ed_pppm = ed_pppm_vec[n],
                         maxiters = 0, maxiters_pre = 0, init_damping = lb_para,
                         bl_comps_pppm = 40)
     
@@ -140,8 +141,8 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
              geom_line(aes(y = error_vec)) + geom_point(aes(y = error_vec)) +
              geom_errorbar(aes(ymin = error_vec - sd_error_vec,
                            ymax = error_vec + sd_error_vec), width = .02) +
-             scale_x_continuous(trans='log10', breaks = breaks) + xlab("ED per PPM") + 
-             ylab("Metabolite estimate error")
+             scale_x_continuous(trans='log10', breaks = breaks) +
+             xlab("ED per PPM") +  ylab("Metabolite estimate error")
 
 resid1   <- resid_list[[1]]
 smo1     <- smo_res_fit_list[[1]]$yhat
@@ -182,6 +183,7 @@ p3 <- ggplot(resid_smo_df, aes(x, y, col = c1)) + geom_line() +
 
 res_ed_vec <- as.numeric(lapply(smo_res_fit_list,`[[`,"ED"))
 df_ed      <- data.frame(ed_pppm_vec, res_ed_vec)
+
 p2 <- ggplot(df_ed, aes(x = ed_pppm_vec, y = res_ed_vec)) + geom_line() +
       geom_point() + scale_x_continuous(trans='log10', breaks = breaks) +
       xlab("ED per PPM") + ylab("Fit residual ED")
@@ -203,7 +205,8 @@ p6 <- function() {
 
 full_plot <- plot_grid(p1, p2, p3, p4, p5, p6,
                        labels = c('A', 'B', 'C', 'D', 'E', 'F'),
-                       label_size = 12, rel_widths = c(0.9,0.9,1,1,1,1), ncol = 3)
+                       label_size = 12, rel_widths = c(0.9,0.9,1,1,1,1),
+                       ncol = 3)
 
 print(full_plot)
 

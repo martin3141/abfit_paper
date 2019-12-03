@@ -19,6 +19,7 @@ if (Sys.getenv("RSTUDIO") == "1") {
 source("~/abfit/abfit.R")
 
 ft <- def_acq_paras()$ft
+
 ala    <- get_mol_paras("ala")
 asp    <- get_mol_paras("asp")
 cr     <- get_mol_paras("cr")
@@ -74,7 +75,8 @@ lb_para   <- 6
 noise_N   <- 32
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
 broad_sig <- sim_resonances(freq = 1.3, amp = 300, lw = 100, lg = 1,
-                                phase = 0)
+                            phase = 0)
+
 mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
 mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
@@ -99,7 +101,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   res_list <- vector(mode = "list", length = (ed_pppm_N + 1))
   for (n in 1:ed_pppm_N) {
     
-    opts  <- abfit_opts(auto_bl_flex = FALSE, ed_pppm = ed_pppm_vec[n])
+    opts  <- abfit_opts(auto_bl_flex = FALSE, bl_ed_pppm = ed_pppm_vec[n])
     
     res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
                              basis = full_basis, parallel = TRUE)

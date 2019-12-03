@@ -1,14 +1,3 @@
-# TODO
-# 2. fig. 4 validation of full fit method on simulated data with (and without)
-# baseline distortions, adjust LW, distortion amplitude.  
-# 3. fig. 5 WM, GM metab correlation ( sLASER) for semi-validation
-# 4. fig. 6 Example fits to real sLASER data with increasing lipids from a larger VOI
-# eg spectra where asym gives better fit
-
-# x. Add an option to prevent Lip/MM signals being removed from pre-fit
-# (might be optimal for exp. baselines).
-# y. Add an option to override auto bl with a fixed value for QA purposes
-
 library(cowplot)
 source("~/abfit/abfit.R")
 
