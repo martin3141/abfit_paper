@@ -20,31 +20,32 @@ source("~/abfit/abfit.R")
 
 ft <- def_acq_paras()$ft
 
-ala  <- get_mol_paras("ala")
-asp  <- get_mol_paras("asp")
-cr   <- get_mol_paras("cr")
-gaba <- get_mol_paras("gaba")
-glc  <- get_mol_paras("glc")
-gln  <- get_mol_paras("gln")
-glu  <- get_mol_paras("glu")
-gpc  <- get_mol_paras("gpc")
-gsh  <- get_mol_paras("gsh")
-ins  <- get_mol_paras("ins")
-lac  <- get_mol_paras("lac")
-mm   <- get_mol_paras("mm_3t", ft)
-naa  <- get_mol_paras("naa")
-naag <- get_mol_paras("naag")
-pch  <- get_mol_paras("pch")
-pcr  <- get_mol_paras("pcr")
-sins <- get_mol_paras("sins")
-tau  <- get_mol_paras("tau")
+ala    <- get_mol_paras("ala")
+asp    <- get_mol_paras("asp")
+cr     <- get_mol_paras("cr")
+gaba   <- get_mol_paras("gaba")
+glc    <- get_mol_paras("glc")
+gln    <- get_mol_paras("gln")
+glu    <- get_mol_paras("glu")
+gpc    <- get_mol_paras("gpc")
+gsh    <- get_mol_paras("gsh")
+ins    <- get_mol_paras("ins")
+lac    <- get_mol_paras("lac")
+naa    <- get_mol_paras("naa")
+naag   <- get_mol_paras("naag")
+pch    <- get_mol_paras("pch")
+pcr    <- get_mol_paras("pcr")
+sins   <- get_mol_paras("sins")
+tau    <- get_mol_paras("tau")
+mm_exp <- get_mol_paras("mm_3t", ft)
 
-basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac, mm,
-                   naa, naag, pch, pcr, sins, tau)
+metab_basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac,
+                         naa, naag, pch, pcr, sins, tau)
 
-full_basis <- sim_basis(basis_list, pul_seq = seq_slaser_ideal,
+full_basis_list  <- append(metab_basis_list, list(mm_exp))
+
+full_basis <- sim_basis(full_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
-
 # metab values from de Graff book
 
 amps <- c( 0.80,  # 1  Ala
