@@ -15,6 +15,7 @@ module purge
 module load bluebear
 module load bear-apps/2019a
 module load spant/0.18.0-foss-2019a-R-3.6.0
+module load gridGraphics/0.4-1-foss-2019a-R-3.6.0
 
 Rscript fig4.R
 Rscript fig5.R
