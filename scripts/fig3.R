@@ -94,7 +94,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
     
     opts  <- abfit_opts(auto_bl_flex = FALSE, bl_ed_pppm = ed_pppm_vec[n],
                         maxiters = 0, maxiters_pre = 0, init_damping = lb_para,
-                        bl_comps_pppm = 40)
+                        bl_comps_pppm = 40, export_sp_fit = TRUE)
     
     res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
                              basis = full_basis)
