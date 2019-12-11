@@ -60,7 +60,8 @@ df_est <- rbind(data.frame(x = x, y = y,     c1 = "data",     c2 = y_true_lab),
 p1 <- ggplot(data = df_est, aes(x = x, y = y, col = c1)) + geom_line() + 
              facet_wrap(~ c2, ncol = 2) +
              scale_colour_manual(values = c("black", "red")) + 
-             theme(legend.title = element_blank(), legend.position = c(0.44, 0.75))
+             theme(legend.title = element_blank(),
+                   legend.position = c(0.44, 0.75))
 
 lambda_start <- 1e-5
 lambda_end   <- 1e8
@@ -85,7 +86,7 @@ df_diag <- rbind(data.frame(x = lambda_vec, y = resid_vec, c1 = "residual"),
                  data.frame(x = lambda_vec, y = error_vec, c1 = "error"))
 
 breaks <- c(1e-5, 1e-2, 1, 20, 1000, 1e6, 1e8)
-labs   <- c("1e-5","1e-2","1","20","1000","1e6","1e8")
+labs   <- c("1e-5", "1e-2", "1", "20", "1000", "1e6", "1e8")
 p2 <- ggplot(data = df_diag, aes(x = x, y = y)) + geom_line() + 
        facet_wrap(~ c1, nrow =3, scales = "free_y") + 
        scale_x_continuous(trans='log10', breaks = breaks, labels = labs) + 
@@ -96,6 +97,6 @@ full_plot <- plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12,
                        rel_widths = c(3,2))
 print(full_plot)
 
-cairo_pdf("fig2.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig2.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()

@@ -103,7 +103,7 @@ approx_basis_list <- append(metab_basis_list, lip_mm_basis_list)
 approx_basis <- sim_basis(approx_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
 
-fname <- "fig7.rds"        # precomputed results
+fname <- "../data/fig7.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -154,7 +154,7 @@ for (n in 1:ed_pppm_N) {
 
 df <- data.frame(ed_pppm_vec, error_vec, sd_error_vec)
 
-mean_ed_pppm <- mean(res_list[[16]]$res_tab$ed_pppm)
+mean_ed_pppm <- mean(res_list[[16]]$res_tab$bl_ed_pppm)
 
 breaks <- c(0.5, 1, 2, 3, 5, 10, 25)
 
@@ -174,7 +174,7 @@ p2 <- function() {
 }
 
 # find a fit closest to the automically determined mean ED pppm
-closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$ed_pppm) ^ 2)
+closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$bl_ed_pppm) ^ 2)
 
 p3 <- function() {
   par(cex = 0.75)
@@ -191,6 +191,6 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot)
 
-cairo_pdf("fig7.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig7.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()

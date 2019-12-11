@@ -61,6 +61,6 @@ full_plot <- plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12,
 
 print(full_plot)
 
-cairo_pdf("fig1.pdf", width = 6.92, height = 3.2, pointsize = 10)
+cairo_pdf("../figures/fig1.pdf", width = 6.92, height = 3.2, pointsize = 10)
 print(full_plot)
 dev.off()

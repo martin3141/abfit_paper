@@ -86,7 +86,7 @@ ed_pppm_N     <- 15
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                            length.out = ed_pppm_N))
 
-fname <- "fig5.rds"        # precomputed results
+fname <- "../data/fig5.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -137,7 +137,7 @@ for (n in 1:ed_pppm_N) {
 
 df <- data.frame(ed_pppm_vec, error_vec, sd_error_vec)
 
-mean_ed_pppm <- mean(res_list[[16]]$res_tab$ed_pppm)
+mean_ed_pppm <- mean(res_list[[16]]$res_tab$bl_ed_pppm)
 
 breaks <- c(0.5, 1, 2, 3, 5, 10, 25)
 
@@ -157,7 +157,7 @@ p2 <- function() {
 }
 
 # find a fit closest to the automically determined mean ED pppm
-closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$ed_pppm) ^ 2)
+closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$bl_ed_pppm) ^ 2)
 
 p3 <- function() {
   par(cex = 0.75)
@@ -174,6 +174,6 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot)
 
-cairo_pdf("fig5.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig5.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()

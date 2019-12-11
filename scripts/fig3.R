@@ -82,7 +82,7 @@ ed_pppm_N     <- 10
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                        length.out = ed_pppm_N))
 
-fname <- "fig3.rds"        # precomputed results
+fname <- "../data/fig3.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -210,6 +210,6 @@ full_plot <- plot_grid(p1, p2, p3, p4, p5, p6,
 
 print(full_plot)
 
-cairo_pdf("fig3.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig3.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
