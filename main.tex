@@ -110,6 +110,8 @@ In this study we introduce a new method to automatically determine the optimal d
 
 Baseline signals have a characteristically smooth spectral appearance, and must to be accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed \cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
 
+A spline is a piecewise function made up of one or more polynomial segments joined together at points known as ``knots''. A wide range of spline functions are possible, however Basis-splines, more commonly known as B-splines, are a popular choice for smoothing applications due to their favorable numerical properties **REF**. The degree of a B-spline function determines its overall smoothness, and third degree (or cubic) B-splines are often used for smoothing. FIG 1 a shows...
+
 % Figure 1
 \begin{figure}
   \begin{center}
