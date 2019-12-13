@@ -144,10 +144,34 @@ The $\lambda$ parameter controls the degree of smoothness by penalizing solution
   \label{d_mat}
 \end{equation}
 
-An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\alpha$ consequently increase the penalty term in equation~(\ref{qb}).
+An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\alpha$ consequently increase the penalty term in equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{y}$, to the point where $\hat{y}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to equation~(\ref{qb}) may be found by augmenting $B$ and $y$:
 
+\begin{equation}
+  \begin{bmatrix}
+    y \\ 0
+  \end{bmatrix}
+  \approx
+  \begin{bmatrix}
+    B \\ \sqrt{\lambda} D
+  \end{bmatrix},
+\end{equation}
 
-XXXX
+and regressing the augmented $y$ vector on the augmented $B$ matrix to yield $\alpha$.
+
+The general approach for penalized spline regression is to over-specify the number of B-spline basis functions, and primarily control the smoothness through the adjustment of $\lambda$ acting on a difference matrix. We refer to this approach as ``P-splines'', first introduced by Eilers and Marx \cite{Eilers1996}.
+
+% effective dimension
+
+% Figure 2
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth]{fig2.pdf}
+    \caption{xxx}
+    \label{bspline_regression}
+  \end{center}
+\end{figure}
+\subsection{Adaptive Baseline Fitting}
+
 
 \section{Results}
 XXXX
@@ -155,7 +179,11 @@ XXXX
 \section{Discussion}
 MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.27939
 
-XXXX
+\cite{Stikov2019}
+
+% compare with LCModel P-spline approach which is more like O'Sullivan1986.
+
+\cite{OSullivan1986}
 
 \section{Conclusion}
 XXXX
