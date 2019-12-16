@@ -123,7 +123,7 @@ A spline is a piecewise function made up of one or more polynomial segments join
 
 A B-spline basis may be used to obtain a smooth estimate of a signal using simple linear regression. Figure~\ref{bspline_regression}B shows the result of a spline regression, where each spline function has been optimally weighted, such that the sum of the functions (spline fit line) is the least squares fit to the data. The desired smoothness of the fit is controlled by adjusting the spline knot spacing, which in turn changes the density of spline functions. In the case of Figure~\ref{bspline_regression}B, 15 functions were found to give a reasonable level of smoothness. Increasing the density of spline functions allows more detail to be captured by the fit, however too many functions results in an increased sensitivity to noise and the smooth estimate begins to exhibit random fluctuations. Conversely, insufficient density of spline functions results in the spline fit being unable to model genuine smooth trends present in the data.
 
-An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{y}$, of our data $y$, is calculated by: $\hat{y} = B \alpha$, where $B$ is a B-spline basis in matrix form, and $\alpha$ is the set of corresponding spline weightings to be determined. In simple spline regression $\alpha$ is found by solving the normal equations to minimize the sum of the square differences between $y$ and $\hat{y}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
+An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{y}$, of our data $y$, is calculated as: $\hat{y} = B \alpha$, where $B$ is a B-spline basis in matrix form, and $\alpha$ is the set of corresponding spline weightings to be determined. In simple spline regression $\alpha$ is found by solving the normal equations to minimize the sum of the square differences between $y$ and $\hat{y}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
 
 \begin{equation}
   Q_{B} = ||y - B \alpha ||^{2} + \lambda ||D \alpha ||^{2}.
@@ -158,11 +158,23 @@ An example of the second order difference matrix is given in~(\ref{d_mat}), whic
 
 and regressing the augmented $y$ vector on the augmented $B$ matrix to yield $\alpha$.
 
-The general approach for penalized spline regression is to over-specify the number of B-spline basis functions, and primarily control the smoothness through the adjustment of $\lambda$ acting on a difference matrix. We refer to this approach as ``P-splines'', first introduced by Eilers and Marx~\cite{Eilers1996}. Whilst the value of $\lambda$ has a direct effect on smoothness, it is an unintuitive parameter to interpret as the optimal value often varies by several orders of magnitude. In addition, $\lambda$ has a complex dependence on the density of the spline functions, the number of data points and other factors unrelated to smoothness.
+The general approach for penalized spline regression is to over-specify the number of B-spline basis functions, and primarily control the smoothness through the adjustment of $\lambda$ acting on a difference matrix. We refer to this approach as ``P-splines'', first introduced by Eilers and Marx~\cite{Eilers1996}. Whilst the value of $\lambda$ has a direct effect on smoothness, it is an unintuitive parameter to interpret as the optimal value often varies by several orders of magnitude. In addition, $\lambda$ has a complex dependence on the density of the spline functions, the number of data points and other factors unrelated to smoothness. A more intuitive measure of the smoothness of a P-spline model is known as the effective dimension (ED), proposed by Hastie and Tibshirani \cite{Hastie1990}. For a given value of $\lambda$, B-spline basis $B$ and difference matrix $D$ we calculate ED as follows:
 
-A more intuitive measure of the smoothness of a P-spline model is known as the effective dimension (ED), proposed by Hastie and Tibshirani \cite{Hastie1990}.
+\begin{equation}
+  H =
+  \begin{bmatrix}
+    B \\ \sqrt{\lambda} D
+  \end{bmatrix}^{-1}
+  \begin{bmatrix}
+    B \\ 0
+  \end{bmatrix},
+\end{equation}
 
+\begin{equation}
+  \textrm{ED} = \mathrm{tr}(H),
+\end{equation}
 
+where $H$ is commonly known as the ``hat'' matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $B$, and for large values ED approaches 2 when using a second order difference matrix.
 
 % Figure 2
 \begin{figure}
@@ -172,6 +184,9 @@ A more intuitive measure of the smoothness of a P-spline model is known as the e
     \label{bspline_regression}
   \end{center}
 \end{figure}
+
+% figure 2...
+
 \subsection{Adaptive Baseline Fitting}
 
 
