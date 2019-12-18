@@ -185,11 +185,17 @@ where $H$ is commonly known as the ``hat'' matrix. For a small value of $\lambda
   \end{center}
 \end{figure}
 
-Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers with differing values of $\lambda$ are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, as shown in the lower panel of Figure \ref{pspline_error}B.
+Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in the lower panel of Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
 
-% note that error is RSS - is it?
+% note that error is RSS - is it? what about residual?
 
-% figure 2...
+Inspection of the error plot reveals the optimal $\lambda$ to be around 20 --- corresponding to an ED value of 12, and this can be intuitively verified from part A. For larger values of $\lambda$, the estimate approaches a straight line fit --- failing to capture the details in the sine cure and resulting in an increasing fit residual and fit error (part B). Models with insufficient freedom to adapt to genuine trends in the data result in biased estimates and this is known as ``underfitting''. Conversely, too much freedom in the smoothing model (small $\lambda$) results in the estimate becoming overly sensitive to random fluctuations in the data resulting in ``overfitting''. In least-squares fitting, there is a temptation to equate the smallest residual with a good fit, however Figure \ref{pspline_error}B clearly shows an increase in the error for $\lambda$ values of less than 20 --- despite a steady reduction in the residual.
+
+% next para - small residual is generally good, but how can we avoid overfitting?
+
+
+
+
 
 \subsection{Adaptive Baseline Fitting}
 
