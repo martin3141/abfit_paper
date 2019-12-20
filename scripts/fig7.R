@@ -163,7 +163,7 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
              geom_errorbar(aes(ymin = error_vec - sd_error_vec,
                            ymax = error_vec + sd_error_vec), width = .02) +
              scale_x_continuous(trans = "log10", breaks = breaks) + 
-             xlab("ED per ppm") + 
+             xlab("Baseline ED per ppm") + 
              ylab("Metabolite estimate error") +
              geom_vline(xintercept = mean_ed_pppm, linetype = "dashed") +
              scale_y_continuous(trans = "log10")

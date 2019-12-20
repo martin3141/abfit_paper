@@ -90,7 +90,7 @@ labs   <- c("1e-5", "1e-2", "1", "20", "1000", "1e6", "1e8")
 p2 <- ggplot(data = df_diag, aes(x = x, y = y)) + geom_line() + 
        facet_wrap(~ c1, nrow =3, scales = "free_y") + 
        scale_x_continuous(trans='log10', breaks = breaks, labels = labs) + 
-       xlab("λ") + ylab("value")
+       xlab("λ") + ylab("Value")
 
 
 full_plot <- plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12,
