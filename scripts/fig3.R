@@ -153,7 +153,7 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
 
 aic_df <- rbind(data.frame(ed_pppm_vec, Value = aic_vec, group = "AIC"),
                 data.frame(ed_pppm_vec, Value = aic_mod_vec,
-                           group = "AIC mod."))
+                           group = "modified AIC"))
 
 p2 <- ggplot(data = aic_df, aes(x = ed_pppm_vec, y = Value, col = group)) +
       geom_line() + geom_point() + 

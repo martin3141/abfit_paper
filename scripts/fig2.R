@@ -71,24 +71,27 @@ lambda_vec   <- 10 ^ (seq(log10(lambda_start), log10(lambda_end),
 ed_vec    <- rep(NA, lambda_n)
 resid_vec <- rep(NA, lambda_n)
 error_vec <- rep(NA, lambda_n)
+aic_vec   <- rep(NA, lambda_n)
 
 for (n in 1:lambda_n) {
   ed_vec[n]    <- calc_ed_from_lambda(spline_basis, deriv_mat, lambda_vec[n])
   yhat         <- calc_yhat(y, spline_basis, deriv_mat, lambda_vec[n])
   resid_vec[n] <- sum((y - yhat) ^ 2)
   error_vec[n] <- sum((ytrue - yhat) ^ 2)
+  aic_vec[n]   <- log(resid_vec[n]) + 2 * ed_vec[n] / 200
 }
 
 error_vec[60:lambda_n] <- NA # helps with plot clarity
 
 df_diag <- rbind(data.frame(x = lambda_vec, y = resid_vec, c1 = "residual"),
                  data.frame(x = lambda_vec, y = ed_vec,    c1 = "ED"),
-                 data.frame(x = lambda_vec, y = error_vec, c1 = "error"))
+                 data.frame(x = lambda_vec, y = error_vec, c1 = "error"),
+                 data.frame(x = lambda_vec, y = aic_vec,   c1 = "AIC"))
 
 breaks <- c(1e-5, 1e-2, 1, 20, 1000, 1e6, 1e8)
 labs   <- c("1e-5", "1e-2", "1", "20", "1000", "1e6", "1e8")
 p2 <- ggplot(data = df_diag, aes(x = x, y = y)) + geom_line() + 
-       facet_wrap(~ c1, nrow =3, scales = "free_y") + 
+       facet_wrap(~ c1, nrow = 4, scales = "free_y") + 
        scale_x_continuous(trans='log10', breaks = breaks, labels = labs) + 
        xlab("λ") + ylab("Value")
 
