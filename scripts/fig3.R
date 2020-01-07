@@ -132,7 +132,7 @@ for (n in 1:ed_pppm_N) {
   aic_vec[n]      <- mean(aic)
   sd_aic_vec[n]   <- sd(aic)
   
-  aic_mod         <- log(temp_tab$res.deviance) + 20 * temp_tab$bl_ed_pppm * 
+  aic_mod         <- log(temp_tab$res.deviance) + 10 * temp_tab$bl_ed_pppm * 
                      temp_tab$ppm_range / temp_tab$fit_pts
   
   aic_mod_vec[n]    <- mean(aic_mod)
@@ -168,12 +168,12 @@ p3 <- function() {
 
 p4 <- function() {
   par(cex = 0.75)
-  plot(res_list[[4]], restore_def_par = FALSE)
+  plot(res_list[[5]], restore_def_par = FALSE)
 }
 
 p5 <- function() {
   par(cex = 0.75)
-  plot(res_list[[5]], restore_def_par = FALSE)
+  plot(res_list[[6]], restore_def_par = FALSE)
 }
 
 p6 <- function() {

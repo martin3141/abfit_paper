@@ -90,6 +90,7 @@ Word count : XXXX
 
 % MRM abstract max length is 250 words
 % MRM note max length is 2800 words, 5 fig plus tables
+% MRM full paper max length is 5000 words, 10 fig plus tables
 
 \section{Introduction}
 A number of key metabolites may be detected using \proton\ Magnetic Resonance Spectroscopy (MRS), providing a non-invasive measure of healthy and diseased brain tissue metabolism. Clinical applications include the assessment of brain tumors, metabolic disorders and neonatal encephalopathy~\cite{Oz2014,Lally2019} where the concentration of certain metabolites may inform disease diagnosis or predict patient outcome. Further applications for MRS are present in the neuroscience and psychiatry domains, with particular interest in the direct detection of neurotransmitter levels such as GABA and glutamate, which have been shown to be abnormal in Schizophrenia~\cite{Merritt2016} and modulate in response to tasks~\cite{Jelen2018,Chen2017}.
@@ -109,7 +110,7 @@ Finding the optimal degree of baseline flexibility is a crucial question in MRS 
 In this study we introduce a new method to automatically determine the optimal degree of baseline flexibility for a frequency-domain spline based fitting algorithm. Firstly, background is given on the use of penalized splines for optimal data smoothing. A fully-automated fitting algorithm is presented, incorporating a novel method to automatically estimate the optimal level of baseline flexibility. Finally, the new method is validated on simulated and experimentally acquired MRSI data.
 
 \section{Methods}
-\subsection{Penalized spline regression}
+\subsection{Penalized spline smoothing}
 
 Baseline signals have a characteristically smooth spectral appearance, and must to be accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed~\cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
 
@@ -188,7 +189,7 @@ where $H$ is commonly known as the ``hat'' matrix. For a small value of $\lambda
   \end{center}
 \end{figure}
 
-Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in the lower panel of Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
+Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
 
 % note that error is RSS - is it? what about residual?
 
@@ -200,9 +201,18 @@ Determining the optimal value for the smoothness parameter is one of the primary
   \textrm{AIC} = \ln(\textrm{RSS}) + 2 \textrm{ED} / n,
 \end{equation}
 
-where RSS is the sum of squared differences between the data and smooth estimate, and $n$ is the number of data points.
+where RSS is the sum of squared differences between the data and smooth estimate, and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
 
-% In short, the approach finds a $\lambda$ value which balances the variance of residual against the variance of the penalty term $D \alpha$.
+\subsection{MRS baseline estimation using P-splines}
+
+% Figure 3
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.9\textwidth]{fig3.pdf}
+    \caption{xxx}
+    \label{mrs_bl_simple}
+  \end{center}
+\end{figure}
 
 \subsection{Adaptive Baseline Fitting}
 
@@ -226,6 +236,7 @@ MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.279
 \cite{OSullivan1986}
 
 % comment on following paper : Regularized semiparametric model identification with application to nuclear magnetic resonance signal quantification with unknown macromolecular base‐line.
+
 \section{Conclusion}
 XXXX
 
