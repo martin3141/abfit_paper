@@ -194,10 +194,15 @@ Using simulated data we can investigate the relationship between $\lambda$, ED a
 
 Inspection of the error plot reveals the optimal $\lambda$ to be approximately 20 --- corresponding to an ED value of 12, and this can be intuitively verified from part A. For larger values of $\lambda$, the estimate approaches a straight line fit --- failing to capture the details in the sine cure and resulting in an increasing fit residual and fit error (part B). Models with insufficient freedom to adapt to genuine trends in the data result in biased estimates and this is known as ``underfitting''. Conversely, too much freedom in the smoothing model (small $\lambda$) results in the estimate becoming overly sensitive to random fluctuations in the data resulting in ``overfitting''. In least-squares fitting, there is a temptation to equate the smallest residual with the optimal fit, however Figure \ref{pspline_error}B clearly shows an increase in the error for $\lambda$ values of less than 20 --- despite a steady reduction in the residual.
 
-Determining the optimal value for the smoothness parameter is one of the primary challenges for P-spline smoothing. A careful balance between instability from overfitting, and bias from underfitting, must be struck for the most accurate estimate, and searching for the smallest fit residual is a useful, but insufficient metric of quality. Numerous approaches have been developed to find the optimal smoothing value \cite{Ruppert2003} and in this study we use
+Determining the optimal value for the smoothness parameter is one of the primary challenges for P-spline smoothing. A careful balance between instability from overfitting, and bias from underfitting, must be made for the most accurate estimate, and searching for the smallest fit residual is a useful, but insufficient metric of quality. Numerous approaches have been proposed to find the optimal smoothing value \cite{Ruppert2003}, and in this study we use \textit{Akaike's information criterion} (AIC) \cite{Akaike1973}:
 
+\begin{equation}
+  \textrm{AIC} = \ln(\textrm{RSS}) + 2 \textrm{ED} / n,
+\end{equation}
 
-an iterative method described by Eilers and Marx \cite{Eilers2010}. In short, the approach finds a $\lambda$ value which balances the variance of residual against the variance of the penalty term $D \alpha$.
+where RSS is the sum of squared differences between the data and smooth estimate, and $n$ is the number of data points.
+
+% In short, the approach finds a $\lambda$ value which balances the variance of residual against the variance of the penalty term $D \alpha$.
 
 \subsection{Adaptive Baseline Fitting}
 
@@ -220,7 +225,7 @@ MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.279
 
 \cite{OSullivan1986}
 
-% comment on Regularized semiparametric model identification with application to nuclear magnetic resonance signal quantification with unknown macromolecular base‐line
+% comment on following paper : Regularized semiparametric model identification with application to nuclear magnetic resonance signal quantification with unknown macromolecular base‐line.
 \section{Conclusion}
 XXXX
 
