@@ -157,7 +157,11 @@ An example of the second order difference matrix is given in~(\ref{d_mat}), whic
   \approx
   \begin{bmatrix}
     B \\ \sqrt{\lambda} D
+  \end{bmatrix} \alpha =
+  \begin{bmatrix}
+    \hat{y} \\ 0
   \end{bmatrix},
+  \label{p-spline_eq}
 \end{equation}
 
 and regressing the augmented $y$ vector on the augmented $B$ matrix to yield $\alpha$.
@@ -205,6 +209,23 @@ where RSS is the sum of squared differences between the data and smooth estimate
 
 \subsection{MRS baseline estimation using P-splines}
 
+In $^1\mathrm{H}$ MRS analysis, the baseline signal must be estimated in the presence of numerous overlapping metabolite lipid and macromolecule signals. Fortunately, these non-baseline signals are typically well characterized and may be accurately simulated from known parameters \cite{Govind2015}. We can update Equation \ref{p-spline_eq} to incorporate these additional components by arranging into columns of the matrix $M$, and appending to the P-spline basis $B$:
+
+\begin{equation}
+  \begin{bmatrix}
+    y \\ 0
+  \end{bmatrix}
+  \approx
+  \begin{bmatrix}
+    B && M \\ \sqrt{\lambda} D && 0
+  \end{bmatrix} \alpha =
+  \begin{bmatrix}
+    \hat{y} \\ 0
+  \end{bmatrix},
+\end{equation}
+
+As with Equation \ref{p-spline_eq}, we regress the basis matrix on $y$ to yield $\alpha$, however since metabolite signals are always positive, we can improve analysis stability by enforcing a non-negative constraint on the $\alpha$ values corresponding to the weightings of $M$. The active-set method developed by Lawson and Hanson \cite{Lawson1995} is used herein to find the least-squares solution under the non-negative constraint --- while still allowing the $\alpha$ values corresponding to the spline basis to remain unconstrained.
+
 % Figure 3
 \begin{figure}
   \begin{center}
@@ -236,6 +257,8 @@ MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.279
 \cite{OSullivan1986}
 
 % comment on following paper : Regularized semiparametric model identification with application to nuclear magnetic resonance signal quantification with unknown macromolecular base‐line.
+
+% Comment on Brian S's paper
 
 \section{Conclusion}
 XXXX
