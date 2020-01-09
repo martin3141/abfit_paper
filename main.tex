@@ -127,17 +127,17 @@ A spline is a piecewise function made up of one or more polynomial segments join
 
 A B-spline basis may be used to obtain a smooth estimate of a signal using simple linear regression. Figure~\ref{bspline_regression}B shows the result of a spline regression, where each spline function has been optimally weighted, such that the sum of the functions (spline fit line) is the least squares fit to the data. The desired smoothness of the fit is controlled by adjusting the spline knot spacing, which in turn changes the density of spline functions. In the case of Figure~\ref{bspline_regression}B, 15 functions were found to give a reasonable level of smoothness. Increasing the density of spline functions allows more detail to be captured by the fit, however too many functions results in an increased sensitivity to noise and the smooth estimate begins to exhibit random fluctuations. Conversely, insufficient density of spline functions results in the spline fit being unable to model genuine smooth trends present in the data.
 
-An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{y}$, of our data $y$, is calculated as: $\hat{y} = B \alpha$, where $B$ is a B-spline basis in matrix form, and $\alpha$ is the set of corresponding spline weightings to be determined. In simple spline regression $\alpha$ is found by solving the normal equations to minimize the sum of the square differences between $y$ and $\hat{y}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
+An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{\mathbf{y}}$, of our data $\mathbf{y}$, is calculated as: $\hat{\mathbf{y}} = \mathbf{B} \ \hat{\mathbf{a}}$, where $\mathbf{B}$ is a B-spline basis in matrix form, and $\hat{\mathbf{a}}$ is a vector of corresponding spline weightings to be determined. In simple spline regression $\hat{\mathbf{a}}$ is found by solving the normal equations to minimize the sum of the squared differences between $\mathbf{y}$ and $\hat{\mathbf{y}}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
 
 \begin{equation}
-  Q_{B} = ||y - B \alpha ||^{2} + \lambda ||D \alpha ||^{2}.
+  Q_{B} = ||\mathbf{y} - \mathbf{B} \ \hat{\mathbf{a}} ||^{2} + \lambda ||\mathbf{D} \ \hat{\mathbf{a}}||^{2}.
   \label{qb}
 \end{equation}
 
-The $\lambda$ parameter controls the degree of smoothness by penalizing solutions for $\alpha$ that interact with the difference matrix $D$. The difference matrix may be constructed to penalize the first, second or higher orders of differences between the $\alpha$ values. Here, we exclusively use a second order difference matrix, which acts to minimize the second derivative of the smooth estimate.
+The $\lambda$ parameter controls the degree of smoothness by penalizing solutions for $\hat{\mathbf{a}}$ that interact with the difference matrix $\mathbf{D}$. The difference matrix may be constructed to penalize the first, second or higher orders of differences between the $\hat{\mathbf{a}}$ values. Here, we exclusively use a second order difference matrix, which acts to minimize the second derivative of the smooth estimate.
 
 \begin{equation}
-  D =
+  \mathbf{D} =
   \begin{bmatrix*}[r]
     1 & -2 &  1 &  0 &  0 &  0 & \dots \\
     0 &  1 & -2 &  1 &  0 &  0 & \dots \\
@@ -148,41 +148,41 @@ The $\lambda$ parameter controls the degree of smoothness by penalizing solution
   \label{d_mat}
 \end{equation}
 
-An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\alpha$ consequently increase the penalty term in equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{y}$, to the point where $\hat{y}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to equation~(\ref{qb}) may be found by augmenting $B$ and $y$:
+An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\hat{\mathbf{a}}$ consequently increase the penalty term in equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{\mathbf{y}}$, to the point where $\hat{\mathbf{y}}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to equation~(\ref{qb}) may be found by augmenting $\mathbf{B}$ and $\mathbf{y}$:
 
 \begin{equation}
   \begin{bmatrix}
-    y \\ 0
+    \mathbf{y} \\ 0
   \end{bmatrix}
   \approx
   \begin{bmatrix}
-    B \\ \sqrt{\lambda} D
-  \end{bmatrix} \alpha =
+    \mathbf{B} \\ \sqrt{\lambda} \ \mathbf{D}
+  \end{bmatrix} \hat{\mathbf{a}} =
   \begin{bmatrix}
-    \hat{y} \\ 0
+    \hat{\mathbf{y}} \\ 0
   \end{bmatrix},
   \label{p-spline_eq}
 \end{equation}
 
-and regressing the augmented $y$ vector on the augmented $B$ matrix to yield $\alpha$.
+and regressing the augmented $\mathbf{y}$ vector on the augmented $\mathbf{B}$ matrix to yield $\hat{\mathbf{a}}$.
 
-The general approach for penalized spline regression is to over-specify the number of B-spline basis functions, and primarily control the smoothness through the adjustment of $\lambda$ acting on a difference matrix. We refer to this approach as ``P-splines'', first introduced by Eilers and Marx~\cite{Eilers1996}. Whilst the value of $\lambda$ has a direct effect on smoothness, it is an unintuitive parameter to interpret as the optimal value often varies by several orders of magnitude. In addition, $\lambda$ has a complex dependence on the density of the spline functions, the number of data points and other factors unrelated to smoothness. A more intuitive measure of the smoothness of a P-spline model is known as the effective dimension (ED), proposed by Hastie and Tibshirani \cite{Hastie1990}. For a given value of $\lambda$, B-spline basis $B$ and difference matrix $D$, we calculate ED as follows:
+The general approach for penalized spline regression is to over-specify the number of B-spline basis functions, and primarily control the smoothness through the adjustment of $\lambda$ acting on a difference matrix. We refer to this approach as ``P-splines'', first introduced by Eilers and Marx~\cite{Eilers1996}. Whilst the value of $\lambda$ has a direct effect on smoothness, it is an unintuitive parameter to interpret as the optimal value often varies by several orders of magnitude. In addition, $\lambda$ has a complex dependence on the density of the spline functions, the number of data points and other factors unrelated to smoothness. A more intuitive measure of the smoothness of a P-spline model is known as the effective dimension (ED), proposed by Hastie and Tibshirani \cite{Hastie1990}. For a given value of $\lambda$, B-spline basis $\mathbf{B}$ and difference matrix $\mathbf{D}$, we calculate ED as follows:
 
 \begin{equation}
-  H =
+  \mathbf{H} =
   \begin{bmatrix}
-    B \\ \sqrt{\lambda} D
+    \mathbf{B} \\ \sqrt{\lambda}\ \mathbf{D}
   \end{bmatrix}^{-1}
   \begin{bmatrix}
-    B \\ 0
+    \mathbf{B} \\ 0
   \end{bmatrix},
 \end{equation}
 
 \begin{equation}
-  \textrm{ED} = \mathrm{tr}(H),
+  \textrm{ED} = \mathrm{tr}(\mathbf{H}),
 \end{equation}
 
-where $H$ is commonly known as the ``hat'' matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $B$, and for large values, ED approaches 2 when using a second order difference matrix.
+where $\mathbf{H}$ is commonly known as the ``hat'' matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix.
 
 % Figure 2
 \begin{figure}
@@ -201,6 +201,8 @@ Inspection of the error plot reveals the optimal $\lambda$ to be approximately 2
 
 Determining the optimal value for the smoothness parameter is one of the primary challenges for P-spline smoothing. A careful balance between instability from overfitting, and bias from underfitting, must be made for the most accurate estimate, and searching for the smallest fit residual is a useful, but insufficient metric of quality. Numerous approaches have been proposed to find the optimal smoothing value \cite{Ruppert2003}, and in this study we use \textit{Akaike's information criterion} (AIC) \cite{Akaike1973}:
 
+% avoid RSS and talk about y and yhat
+
 \begin{equation}
   \textrm{AIC} = \ln(\textrm{RSS}) + 2 \textrm{ED} / n,
 \end{equation}
@@ -209,22 +211,22 @@ where RSS is the sum of squared differences between the data and smooth estimate
 
 \subsection{MRS baseline estimation using P-splines}
 
-In $^1\mathrm{H}$ MRS analysis, the baseline signal must be estimated in the presence of numerous overlapping metabolite lipid and macromolecule signals. Fortunately, these non-baseline signals are typically well characterized and may be accurately simulated from known parameters \cite{Govind2015}. We can update Equation \ref{p-spline_eq} to incorporate these additional components by arranging into columns of the matrix $M$, and appending to the P-spline basis $B$:
+In $^1\mathrm{H}$ MRS analysis, the baseline signal must be estimated in the presence of numerous overlapping metabolite lipid and macromolecule signals. Fortunately, these non-baseline signals are typically well characterized and may be accurately simulated from known parameters \cite{Govind2015}. We can update Equation \ref{p-spline_eq} to incorporate these additional components by arranging into columns of the matrix $\mathbf{M}$, and appending to the P-spline basis $\mathbf{B}$:
 
 \begin{equation}
   \begin{bmatrix}
-    y \\ 0
+    \textbf{y} \\ 0
   \end{bmatrix}
   \approx
   \begin{bmatrix}
-    B && M \\ \sqrt{\lambda} D && 0
-  \end{bmatrix} \alpha =
+    \textbf{B} && \textbf{M} \\ \sqrt{\lambda} \ \textbf{D} && 0
+  \end{bmatrix} \hat{\mathbf{a}} =
   \begin{bmatrix}
-    \hat{y} \\ 0
+    \hat{\textbf{y}} \\ 0
   \end{bmatrix},
 \end{equation}
 
-As with Equation \ref{p-spline_eq}, we regress the basis matrix on $y$ to yield $\alpha$, however since metabolite signals are always positive, we can improve analysis stability by enforcing a non-negative constraint on the $\alpha$ values corresponding to the weightings of $M$. The active-set method developed by Lawson and Hanson \cite{Lawson1995} is used herein to find the least-squares solution under the non-negative constraint --- while still allowing the $\alpha$ values corresponding to the spline basis to remain unconstrained.
+As with Equation \ref{p-spline_eq}, we regress the basis matrix on $\mathbf{y}$ to yield $\hat{\mathbf{a}}$, however since metabolite signals are always positive, we can improve analysis stability by enforcing a non-negative constraint on the $\hat{\mathbf{a}}$ values corresponding to the weightings of $\mathbf{M}$. The active-set method developed by Lawson and Hanson \cite{Lawson1995} is used herein to find the least-squares solution under the non-negative constraint --- while still allowing the $\hat{\mathbf{a}}$ values corresponding to the spline basis to remain unconstrained.
 
 % Figure 3
 \begin{figure}
@@ -236,6 +238,8 @@ As with Equation \ref{p-spline_eq}, we regress the basis matrix on $y$ to yield 
 \end{figure}
 
 \subsection{Adaptive Baseline Fitting}
+
+$y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
 
 \begin{enumerate}
   \item Convolution based frequency alignment.
