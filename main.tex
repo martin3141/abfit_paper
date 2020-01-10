@@ -196,16 +196,17 @@ where $\mathbf{H}$ is commonly known as the ``hat'' matrix. For a small value of
 
 Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
 
-% note that error is RSS - is it? what about residual?
+% TODO note that error is RSS - is it? what about residual?
 
 Inspection of the error plot reveals the optimal $\lambda$ to be approximately 20 --- corresponding to an ED value of 12, and this can be intuitively verified from part A. For larger values of $\lambda$, the estimate approaches a straight line fit --- failing to capture the details in the sine cure and resulting in an increasing fit residual and fit error (part B). Models with insufficient freedom to adapt to genuine trends in the data result in biased estimates and this is known as ``underfitting''. Conversely, too much freedom in the smoothing model (small $\lambda$) results in the estimate becoming overly sensitive to random fluctuations in the data resulting in ``overfitting''. In least-squares fitting, there is a temptation to equate the smallest residual with the optimal fit, however Figure \ref{pspline_error}B clearly shows an increase in the error for $\lambda$ values of less than 20 --- despite a steady reduction in the residual.
 
 Determining the optimal value for the smoothness parameter is one of the primary challenges for P-spline smoothing. A careful balance between instability from overfitting, and bias from underfitting, must be made for the most accurate estimate, and searching for the smallest fit residual is a useful, but insufficient metric of quality. Numerous approaches have been proposed to find the optimal smoothing value \cite{Ruppert2003}, and in this study we use \textit{Akaike's information criterion} (AIC) \cite{Akaike1973}:
 
-% avoid RSS and talk about y and yhat
+% TODO avoid RSS and talk about y and yhat
 
 \begin{equation}
   \textrm{AIC} = \ln(\textrm{RSS}) + 2 \textrm{ED} / n,
+  \label{aic}
 \end{equation}
 
 where RSS is the sum of squared differences between the data and smooth estimate, and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
@@ -233,16 +234,32 @@ A simulation study was performed to investigate the relationship between baselin
 
 Ideal spectra were distorted with normally distributed noise resulting in a spectral SNR of XXXXX. A broad Gaussian resonance was added at 1.3 PPM with a linewidth of 100Hz to simulate baseline distortion originating from scalp lipids. The degree of P-spline baseline flexibility is defined as the baseline ED (effective dimension) per PPM, which is more easily compared across analyses due to its independence from the number of points in the fit and the number of spline basis functions used. Metabolite level estimates were calculated over a range of 10 levels of baseline flexibility, with results averaged across 32 noise realizations at each level to evaluate accuracy and consistency.
 
+
+% TODO explain how metabolite estimate error and sd was calculated (in terms of a and ahat?)
+
+Metabolite estimation errors are shown in Figure \ref{mrs_bl_simple}A, showing a comparable shape to the simpler model in Figure \ref{pspline_error}B. Over the range of baseline flexibility studied, underfitting with an inflexible baseline results in much greater metabolite estimate errors compared to overfitting --- which can be verified by inspecting the fit result plots in Figure \ref{mrs_bl_simple} parts C-F. Good agreement is also seen between the metabolite estimate error and the AIC curve (part B), with a low AIC values corresponding to the most accurate level of baseline flexibility.
+
+From the results presented in following sections, it was found that the AIC had a tendency to slightly overestimate the optimal level of baseline flexibility and that a simple modification to equation \ref{aic} improved accuracy:
+
+% TODO redefine RSS
+\begin{equation}
+  \textrm{mAIC} = \ln(\textrm{RSS}) + 2 m \ \textrm{ED} / n.
+  \label{maic}
+\end{equation}
+
+Setting $m$ to a value of 5 was found to be a good compromise between bias and variance, placing a greater penalty on overly flexible baseline models --- resulting in a smoother ``optimal'' baseline estimate relative to the standard AIC (Figure \ref{mrs_bl_simple}B).
+
 % Figure 3
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.9\textwidth]{fig3.pdf}
-    \caption{xxx}
+    \caption{Note the error bars are 5x the true}
     \label{mrs_bl_simple}
   \end{center}
 \end{figure}
 
-\subsection{Adaptive Baseline Fitting}
+\subsection{Adaptive Baseline Fitting Algorithm}
+In this section we describe a comprehensive $^1\mathrm{H}$ MRS analysis method, where the baseline flexibility is automatically adapted to match the data --- \textit{Adaptive Baseline fitting} or ABfit.
 
 $y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
 

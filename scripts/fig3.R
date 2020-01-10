@@ -122,7 +122,7 @@ for (n in 1:ed_pppm_N) {
   
   error           <- (true_amp_mat - fit_amp_mat) ^ 2
   mean_error      <- mean(rowSums(error))
-  sd_error        <- sd(rowSums(error))
+  sd_error        <- sd(rowSums(error)) * 5 # inflate sds by x5  for clarity
   error_vec[n]    <- mean_error
   sd_error_vec[n] <- sd_error
   
@@ -153,7 +153,7 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
 
 aic_df <- rbind(data.frame(ed_pppm_vec, Value = aic_vec, group = "AIC"),
                 data.frame(ed_pppm_vec, Value = aic_mod_vec,
-                           group = "modified AIC"))
+                           group = "mAIC"))
 
 p2 <- ggplot(data = aic_df, aes(x = ed_pppm_vec, y = Value, col = group)) +
       geom_line() + geom_point() + 
