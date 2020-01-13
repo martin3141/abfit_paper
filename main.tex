@@ -261,16 +261,16 @@ Setting $m$ to a value of 5 was found to be a good compromise between bias and v
 \end{figure}
 
 \subsection{Adaptive Baseline Fitting Algorithm}
-In this section we describe a comprehensive $^1\mathrm{H}$ MRS analysis method, where the baseline flexibility is automatically adapted to match the data --- \textit{Adaptive Baseline fitting} or ABfit.
-
-$y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
+In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method based on the concepts presented in the previous sections. The emphasis of the design is to automatically adapt the baseline flexibility for improved accuracy, and we refer to the full algorithm as: \textit{Adaptive Baseline fitting} or ABfit. The algorithm consists of 4 main steps, which will be described in order of execution:
 
 \begin{enumerate}
-  \item Convolution based frequency alignment.
+  \item Coarse frequency alignment.
   \item Approximate iterative fitting.
   \item Baseline smoothness estimation.
   \item Detailed iterative fitting.
 \end{enumerate}
+
+$y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
 
 \section{Results}
 XXXX
