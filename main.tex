@@ -232,7 +232,7 @@ As with Equation \ref{p-spline_eq}, we regress the basis matrix on $\mathbf{y}$ 
 
 % todo table of metabolite names and amplitudes
 
-A simulation study was performed to investigate the relationship between baseline smoothness, the accuracy of metabolite estimates and the AIC. Metabolite signals were simulated from known parameters \cite{Govind2015} at levels consistent with normal brain tissue \cite{deGraaf2019}. A simulated macromolecule profile was also included in the simulation and basis matrix \cite{Birch2017}. Simulated experimental conditions consisted of a field strength of 3T, and semi-LASER localization (TE=28ms). 1024 complex points were generated at a sampling frequency of 2000Hz, 6Hz Gaussian line-broadening was applied prior to zero-filling to 2048 points and Fourier transform to the frequency-domain. Ideal pulses were assumed and relaxation effects were not considered.
+A simulation study was performed to investigate the relationship between baseline smoothness, the accuracy of metabolite estimates and the AIC. Metabolite signals were simulated from known parameters \cite{Govind2015} at levels consistent with normal brain tissue \cite{deGraaf2018}. A simulated macromolecule profile was also included in the simulation and basis matrix \cite{Birch2017}. Simulated experimental conditions consisted of a field strength of 3T, and semi-LASER localization (TE=28ms). 1024 complex points were generated at a sampling frequency of 2000Hz, 6Hz Gaussian line-broadening was applied prior to zero-filling to 2048 points and Fourier transform to the frequency-domain. Ideal pulses were assumed and relaxation effects were not considered.
 
 Ideal spectra were distorted with normally distributed noise resulting in a spectral SNR of XXXXX. A broad Gaussian resonance was added at 1.3 PPM with a linewidth of 100Hz to simulate baseline distortion originating from scalp lipids. The degree of P-spline baseline flexibility is defined as the baseline ED (effective dimension) per PPM, which is more easily compared across analyses due to its independence from the number of points in the fit and the number of spline basis functions used. Metabolite level estimates were calculated over a range of 10 levels of baseline flexibility, with results averaged across 32 noise realizations at each level to evaluate accuracy and consistency.
 
@@ -261,7 +261,7 @@ Setting $m$ to a value of 5 was found to be a good compromise between bias and v
 \end{figure}
 
 \subsection{Adaptive Baseline Fitting Algorithm}
-In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method based on the concepts presented in the previous sections. The emphasis of the design is to automatically adapt the baseline flexibility for improved accuracy, and we refer to the full algorithm as: \textit{Adaptive Baseline fitting} or ABfit. The algorithm consists of 4 main steps, which will be described in order of execution:
+In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method based on the P-spline fitting approach presented above. The emphasis of the design is to automatically adapt the baseline flexibility for improved accuracy, and we refer to the full algorithm as: \textit{Adaptive Baseline fitting} or ABfit. The algorithm consists of 4 main steps, which will be described in order of execution:
 
 \begin{enumerate}
   \item Coarse frequency alignment.
@@ -270,7 +270,24 @@ In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method
   \item Detailed iterative fitting.
 \end{enumerate}
 
-$y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
+\subsubsection{Coarse frequency alignment}
+Unprocessed MRS data typically have an unknown and erroneous frequency offset that displaces all resonances equally. The first step of ABfit is to correct the frequency offset to ensure the basis set of known signals are approximately matched to the acquired data. Raw MRS data is digitally sampled at a frequency of $\mathit{fs}$ Hz in the time-domain as a vector of $N$ complex data points:
+
+\begin{equation}
+  \mathbf{y}^{\mathrm{TD}} = \mathbf{y}(\mathbf{t}), \mathbf{t}=(t_{0}=0,t_{1} =1/\mathit{fs},\ldots,t_{N-1}=(N-1)/\mathit{fs}),
+\end{equation}
+
+where superscript TD and FD denote discrete frequency and time-domain representations respectively.
+
+\subsubsection{Approximate iterative fitting}
+\subsubsection{Baseline smoothness estimation}
+\subsubsection{Detailed iterative fitting}
+
+% $y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
+
+\subsection{Simulation validation}
+
+\subsection{MRSI data validation}
 
 \section{Results}
 XXXX
