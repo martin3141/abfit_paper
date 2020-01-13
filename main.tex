@@ -271,15 +271,24 @@ In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method
 \end{enumerate}
 
 \subsubsection{Coarse frequency alignment}
-Unprocessed MRS data typically have an unknown and erroneous frequency offset that displaces all resonances equally. The first step of ABfit is to correct the frequency offset to ensure the basis set of known signals are approximately matched to the acquired data. Raw MRS data is digitally sampled at a frequency of $\mathit{fs}$ Hz in the time-domain as a vector of $N$ complex data points:
+Unprocessed MRS data typically have an unknown and erroneous frequency offset $f_{o}$ that displaces all resonances equally. The first step of ABfit is to estimate $f_{o}$ (measured in Hz) to ensure the basis set of known signals are approximately matched to the acquired data. Raw MRS data is digitally sampled at a frequency of $\mathit{fs}$ Hz in the time-domain, and defined a vector of $N$ complex data points:
 
 \begin{equation}
   \mathbf{y}^{\mathrm{TD}} = \mathbf{y}(\mathbf{t}), \mathbf{t}=(t_{0}=0,t_{1} =1/\mathit{fs},\ldots,t_{N-1}=(N-1)/\mathit{fs}),
 \end{equation}
 
-where superscript TD and FD denote discrete frequency and time-domain representations respectively.
+where superscript TD and FD denote time and frequency-domain signal representations --- calculated with the discrete Fourier transform. We simulate a reference data set $\mathbf{r}^{\mathrm{TD}}$, with twice the number of data points $2N$ sampled at $\mathit{fs}$, containing three resonances corresponding to the main singlet metabolites typically present in $^1\mathrm{H}$ MRS data at 2.01, 3.03 and 3.22 PPM. The acquired data $\mathbf{y}^{\mathrm{TD}}$ is zero-filled to twice the original length --- before convolving with  $\mathbf{r}^{\mathrm{TD}}$ to estimate the frequency offset $f_{o}$.
+
+% TODO check above is correct - surely the FD versions (not TD) of y and r are convolved?
 
 \subsubsection{Approximate iterative fitting}
+The goal of this stage of the algorithm is to find estimates of the signal phase $\phi_{0}$; an approximate lineshape parameter $d_{g}$ and an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
+
+\begin{equation}
+\end{equation}
+
+where the phase parameter is measured in radians.
+
 \subsubsection{Baseline smoothness estimation}
 \subsubsection{Detailed iterative fitting}
 
