@@ -282,12 +282,32 @@ where superscript TD and FD denote time and frequency-domain signal representati
 % TODO check above is correct - surely the FD versions (not TD) of y and r are convolved?
 
 \subsubsection{Approximate iterative fitting}
-The goal of this stage of the algorithm is to find estimates of the signal phase $\phi_{0}$; an approximate lineshape parameter $d_{g}$ and an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
+The goal of this stage of the algorithm is to find estimates of the three parameters with the largest influence on the fit residual: 1) the signal phase $\phi_{0}$; 2) an approximate lineshape parameter $d_{g}$ and 3) an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
 
 \begin{equation}
+  \mathbf{y'}^{\mathrm{TD}} = \mathbf{y}^{\mathrm{TD}} e^{i \phi_{0} + 2 i \pi f_{o} \mathbf{t}}
 \end{equation}
 
-where the phase parameter is measured in radians.
+where the phase parameter $\phi_{0}$ is measured in radians and $i=\sqrt{-1}$. The lineshape parameter applies Gaussian line-broadening to each signal in the basis set $\mathbf{M}$:
+
+\begin{equation}
+  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-d_{g}\mathbf{t}^{2}}
+\end{equation}
+
+where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix.
+
+\begin{equation}
+  \begin{bmatrix}
+    \textbf{y}'^{\mathrm{FD}}_{s} \\ 0
+  \end{bmatrix}
+  \approx
+  \begin{bmatrix}
+    \textbf{B} && \textbf{M}'^{\mathrm{FD}}_{s} \\ \sqrt{\lambda} \ \textbf{D} && 0
+  \end{bmatrix} \hat{\mathbf{a}} =
+  \begin{bmatrix}
+    \hat{\textbf{y}} \\ 0
+  \end{bmatrix},
+\end{equation}
 
 \subsubsection{Baseline smoothness estimation}
 \subsubsection{Detailed iterative fitting}
