@@ -309,20 +309,21 @@ where $\star$ denotes element-wise multiplication of the line-broadening functio
   \end{bmatrix}.
 \end{equation}
 
-Note that following parametric modification in the time-domain, the data and basis of known signals are zero-filled to twice their original length before being transformed to the frequency-domain. Only the real valued data points in frequency domain between 1.9 and 4 PPM are fit in this stage of the method (denoted by subscript $s$) to reduce the influence of any contaminating lipid signals around 1.3 PPM. The parameters: $\phi_{0}$, $d_{g}$ and $f_{o}$ are estimated using Nelder-Mead simplex algorithm with bound constraints XXXrefXXX, minimizing:
+Note that following parametric modification in the time-domain, the data and basis of known signals are zero-filled to twice their original length before being transformed to the frequency-domain. Only the real valued data points in frequency domain between 1.9 and 4 PPM are fit in this stage of the algorithm (denoted by subscript $s$) to reduce the influence of any contaminating lipid signals around 1.3 PPM. The parameters: $\phi_{0}$, $d_{g}$ and $f_{o}$ are estimated using Nelder-Mead simplex algorithm with bound constraints \cite{Box1965}, minimizing:
 
 \begin{equation}
   || \textbf{y}'^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} ||^{2}.
 \end{equation}
 
-A $\lambda$ value corresponding to 1 ED per PPM is used with a P-spline basis with 15 components per PPM. Constraints are placed on the optimization algorithm such that the linebroading parameter must be positive and produce a lineshape of less than 15 Hz FWHM and the frequency offset must be less than 10 Hz different from the coarse frequency alignment step.
+A $\lambda$ value corresponding to 1 ED per PPM is used with a P-spline basis with 15 components per PPM. Constraints placed on the optimization algorithm restrict the linebroading parameter to be positive and produce a lineshape of less than 15 Hz FWHM, additionally the frequency offset must be less than 10 Hz different from the coarse frequency alignment step.
 
 \subsubsection{Baseline smoothness estimation}
-
+Following the determination of the frequency offset, spectral phase and approximate lineshape the next step of ABfit is to estimate the optimal value for $\lambda$. A set of candidate fits are performed with differing level of baseline smoothness, whilst maintaining the three main fitting parameters constant at their optimized values. The maximum candidate baseline flexibility is set to a $\lambda$ value corresponding to 7 ED per PPM, and the minimum value set to an ED of 2 --- equivalent to straight line fit. 15 candidate fits are performed with logarithmic intervals between the maximum and minimum values, and the mAIC is calculated for each fit (Equation \ref{maic}). The optimal $\lambda$ value is chosen as the value used for the candidate fit with the lowest mAIC. In contrast to the previous step, a wider spectral range of 0.2 to 4 PPM is analyzed to include the majority of conventionally measured metabolites.
 
 \subsubsection{Detailed iterative fitting}
+In the final stage of ABfit, the overall lineshape model is refined alongside minor adjustments to the frequencies and linewidths of the known basis signals.
 
-% $y_{\mathit{td}} = \mathrm{ift} ( y_{\mathit{fd}}$ )
+\cite{Stancik2008}
 
 \subsection{Simulation validation}
 
