@@ -80,7 +80,7 @@ mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
 mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
 
-ed_pppm_start <- 2.01 / (4 - 0.5)
+ed_pppm_start <- 2.01 / (4 - 0.2)
 ed_pppm_end   <- 15
 ed_pppm_N     <- 15
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
