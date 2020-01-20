@@ -124,14 +124,14 @@ Baseline signals have a characteristically smooth spectral appearance, and must 
   \end{center}
 \end{figure}
 
-A spline is a piecewise function made up of one or more polynomial segments joined together at points known as ``knots''. A wide range of spline functions are possible, however Basis-splines, more commonly known as B-splines, are a popular choice for smoothing applications due to their favorable numerical properties~\cite{DeBoor2001}. The degree of a B-spline function determines its overall smoothness, and third degree (or cubic) B-splines are often used for smoothing. A cubic B-spline basis is show in Figure~\ref{bspline_regression}A with an offset added in the y-direction for clarity. B-spline bases consist of regularly spaced overlapping spline functions, spanning the full range of x values.
+A spline is a piecewise function made up of one or more polynomial segments joined together at points known as ``knots''. A wide range of spline functions are possible, however Basis-splines, more commonly known as B-splines, are a popular choice for smoothing applications due to their favorable numerical properties~\cite{DeBoor2001}. The degree of a B-spline function determines its overall smoothness, and third degree (or cubic) B-splines are often used for smoothing. A cubic B-spline basis is show in Figure~\ref{bspline_regression}A with an offset added in the y-axis for clarity. B-spline bases consist of regularly spaced overlapping spline functions, spanning the full range of x values.
 
 A B-spline basis may be used to obtain a smooth estimate of a signal using simple linear regression. Figure~\ref{bspline_regression}B shows the result of a spline regression, where each spline function has been optimally weighted, such that the sum of the functions (spline fit line) is the least squares fit to the data. The desired smoothness of the fit is controlled by adjusting the spline knot spacing, which in turn changes the density of spline functions. In the case of Figure~\ref{bspline_regression}B, 15 functions were found to give a reasonable level of smoothness. Increasing the density of spline functions allows more detail to be captured by the fit, however too many functions results in an increased sensitivity to noise and the smooth estimate begins to exhibit random fluctuations. Conversely, insufficient density of spline functions results in the spline fit being unable to model genuine smooth trends present in the data.
 
 An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{\mathbf{y}}$, of our data $\mathbf{y}$, is calculated as: $\hat{\mathbf{y}} = \mathbf{B} \ \hat{\mathbf{a}}$, where $\mathbf{B}$ is a B-spline basis in matrix form, and $\hat{\mathbf{a}}$ is a vector of corresponding spline weightings to be determined. In simple spline regression $\hat{\mathbf{a}}$ is found by solving the normal equations to minimize the sum of the squared differences between $\mathbf{y}$ and $\hat{\mathbf{y}}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
 
 \begin{equation}
-  Q_{B} = ||\mathbf{y} - \mathbf{B} \ \hat{\mathbf{a}} ||^{2} + \lambda ||\mathbf{D} \ \hat{\mathbf{a}}||^{2}.
+  Q_{B} = \|\mathbf{y} - \mathbf{B} \ \hat{\mathbf{a}} \|^{2} + \lambda \|\mathbf{D} \ \hat{\mathbf{a}}\|^{2}.
   \label{qb}
 \end{equation}
 
@@ -194,7 +194,7 @@ where $\mathbf{H}$ is commonly known as the ``hat'' matrix. For a small value of
   \end{center}
 \end{figure}
 
-Using simulated data we can investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
+Using simulated data we investigate the relationship between $\lambda$, ED and the optimal level of smoothness. The top left panel in Figure \ref{pspline_error}A shows a simple sine function with added normally distributed noise, shown in red and black respectively. Candidate P-spline smoothers, with differing values of $\lambda$, are shown in the remaining 5 panels. Since the true shape of the underlying smooth function is known, the error of the P-spline estimate may be calculated and plotted as a function of $\lambda$, shown in Figure \ref{pspline_error}B. The difference between the P-spline estimate and noisy data (residual) and the ED are also shown as a function of $\lambda$ in part B.
 
 % TODO note that error is RSS - is it? what about residual?
 
@@ -274,7 +274,11 @@ In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method
 Unprocessed MRS data typically have an unknown and erroneous frequency offset $f_{o}$ that displaces all resonances equally. The first step of ABfit is to estimate $f_{o}$ (measured in Hz) to ensure the basis set of known signals are approximately matched to the acquired data. Raw MRS data is digitally sampled at a frequency of $\mathit{fs}$ Hz in the time-domain, and defined a vector of $N$ complex data points:
 
 \begin{equation}
-  \mathbf{y}^{\mathrm{TD}} = \mathbf{y}(\mathbf{t}), \mathbf{t}=(t_{0}=0,t_{1} =1/\mathit{fs},\ldots,t_{N-1}=(N-1)/\mathit{fs}),
+  \mathbf{y}^{\mathrm{TD}} = \mathbf{y}(\mathbf{t}), \mathbf{t}=(t_{1}=0,t_{2} =1/\mathit{fs},\ldots,t_{N}=(N-1)/\mathit{fs}),
+\end{equation}
+
+\begin{equation}
+  \mathbf{y}^{\mathrm{FD}} = \mathbf{y}(\mathbf{f}), \mathbf{f}=(f_{1}=-\mathit{fs}/2,f_{2} =-\mathit{fs}/2 + \mathit{fs}/N ,\ldots,f_{N}=\mathit{fs}/2 - \mathit{fs}/N),
 \end{equation}
 
 where superscript TD and FD denote time and frequency-domain signal representations --- calculated with the discrete Fourier transform. We simulate a reference data set $\mathbf{r}^{\mathrm{TD}}$, with twice the number of data points $2N$ sampled at $\mathit{fs}$, containing three resonances corresponding to the main singlet metabolites typically present in $^1\mathrm{H}$ MRS data at 2.01, 3.03 and 3.22 PPM. The acquired data $\mathbf{y}^{\mathrm{TD}}$ is zero-filled to twice the original length --- before convolving with  $\mathbf{r}^{\mathrm{TD}}$ to estimate the frequency offset $f_{o}$.
@@ -291,7 +295,12 @@ The goal of this stage of the algorithm is to find estimates of the three parame
 where the phase parameter $\phi_{0}$ is measured in radians and $i=\sqrt{-1}$. The lineshape parameter applies Gaussian line-broadening to each signal in the basis set $\mathbf{M}$:
 
 \begin{equation}
-  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-d_{g}\mathbf{t}^{2}}
+  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}}
+\end{equation}
+
+
+\begin{equation}
+  \beta = -\frac{(\pi g_{d} / 2)^{2}}{\ln(1/2)}
 \end{equation}
 
 where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix. Combining the modified basis with the P-spline basis and solving for $\hat{\mathbf{a}}$ in the least-squares sense with the same constraints as the previous section:
@@ -312,16 +321,24 @@ where $\star$ denotes element-wise multiplication of the line-broadening functio
 Note that following parametric modification in the time-domain, the data and basis of known signals are zero-filled to twice their original length before being transformed to the frequency-domain. Only the real valued data points in frequency domain between 1.8 and 4 PPM are fit in this stage of the algorithm (denoted by subscript $s$) to reduce the influence of any contaminating lipid signals around 1.3 PPM. The parameters: $\phi_{0}$, $d_{g}$ and $f_{o}$ are estimated using Nelder-Mead simplex algorithm with bound constraints \cite{Box1965}, minimizing:
 
 \begin{equation}
-  || \textbf{y}'^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} ||^{2}.
+  \| \textbf{y}'^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} \|^{2}.
 \end{equation}
 
-A $\lambda$ value corresponding to 1 ED per PPM is used with a P-spline basis with 15 components per PPM. Constraints placed on the optimization algorithm restrict the linebroading parameter to be positive and produce a lineshape of less than 15 Hz FWHM, additionally the frequency offset must be less than 10 Hz different from the coarse frequency alignment step.
+A $\lambda$ value corresponding to 1 ED per PPM is used with a P-spline basis with 15 components per PPM. Constraints are placed on the optimization algorithm to restrict the linebroading parameter to be positive and produce additional line-broadening of less than 15 Hz FWHM. The frequency offset is specified to be less than 10 Hz different from the coarse frequency alignment (step 1).
 
 \subsubsection{Baseline smoothness estimation}
 Following the determination of the frequency offset, spectral phase and approximate lineshape the next step of ABfit is to estimate the optimal value for $\lambda$. A set of candidate fits are performed with differing level of baseline smoothness, whilst maintaining the three main fitting parameters constant at their optimized values. The maximum candidate baseline flexibility is set to a $\lambda$ value corresponding to 7 ED per PPM, and the minimum value set to an ED of 2 --- equivalent to straight line fit. 20 candidate fits are performed with logarithmic intervals between the maximum and minimum values, and the mAIC is calculated for each fit (Equation \ref{maic}). The optimal $\lambda$ value is found by selecting the candidate fit with the lowest mAIC. In contrast to the previous step, a wider spectral range of 0.2 to 4 PPM is analyzed to include the majority of conventionally measured metabolites.
 
 \subsubsection{Detailed iterative fitting}
-In the final stage of ABfit, the overall lineshape model is refined alongside minor adjustments to the frequencies and linewidths of the known basis signals. An asymmetric lineshape model is generated in the time-domain by smoothly adjusting the Gaussian linewidth parameter as a function of frequency --- as described by Stancik and Brauns \cite{Stancik2008}.
+In the final stage of ABfit, the overall lineshape model is refined alongside $f_{o}$, $\phi_{0}$ and minor adjustments to the frequencies and linewidths of the known basis signals. An asymmetric lineshape model is generated in the frequency-domain by smoothly adjusting the Gaussian linewidth parameter as a function of frequency --- as described by Stancik and Brauns \cite{Stancik2008}.
+
+\begin{equation}
+  \mathbf{L}^{\mathrm{FD}} = \sqrt{\frac{4 \ln 2}{\pi}} \exp \left[ -4 \ln2 \left( \frac{\mathbf{f}}{d_{g}} \right)} \right]
+\end{equation}
+
+\begin{equation}
+  \mathbf{d}_{g}(\mathbf{f}) = \frac{2 d_{g}}{1 + \exp(a \ \mathbf{f})}
+\end{equation}
 
 \subsection{Simulation validation}
 
