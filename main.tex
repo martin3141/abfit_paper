@@ -349,9 +349,9 @@ Note, the frequency dependence on the linewidth function is eliminated that when
 
 where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in Hz, and $\mathbf{d_{i}}$ a column vector of additional Lorenzian line broadening terms measured at FWMH in Hz. Both parameter vectors $\mathbf{f_{i}}$ and $\mathbf{d_{i}}$ are the same length as the number of molecular basis signals. Each of the global ($f_{o}$, $\phi_{0}$, $d_{g}$, $a_{g}$) and molecular basis signal specific ($\mathbf{f_{i}}$, $\mathbf{d_{i}}$) parameters are estimated using the Levenberg–Marquardt algorithm \cite{Levenberg1944} implemented with bound constraints, with the same objective function defined in Equations \ref{linear_fit} and \ref{obj_fn}. The optimal baseline smoothness parameter $\lambda$, (determined in step 3) is used, and the spectral range of 0.2 to 4 PPM included in the iterative optimization procedure. The same parameter constraints were used as in step 2, with the additional lineshape asymmetry parameter $a_{g}$ being bound between $\pm$0.25, $\mathbf{f_{i}}$ bound between $\pm1$ Hz and  $2 \geq \mathbf{d_{i}} \geq 0$ Hz.
 
-\subsection{Simulation validation}
+\subsection{Validation with simulation data}
 
-\subsection{MRSI data validation}
+\subsection{Validation with experimentally acquired data}
 
 \section{Results}
 XXXX
