@@ -149,7 +149,7 @@ The $\lambda$ parameter controls the degree of smoothness by penalizing solution
   \label{d_mat}
 \end{equation}
 
-An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\hat{\mathbf{a}}$ consequently increase the penalty term in equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{\mathbf{y}}$, to the point where $\hat{\mathbf{y}}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to equation~(\ref{qb}) may be found by augmenting $\mathbf{B}$ and $\mathbf{y}$:
+An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\hat{\mathbf{a}}$ consequently increase the penalty term in Equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{\mathbf{y}}$, to the point where $\hat{\mathbf{y}}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to Equation~(\ref{qb}) may be found by augmenting $\mathbf{B}$ and $\mathbf{y}$:
 
 \begin{equation}
   \begin{bmatrix}
@@ -241,7 +241,7 @@ Ideal spectra were distorted with normally distributed noise resulting in a spec
 
 Metabolite estimation errors are shown in Figure \ref{mrs_bl_simple}A, showing a comparable shape to the simpler model in Figure \ref{pspline_error}B. Over the range of baseline flexibility studied, underfitting with an inflexible baseline results in much greater metabolite estimate errors compared to overfitting --- which can be verified by inspecting the fit result plots in Figure \ref{mrs_bl_simple} parts C-F. Good agreement is also seen between the metabolite estimate error and the AIC curve (part B), with a low AIC values corresponding to the most accurate level of baseline flexibility.
 
-From the results presented in following sections, it was found that the AIC had a tendency to slightly overestimate the optimal level of baseline flexibility and that a simple modification to equation \ref{aic} improved accuracy:
+From the results presented in following sections, it was found that the AIC had a tendency to slightly overestimate the optimal level of baseline flexibility and that a simple modification to Equation \ref{aic} improved accuracy:
 
 % TODO redefine RSS
 \begin{equation}
@@ -270,7 +270,7 @@ In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method
   \item Detailed iterative fitting.
 \end{enumerate}
 
-\subsubsection{Coarse frequency alignment}
+\subsubsection{Coarse frequency alignment (step 1)}
 Unprocessed MRS data typically have an unknown and erroneous frequency offset $f_{o}$ that displaces all resonances equally. The first step of ABfit is to estimate $f_{o}$ (measured in Hz) to ensure the basis set of known signals are approximately matched to the acquired data. Raw MRS data is digitally sampled at a frequency of $\mathit{fs}$ Hz in the time-domain, and defined a vector of $N$ complex data points:
 
 \begin{equation}
@@ -285,7 +285,7 @@ where superscript TD and FD denote time and frequency-domain signal representati
 
 % TODO check above is correct - surely the FD versions (not TD) of y and r are convolved?
 
-\subsubsection{Approximate iterative fitting}
+\subsubsection{Approximate iterative fitting (step 2)}
 The goal of this stage of the algorithm is to find estimates of the three parameters with the largest influence on the fit residual: 1) the signal phase $\phi_{0}$; 2) an approximate lineshape parameter $d_{g}$ and 3) an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
 
 \begin{equation}
@@ -315,31 +315,39 @@ where $\star$ denotes element-wise multiplication of the line-broadening functio
   \begin{bmatrix}
     \hat{\textbf{y}} \\ 0
   \end{bmatrix}.
+  \label{linear_fit}
 \end{equation}
 
 Note that following parametric modification in the time-domain, the data and basis of known signals are zero-filled to twice their original length before being transformed to the frequency-domain. Only the real valued data points in frequency domain between 1.8 and 4 PPM are fit in this stage of the algorithm (denoted by subscript $s$) to reduce the influence of any contaminating lipid signals around 1.3 PPM. The parameters: $\phi_{0}$, $d_{g}$ and $f_{o}$ are estimated using Nelder-Mead simplex algorithm with bound constraints \cite{Box1965}, minimizing:
 
 \begin{equation}
   \| \textbf{y}'^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} \|^{2}.
+  \label{obj_fn}
 \end{equation}
 
 A $\lambda$ value corresponding to 1 ED per PPM is used with a P-spline basis with 15 components per PPM. Constraints are placed on the optimization algorithm to restrict the linebroading parameter to be positive and produce additional line-broadening of less than 15 Hz FWHM. The frequency offset is specified to be less than 10 Hz different from the coarse frequency alignment (step 1).
 
-\subsubsection{Baseline smoothness estimation}
+\subsubsection{Baseline smoothness estimation (step 3)}
 Following the determination of the frequency offset, spectral phase and approximate lineshape the next step of ABfit is to estimate the optimal value for $\lambda$. A set of candidate fits are performed with differing level of baseline smoothness, whilst maintaining the three main fitting parameters constant at their optimized values. The maximum candidate baseline flexibility is set to a $\lambda$ value corresponding to 7 ED per PPM, and the minimum value set to an ED of 2 --- equivalent to straight line fit. 20 candidate fits are performed with logarithmic intervals between the maximum and minimum values, and the mAIC is calculated for each fit (Equation \ref{maic}). The optimal $\lambda$ value is found by selecting the candidate fit with the lowest mAIC. In contrast to the previous step, a wider spectral range of 0.2 to 4 PPM is analyzed to include the majority of conventionally measured metabolites.
 
-\subsubsection{Detailed iterative fitting}
+\subsubsection{Detailed iterative fitting (step 4)}
 In the final stage of ABfit, the overall lineshape model is refined alongside $f_{o}$, $\phi_{0}$ and minor adjustments to the frequencies and linewidths of the known basis signals. An asymmetric lineshape model is generated in the frequency-domain by smoothly adjusting the Gaussian linewidth parameter as a function of frequency --- as described by Stancik and Brauns~\cite{Stancik2008}:
 
 \begin{equation}
-  \mathbf{L}^{\mathrm{FD}} = \sqrt{\frac{4 \ln 2}{\pi}} \exp \left[ -4 \ln2 \left( \frac{\mathbf{f}}{\mathbf{l}(\mathbf{f})} \right) \right],
+  \mathbf{l}^{\mathrm{FD}} = \sqrt{\frac{4 \ln 2}{\pi}} \exp \left[ -4 \ln2 \left( \frac{\mathbf{f}}{\mathbf{s}(\mathbf{f})} \right) \right],
 \end{equation}
 
 \begin{equation}
-  \mathbf{l}(\mathbf{f}) = \frac{2 d_{g}}{1 + \exp(a \ \mathbf{f})}.
+  \mathbf{s}(\mathbf{f}) = \frac{2 d_{g}}{1 + \exp(a_{g} \ \mathbf{f})}.
 \end{equation}
 
-Note that when the asymmetry parameter $a=0$ the frequency dependence on the line-width is eliminated and $\mathbf{l}=d_{g}}$, resulting in pure Guassian broadening.
+Note, the frequency dependence on the linewidth function is eliminated that when the asymmetry parameter $a_{g}=0$, leading to $\mathbf{s}=d_{g}$ and pure Gaussian broadening. $\mathbf{l}^{\mathrm{FD}}$ is transformed to the time-domain and applied to each of the molecular basis signals. Minor individual changes in the frequency offset and linewidth are applied to each molecular signal in the basis to accommodate variations in the acquired data:
+
+\begin{equation}
+  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star \mathbf{l}^{\mathrm{TD}} \star e^{(2i \pi \mathbf{f_{i}} - \pi \mathbf{d_{i}} ) \mathbf{t}},
+\end{equation}
+
+where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in Hz, and $\mathbf{d_{i}}$ a column vector of additional Lorenzian line broadening terms measured at FWMH in Hz. Both parameter vectors $\mathbf{f_{i}}$ and $\mathbf{d_{i}}$ are the same length as the number of molecular basis signals. Each of the global ($f_{o}$, $\phi_{0}$, $d_{g}$, $a_{g}$) and molecular basis signal specific ($\mathbf{f_{i}}$, $\mathbf{d_{i}}$) parameters are estimated using the Levenberg–Marquardt algorithm \cite{Levenberg1944} implemented with bound constraints, with the same objective function defined in Equations \ref{linear_fit} and \ref{obj_fn}. The optimal baseline smoothness parameter $\lambda$, (determined in step 3) is used, and the spectral range of 0.2 to 4 PPM included in the iterative optimization procedure. The same parameter constraints were used as in step 2, with the additional lineshape asymmetry parameter $a_{g}$ being bound between $\pm$0.25, $\mathbf{f_{i}}$ bound between $\pm1$ Hz and  $2 \geq \mathbf{d_{i}} \geq 0$ Hz.
 
 \subsection{Simulation validation}
 
