@@ -292,15 +292,14 @@ The goal of this stage of the algorithm is to find estimates of the three parame
   \mathbf{y'}^{\mathrm{TD}} = \mathbf{y}^{\mathrm{TD}} e^{i \phi_{0} + 2 i \pi f_{o} \mathbf{t}}
 \end{equation}
 
-where the phase parameter $\phi_{0}$ is measured in radians and $i=\sqrt{-1}$. The lineshape parameter applies Gaussian line-broadening to each signal in the basis set $\mathbf{M}$:
+The lineshape parameter applies Gaussian line-broadening to each signal in the basis set $\mathbf{M}$, and the scaling factor $\beta$ is introduced to define $d_{g}$ as the Full Width at Half Maximum (FWHM) measured in Hz:
 
 \begin{equation}
-  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}}
+  \beta = -\frac{(\pi g_{d} / 2)^{2}}{\ln(1/2)},
 \end{equation}
 
-
 \begin{equation}
-  \beta = -\frac{(\pi g_{d} / 2)^{2}}{\ln(1/2)}
+  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}},
 \end{equation}
 
 where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix. Combining the modified basis with the P-spline basis and solving for $\hat{\mathbf{a}}$ in the least-squares sense with the same constraints as the previous section:
