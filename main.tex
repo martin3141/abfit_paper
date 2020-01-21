@@ -352,6 +352,8 @@ where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in H
 \subsection{Validation with simulation data}
 A series of simulations were performed to evaluate the performance of ABfit across a range of common baseline features. For each test, ABfit was performed as described in the previous section --- where the baseline flexibility is automatically determined in step 3. Additionally, ABfit was performed with the baseline flexibility set manually (omitting step 3) across a range of 15 values for ED per PPM between 0.53 and 15 to compare with the automated result. 32 spectra were simulated for each test, with differing noise samples taken from the same distribution to assess variation.
 
+In the first simulation study a broad simulated peak at 1.3 PPM was combined with metabolite levels --- as described in the section \textit{MRS baseline estimation using P-splines}. The second simulation study was identical to the first, however the broad simulated peak was removed to yield a perfectly flat baseline.
+
 \subsection{Validation with experimentally acquired data}
 Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
