@@ -165,8 +165,7 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
              scale_x_continuous(trans = "log10", breaks = breaks) + 
              xlab("Baseline ED per ppm") + 
              ylab("Metabolite estimate error") +
-             geom_vline(xintercept = mean_ed_pppm, linetype = "dashed") +
-             scale_y_continuous(trans = "log10")
+             geom_vline(xintercept = mean_ed_pppm, linetype = "dashed")
 
 p2 <- function() {
   par(cex = 0.75)

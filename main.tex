@@ -350,13 +350,54 @@ Note, the frequency dependence on the linewidth function is eliminated that when
 where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in Hz, and $\mathbf{d_{i}}$ a column vector of additional Lorenzian line broadening terms measured at FWMH in Hz. Both parameter vectors $\mathbf{f_{i}}$ and $\mathbf{d_{i}}$ are the same length as the number of molecular basis signals. Each of the global ($f_{o}$, $\phi_{0}$, $d_{g}$, $a_{g}$) and molecular basis signal specific ($\mathbf{f_{i}}$, $\mathbf{d_{i}}$) parameters are estimated using the Levenberg–Marquardt algorithm \cite{Levenberg1944} implemented with bound constraints, with the same objective function defined in Equations \ref{linear_fit} and \ref{obj_fn}. The optimal baseline smoothness parameter $\lambda$, (determined in step 3) is used, and the spectral range of 0.2 to 4 PPM included in the iterative optimization procedure. The same parameter constraints were used as in step 2, with the additional lineshape asymmetry parameter $a_{g}$ being bound between $\pm$0.25, $\mathbf{f_{i}}$ bound between $\pm1$ Hz and  $2 \geq \mathbf{d_{i}} \geq 0$ Hz.
 
 \subsection{Validation with simulation data}
+A series of simulations were performed to evaluate the performance of ABfit across a range of common baseline features. For each test, ABfit was performed as described in the previous section --- where the baseline flexibility is automatically determined in step 3. Additionally, ABfit was performed with the baseline flexibility set manually (omitting step 3) across a range of 15 values for ED per PPM between 0.53 and 15 to compare with the automated result. 32 spectra were simulated for each test, with differing noise samples taken from the same distribution to assess variation.
 
 \subsection{Validation with experimentally acquired data}
+Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
 % all analysis done in R - with abfit integrated into the spant package under an open source license.
 
 \section{Results}
-XXXX
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{fig4.pdf}
+    \caption{xxx}
+    \label{y4}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{fig5.pdf}
+    \caption{xxx}
+    \label{y5}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{fig6.pdf}
+    \caption{xxx}
+    \label{y6}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{fig7.pdf}
+    \caption{xxx}
+    \label{y7}
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{fig8.pdf}
+    \caption{xxx}
+    \label{y8}
+  \end{center}
+\end{figure}
 
 \section{Discussion}
 MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.27939
