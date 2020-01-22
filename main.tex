@@ -131,7 +131,7 @@ A B-spline basis may be used to obtain a smooth estimate of a signal using simpl
 An alternative to adjusting the number of spline basis functions to achieve a desired level of smoothness is to introduce a penalty parameter into to spline regression model. The smooth estimate $\hat{\mathbf{y}}$, of our data $\mathbf{y}$, is calculated as: $\hat{\mathbf{y}} = \mathbf{B} \ \hat{\mathbf{a}}$, where $\mathbf{B}$ is a B-spline basis in matrix form, and $\hat{\mathbf{a}}$ is a vector of corresponding spline weightings to be determined. In simple spline regression $\hat{\mathbf{a}}$ is found by solving the normal equations to minimize the sum of the squared differences between $\mathbf{y}$ and $\hat{\mathbf{y}}$. In penalized spline regression, the minimization function $Q_B$ is adjusted to incorporate an additional term to enforce smoothness in the estimate:
 
 \begin{equation}
-  Q_{B} = \|\mathbf{y} - \mathbf{B} \ \hat{\mathbf{a}} \|^{2} + \lambda \|\mathbf{D} \ \hat{\mathbf{a}}\|^{2}.
+  Q_{B} = \|\mathbf{y} - \mathbf{B} \ \hat{\mathbf{a}} \|^{2}_{2} + \lambda \|\mathbf{D} \ \hat{\mathbf{a}}\|^{2}_{2}.
   \label{qb}
 \end{equation}
 
@@ -180,7 +180,7 @@ The general approach for penalized spline regression is to over-specify the numb
 \end{equation}
 
 \begin{equation}
-  \textrm{ED} = \mathrm{tr}(\mathbf{H}),
+  \textsf{ED} = \textsf{tr}(\mathbf{H}),
 \end{equation}
 
 where $\mathbf{H}$ is commonly known as the ``hat'' matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix.
@@ -200,14 +200,12 @@ Inspection of the error plot reveals the optimal $\lambda$ to be approximately 2
 
 Determining the optimal value for the smoothness parameter is one of the primary challenges for P-spline smoothing. A careful balance between instability from overfitting, and bias from underfitting, must be made for the most accurate estimate, and searching for the smallest fit residual is a useful, but insufficient metric of quality. Numerous approaches have been proposed to find the optimal smoothing value \cite{Ruppert2003}, and in this study we use \textit{Akaike's information criterion} (AIC) \cite{Akaike1973}:
 
-% TODO avoid RSS and talk about y and yhat
-
 \begin{equation}
-  \textrm{AIC} = \ln(\textrm{RSS}) + 2 \textrm{ED} / n,
+  \textsf{AIC} = \ln \left[ \|\mathbf{y} - \hat{\mathbf{y}}\|^{2}_{2} \right] + 2 \textsf{ED} / n,
   \label{aic}
 \end{equation}
 
-where RSS is the sum of squared differences between the data and smooth estimate, and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
+where $\ln$ denotes the natural logarithm and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
 
 \subsection{MRS baseline estimation using P-splines}
 
@@ -233,19 +231,18 @@ As with Equation \ref{p-spline_eq}, we regress the basis matrix on $\mathbf{y}$ 
 
 A simulation study was performed to investigate the relationship between baseline smoothness, the accuracy of metabolite estimates and the AIC. Metabolite signals were simulated from known parameters \cite{Govind2015} at levels consistent with normal brain tissue \cite{deGraaf2018}. A simulated macromolecule profile was also included in the simulation and basis matrix to yield a realistic spectrum~\cite{Birch2017}. Simulated experimental conditions consisted of a field strength of 3 T, and semi-LASER localization (TE=28 ms). 1024 complex points were generated at a sampling frequency of 2000 Hz, 6 Hz Gaussian line-broadening was applied prior to zero-filling to 2048 points and Fourier transform to the frequency-domain. Ideal pulses were assumed and relaxation effects were not considered.
 
-Ideal spectra were distorted with normally distributed noise resulting in a spectral SNR of 54 --- with signal measured as the highest data point from the compound NAA resonance at 2.01 PPM. A broad Gaussian resonance was added at 1.3 PPM with a linewidth of 100Hz to simulate baseline distortion originating from scalp lipids. The degree of P-spline baseline flexibility is defined as the baseline ED (effective dimension) per PPM, which is more easily compared across analyses due to its independence from the number of points in the fit and the number of spline basis functions used. Metabolite level estimates ($\hat{\mathbf{a}}$) were calculated using Equation \ref{mrs_bl} from real-valued data points in spectral region between 0.2 and 4 PPM, over a range of 10 levels of baseline flexibility. 32 spectra were generated at each level of baseline flexibility with differing noise samples drawn from the same distribution. The metabolite estimation error was calculated from the sum of the squared differences between the true and estimated values for each spectrum. The mean and standard deviation of metabolite estimation errors was calculated across the 32 spectra at each level of baseline flexibility to evaluate accuracy and consistency.
+Ideal spectra were distorted with normally distributed noise resulting in a spectral SNR of 54 --- with signal measured as the highest data point from the compound NAA resonance at 2.01 PPM. A broad Gaussian resonance was added at 1.3 PPM with a linewidth of 100 Hz to simulate baseline distortion originating from scalp lipids. The degree of P-spline baseline flexibility is defined as the baseline ED (effective dimension) per PPM, which is more easily compared across analyses due to its independence from the number of points in the fit and the number of spline basis functions used. Metabolite level estimates ($\hat{\mathbf{a}}$) were calculated using Equation \ref{mrs_bl} from real-valued data points in spectral region between 0.2 and 4 PPM, over a range of 10 levels of baseline flexibility. 32 spectra were generated at each level of baseline flexibility with differing noise samples drawn from the same distribution. The metabolite estimation error was calculated from the sum of the squared differences between the true and estimated values for each spectrum. The mean and standard deviation of metabolite estimation errors was calculated across the 32 spectra at each level of baseline flexibility to evaluate accuracy and consistency.
 
 Metabolite estimation errors are shown in Figure \ref{mrs_bl_simple}A, displaying a comparable shape to the simpler model in Figure \ref{pspline_error}B. Over the range of baseline flexibility studied, underfitting with an inflexible baseline results in much greater metabolite estimate errors compared to overfitting --- which can be verified by inspecting the fit result plots in Figure \ref{mrs_bl_simple} parts C-F. Good agreement is also seen between the metabolite estimate error and the AIC curve (part B), with a low AIC values corresponding to the most accurate level of baseline flexibility.
 
 From the results presented in following sections, it was found that the AIC had a tendency to slightly overestimate the optimal level of baseline flexibility, and that a simple modification to Equation \ref{aic} improved accuracy:
 
-% TODO redefine RSS
 \begin{equation}
-  \textrm{mAIC} = \ln(\textrm{RSS}) + 2 m \ \textrm{ED} / n.
+  \textsf{mAIC} = \ln \left[ \|\mathbf{y} - \hat{\mathbf{y}}\|^{2}_{2} \right] + 2 m \ \textsf{ED} / n.
   \label{maic}
 \end{equation}
 
-Setting $m$ to a value of 5 was found to be a good compromise between bias and variance, placing a greater penalty on overly flexible baseline models --- resulting in a smoother ``optimal'' baseline estimate relative to the standard AIC (Figure \ref{mrs_bl_simple}B).
+Setting $m$ to a value of 5 was found to be a good compromise between bias and variance, placing a greater penalty on overly flexible baseline models --- resulting in a smoother baseline estimate relative to the standard AIC (Figure \ref{mrs_bl_simple}B).
 
 % Figure 3
 \begin{figure}
