@@ -74,11 +74,10 @@ set.seed(1)
 lb_para   <- 6
 noise_N   <- 32
 metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
-broad_sig <- sim_resonances(freq = 1.3, amp = 0, lw = 100, lg = 1)
 
-mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
+mrs_data_nn    <- lb(metab_mm, lb_para)    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
-mrs_data       <-  rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
+mrs_data       <- rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
 
 ed_pppm_start <- 2.01 / (4 - 0.2)
 ed_pppm_end   <- 15
