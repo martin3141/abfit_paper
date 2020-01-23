@@ -32,7 +32,7 @@
 % Graphics. Always show the figures but float to the end
 % code listing
 %\usepackage[final]{subfig, listings}
-%\usepackage[nofiglist]{endfloat}
+\usepackage[nofiglist]{endfloat}
 
 \graphicspath{{./figures/}}
 
@@ -84,10 +84,10 @@
 \textbf{Methods:} \\
 \textbf{Results:} \\
 \textbf{Conclusion:} 
-\keywords{XXXX}
+\keywords{TODO}
 \end{abstract}
 
-Word count : XXXX
+Word count : TODO
 
 % MRM abstract max length is 250 words
 % MRM note max length is 2800 words, 5 fig plus tables
@@ -115,11 +115,10 @@ In this study we introduce a new method to automatically determine the optimal d
 
 Baseline signals have a characteristically smooth spectral appearance, and must to be accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed~\cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
 
-% Figure 1
 \begin{figure}
   \begin{center}
     \includegraphics[width=1\textwidth]{fig1.pdf}
-    \caption{xxx}
+    \caption{TODO}
     \label{bspline_regression}
   \end{center}
 \end{figure}
@@ -185,11 +184,10 @@ The general approach for penalized spline regression is to over-specify the numb
 
 where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix.
 
-% Figure 2
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.9\textwidth]{fig2.pdf}
-    \caption{xxx}
+    \caption{TODO}
     \label{pspline_error}
   \end{center}
 \end{figure}
@@ -244,11 +242,10 @@ From the results presented in following sections, it was found that the AIC had 
 
 Setting $m$ to a value of 5 was found to be a good compromise between bias and variance, placing a greater penalty on overly flexible baseline models --- resulting in a smoother baseline estimate relative to the standard AIC (Figure \ref{mrs_bl_simple}B).
 
-% Figure 3
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.9\textwidth]{fig3.pdf}
-    \caption{Note the error bars are 5x the true}
+    \caption{TODO - note the error bars are 5x the true}
     \label{mrs_bl_simple}
   \end{center}
 \end{figure}
@@ -350,47 +347,59 @@ In the first simulation study a broad simulated peak with a Gaussian lineshape (
 \subsection{Validation with experimentally acquired data}
 Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
+% TODO
 % all analysis done in R - with abfit integrated into the spant package under an open source license.
 
 \section{Results}
+\subsection{Simulation}
+The first simulation test contained a baseline distortion to mimic a spurious signal from scalp lipids, and the results of ABfit analyses are shown in Figure \ref{broad_bl}. The metabolite estimation error plot as a function of baseline flexibility shows the same characteristics as the simpler analysis model used in Figure \ref{mrs_bl_simple}A, however the errors are elevated due to the increased number of parameters in the ABfit model --- necessary to handle variations common in acquired MRS data, such as phase and linewidth. The automated estimate for the baseline flexibility (dashed vertical line) represents a reasonable trade-off between bias introduced by insufficient flexibility (part B) and instability --- evidenced by increasing standard deviation error bars for greater baseline flexibility (part D). A fit corresponding to the automatically determined baseline flexibility is shown in part C, where the true shape of a broad Gaussian peak centered at 1.3 PPM is apparent from the baseline estimate.
+
+The baseline distortion was removed for the second simulation study to test the ABfit approach for ideal spectra where the molecular basis alone is sufficient for accurate analysis. The error plot is shown in Figure \ref{flat_bl}, illustrating the absence of bias due to baseline underfitting. A compromise between bias and variance is unnecessary in the ideal case, as the correctly determined baseline flexibility has the lowest error and variability.
+
+
+
+Figure \ref{big_broad_bl}.
+Figure \ref{sim_lip_mm_basis}.
+
+\subsection{Experimental}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig4.pdf}
-    \caption{xxx}
-    \label{y4}
+    \caption{TODO}
+    \label{broad_bl}
   \end{center}
 \end{figure}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig5.pdf}
-    \caption{xxx}
-    \label{y5}
+    \caption{TODO}
+    \label{flat_bl}
   \end{center}
 \end{figure}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig6.pdf}
-    \caption{xxx}
-    \label{y6}
+    \caption{TODO}
+    \label{big_broad_bl}
   \end{center}
 \end{figure}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig7.pdf}
-    \caption{xxx}
-    \label{y7}
+    \caption{TODO}
+    \label{sim_lip_mm_basis}
   \end{center}
 \end{figure}
 
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig8.pdf}
-    \caption{xxx}
-    \label{y8}
+    \caption{TOOD}
+    \label{broad_bl_bad_shim}
   \end{center}
 \end{figure}
 
@@ -400,7 +409,7 @@ MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.279
 % all data and code required to generate the paper figures is available from github repos
 %
 
-% state some limitations like a good scientist
+% state some limitations like a good scientist - eg only deals with broad baseline features
 
 \cite{Stikov2019}
 
@@ -413,10 +422,10 @@ MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.279
 % Comment on Brian S's paper
 
 \section{Conclusion}
-XXXX
+TODO
 
 \section*{ACKNOWLEDGEMENTS}
-XXXX
+TODO
 
 \bibliography{main}
 
