@@ -1,0 +1,53 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A template for Wiley article submissions.
+% Developed by Overleaf. 
+%
+% Please note that whilst this template provides a 
+% preview of the typeset manuscript for submission, it 
+% will not necessarily be the final publication layout.
+%
+% Usage notes:
+% The "blind" option will make anonymous all author, affiliation, correspondence and funding information.
+% Use "num-refs" option for numerical citation and references style.
+% Use "alpha-refs" option for author-year citation and references style.
+
+\documentclass[num-refs]{wiley-article}
+
+% added for highlighting
+\usepackage{soul}
+
+% added for margin notes
+\usepackage{marginnote}
+
+\bibliographystyle{vancouver-authoryear}
+
+% Add additional packages here if required
+\usepackage{siunitx}
+
+\usepackage{float}
+
+% added by MW
+\graphicspath{{./figures/}}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\begin{document}
+\section*{SUPPORTING INFORMATION}
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figure_s1.eps}
+\caption{8 simulated spectra (SNR=25) with random phase and linearly increasing frequency shifts up to 10Hz. These spectra are typical of those used for the results presented in Figure 2.}
+\label{freq}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.95\textwidth]{figure_s2.eps}
+\caption{a) 32 overlaid simulated spectra (SNR=15) with unstable baseline, random phase and linearly increasing frequency shifts up to 10Hz. b) TDSR corrected spectra and c) RATS corrected spectra. These spectra have a reduced baseline distortion strength of 40\% relative to Figure 4.}
+\label{freq}
+\end{center}
+\end{figure}
+\end{document}
+
