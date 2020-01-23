@@ -89,8 +89,7 @@
 
 Word count : TODO
 
-% MRM abstract max length is 250 words
-% MRM note max length is 2800 words, 5 fig plus tables
+% MRM abstract max length is 200 words (passive voice)
 % MRM full paper max length is 5000 words, 10 fig plus tables
 
 \section{Introduction}
@@ -110,7 +109,7 @@ Finding the optimal degree of baseline flexibility is a crucial question in MRS 
 
 In this study we introduce a new method to automatically determine the optimal degree of baseline flexibility for a frequency-domain spline based fitting algorithm. Firstly, background is given on the use of penalized splines for optimal data smoothing. A fully-automated fitting algorithm is presented, incorporating a novel method to automatically estimate the optimal level of baseline flexibility. Finally, the new method is validated with simulated and experimentally acquired MRSI data.
 
-\section{Methods}
+\section{Theory}
 \subsection{Penalized spline smoothing}
 
 Baseline signals have a characteristically smooth spectral appearance, and must to be accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed~\cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
@@ -225,9 +224,7 @@ In $^1\mathrm{H}$ MRS analysis, the baseline signal must be estimated in the pre
 
 As with Equation \ref{p-spline_eq}, we regress the basis matrix on $\mathbf{y}$ to yield $\hat{\mathbf{a}}$, however since metabolite signal amplitudes are always positive, analysis stability may be improved by enforcing a non-negative constraint on the subset of $\hat{\mathbf{a}}$ values corresponding to the weightings on the molecular basis ($\hat{\mathbf{a}}_{M} \geq 0$). The active-set method developed by Lawson and Hanson \cite{Lawson1995} is used herein to find the least-squares solution under the non-negative constraint --- while still allowing the $\hat{\mathbf{a}}$ values corresponding to the spline basis ($\hat{\mathbf{a}}_{B}$) to remain unconstrained.
 
-% table of metabolite names and amplitudes in the supp-materials?
-
-A simulation study was performed to investigate the relationship between baseline smoothness, the accuracy of metabolite estimates and the AIC. Metabolite signals were simulated from known parameters \cite{Govind2015} at levels consistent with normal brain tissue \cite{deGraaf2018} (Table 1 supp material TODO). An experimentally derived macromolecule profile was also included in the simulation and basis matrix to yield a realistic spectrum~\cite{Birch2017}. Simulated experimental conditions consisted of a field strength of 3 T, and semi-LASER localization (TE=28 ms). 1024 complex points were generated at a sampling frequency of 2000 Hz, 6 Hz Gaussian line-broadening was applied prior to zero-filling to 2048 points and Fourier transform to the frequency-domain. Ideal pulses were assumed and relaxation effects were not considered.
+A simulation study was performed to investigate the relationship between baseline smoothness, the accuracy of metabolite estimates and the AIC. Metabolite signals were simulated from known parameters \cite{Govind2015} at levels consistent with normal brain tissue \cite{deGraaf2018} --- listed in Supporting Information Table S1. An experimentally derived macromolecule profile was also included in the simulation and basis matrix to yield a realistic spectrum~\cite{Birch2017}. Simulated experimental conditions consisted of a field strength of 3 T, and semi-LASER localization (TE=28 ms). 1024 complex points were generated at a sampling frequency of 2000 Hz, 6 Hz Gaussian line-broadening was applied prior to zero-filling to 2048 points and Fourier transform to the frequency-domain. Ideal pulses were assumed and relaxation effects were not considered.
 
 Ideal spectra were distorted with normally distributed noise resulting in a spectral SNR of 54 --- with signal measured as the highest data point from the compound NAA resonance at 2.01 PPM. A broad Gaussian resonance was added at 1.3 PPM with a linewidth of 100 Hz to simulate baseline distortion originating from scalp lipids. The degree of P-spline baseline flexibility is defined as the baseline ED (effective dimension) per PPM, which is more easily compared across analyses due to its independence from the number of points in the fit and the number of spline basis functions used. Metabolite level estimates ($\hat{\mathbf{a}}$) were calculated using Equation \ref{mrs_bl} from real-valued data points in spectral region between 0.2 and 4 PPM, over a range of 10 levels of baseline flexibility. 32 spectra were generated at each level of baseline flexibility with differing noise samples drawn from the same distribution. The metabolite estimation error was calculated from the sum of the squared differences between the true and estimated values for each spectrum. The mean and standard deviation of metabolite estimation errors was calculated across the 32 spectra at each level of baseline flexibility to evaluate accuracy and consistency.
 
@@ -250,8 +247,9 @@ Setting $m$ to a value of 5 was found to be a good compromise between bias and v
   \end{center}
 \end{figure}
 
+\section{Methods}
 \subsection{Adaptive Baseline Fitting Algorithm}
-In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method based on the P-spline fitting approach presented above. The emphasis of the design is to automatically adapt the baseline flexibility for improved accuracy, and we refer to the full algorithm as: \textit{Adaptive Baseline fitting} or ABfit. The algorithm consists of 4 main steps, which will be described in order of execution:
+In this section we describe a fully-automated $^1\mathrm{H}$ MRS analysis method based on the P-spline fitting approach presented in the Theory section. The emphasis of the design is to automatically adapt the baseline flexibility for improved accuracy, and we refer to the full algorithm as: \textit{Adaptive Baseline fitting} or ABfit. The algorithm consists of 4 main steps, which will be described in order of execution:
 
 \begin{enumerate}
   \item Coarse frequency alignment.
@@ -342,7 +340,7 @@ where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in H
 \subsection{Validation with simulated data}
 A series of simulations were performed to evaluate the performance of ABfit across a range of common baseline features. For each test, ABfit was performed as described in the previous section --- where the baseline flexibility is automatically determined in step 3. Additionally, ABfit was performed with the baseline flexibility set manually (omitting step 3) across a range of 15 values for ED per PPM between 0.53 and 15 to compare with the automated result. Simulated spectra and metabolite estimation errors were calculated as described in section \textit{MRS baseline estimation using P-splines} unless stated otherwise.
 
-In the first simulation study a broad simulated peak with a Gaussian lineshape (FWHM 100 Hz) at 1.3 PPM was combined with metabolites and the macromolecular signal with a spectral SNR of 54. The second simulation study was identical to the first, however the broad simulated peak was removed to yield a perfectly flat baseline. The third simulation study was identical to the first, however the amplitude of the simulated broad resonance was increased by a factor of 2. The simulated data for fourth simulation study was identical to the second, with a perfectly flat baseline and an experimentally derived macromolecular signal. However, the experimentally derived macromolecular signal was removed from the fitting basis set and replaced with the set of simulated lipid and macromolecular signals commonly used by default in the LCModel and TARQUIN algorithms (table 2 supp materials TODO). The final simulation study was identical to the first, however 12 Hz linebroading was applied to the molecular basis rather than 6 Hz --- resulting in a spectral SNR of 34.
+In the first simulation study a broad simulated peak with a Gaussian lineshape (FWHM 100 Hz) at 1.3 PPM was combined with metabolites and the macromolecular signal with a spectral SNR of 54. The second simulation study was identical to the first, however the broad simulated peak was removed to yield a perfectly flat baseline. The third simulation study was identical to the first, however the amplitude of the simulated broad resonance was increased by a factor of 2. The simulated data for fourth simulation study was identical to the second, with a perfectly flat baseline and an experimentally derived macromolecular signal. However, the experimentally derived macromolecular signal was removed from the fitting basis set and replaced with the set of simulated lipid and macromolecular signals commonly used by default in the LCModel and TARQUIN algorithms, as listed in Supporting Information Table S2. The final simulation study was identical to the first, however 12 Hz linebroading was applied to the molecular basis rather than 6 Hz --- resulting in a spectral SNR of 34.
 
 \subsection{Validation with experimentally acquired data}
 Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
@@ -431,6 +429,10 @@ TODO
 
 \clearpage
 \listoffigures
+
+\section*{List of Tables for Supporting Information}
+Table S1 Metabolite concentrations consistent with levels measured in normal brain tissue. \\
+Table S2 Parameters used to generate the individual simulated lipid and macromolecule basis signals. Listed components with the same name were summed to form a composite signal. \\
 
 \end{document}
 
