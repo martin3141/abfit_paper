@@ -354,10 +354,11 @@ The first simulation test contained a baseline distortion to mimic a spurious si
 
 The baseline distortion was removed for the second simulation study to test the ABfit approach for ideal spectra where the molecular basis alone is sufficient for accurate analysis. The error plot is shown in Figure \ref{flat_bl}, illustrating the absence of bias due to baseline underfitting. A compromise between bias and variance is unnecessary in the ideal case, as the correctly determined baseline flexibility has the lowest error and variability.
 
+In the third simulation test the amplitude of the broad distortion at 1.3 PPM was doubled compared to the first. A reasonable estimate of the optimal baseline flexibility is found using the ABfit method (Figure \ref{big_broad_bl}A) with comparable levels of accuracy relative to the reduced amplitude baseline distortion (Figure \ref{broad_bl}A).
 
+In the fourth simulation test a set of independent broad lipid and macromolecular signals in the basis were used to model the experimentally derived macromolecular profile. Figure \ref{sim_lip_mm_basis}A shows the lowest mean errors are obtained at higher levels of baseline flexibility (part D) --- indicating a stronger bias at lower level of flexibility (parts B, C) compared to the previous simulations. This is likely explained by inadequate modeling of the broad macromolecular components around 3.8 ppm since these are not present in the commonly used individual macromolecular and lipid basis (Supporting Information Table S2).
 
-Figure \ref{big_broad_bl}.
-Figure \ref{sim_lip_mm_basis}.
+In the final simulation test, the first test was repeated with broader metabolite signals to evaluate the efficacy of the automated baseline determination for poorly shimmed data. Errors are larger compared to the first test, due to the reduction in SNR and spectral resolution, however a reasonable estimate of the optimal baseline flexibility of approximately 4 ED per ppm is found (Figure \ref{broad_bl_bad_shim}A).
 
 \subsection{Experimental}
 
