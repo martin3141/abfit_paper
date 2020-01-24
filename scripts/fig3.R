@@ -148,7 +148,7 @@ p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) +
              geom_errorbar(aes(ymin = error_vec - sd_error_vec,
                            ymax = error_vec + sd_error_vec), width = .02) +
              scale_x_continuous(trans='log10', breaks = breaks) +
-             xlab("Baseline ED per PPM") +  ylab("Metabolite estimate error")
+             xlab("Baseline ED per ppm") +  ylab("Metabolite estimate error")
 
 aic_df <- rbind(data.frame(ed_pppm_vec, Value = aic_vec, group = "AIC"),
                 data.frame(ed_pppm_vec, Value = aic_mod_vec,
@@ -158,7 +158,7 @@ p2 <- ggplot(data = aic_df, aes(x = ed_pppm_vec, y = Value, col = group)) +
       geom_line() + geom_point() + 
       scale_x_continuous(trans='log10', breaks = breaks) + 
       theme(legend.title = element_blank(), legend.position = c(0.2, 0.9)) + 
-      xlab("Baseline ED per PPM") 
+      xlab("Baseline ED per ppm") 
 
 p3 <- function() {
   par(cex = 0.75)
