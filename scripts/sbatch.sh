@@ -18,8 +18,4 @@ module load bear-apps/2019a
 module load spant/0.19.0-foss-2019a-R-3.6.0
 module load gridGraphics/0.4-1-foss-2019a-R-3.6.0
 
-Rscript fig4.R
-Rscript fig5.R
-Rscript fig6.R
-Rscript fig7.R
-Rscript fig8.R
+Rscript run_all.R
