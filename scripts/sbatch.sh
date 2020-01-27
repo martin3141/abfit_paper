@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# batch script to run on bluebear cluster
+
 #SBATCH --mail-type BEGIN,END
 #SBATCH --ntasks 32
 #SBATCH --nodes 1
@@ -14,7 +16,6 @@
 module purge
 module load bluebear
 module load bear-apps/2019a
-# module load spant/0.18.0-foss-2019a-R-3.6.0
 module load spant/0.19.0-foss-2019a-R-3.6.0
 module load gridGraphics/0.4-1-foss-2019a-R-3.6.0
 
