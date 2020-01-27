@@ -159,7 +159,8 @@ closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$bl_ed_pppm) ^ 2)
 
 p3 <- function() {
   par(cex = 0.75)
-  plot(res_list[[16]], restore_def_par = FALSE, dyn = closest_dyn)
+  #plot(res_list[[16]], restore_def_par = FALSE, dyn = closest_dyn)
+  plot(res_list[[10]], restore_def_par = FALSE)
 }
 
 p4 <- function() {
