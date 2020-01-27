@@ -98,7 +98,8 @@ p2 <- ggplot(data = df_diag, aes(x = x, y = y)) + geom_line() +
 
 full_plot <- plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12,
                        rel_widths = c(3,2))
-print(full_plot)
+
+# print(full_plot)
 
 cairo_pdf("../figures/fig2.pdf", width = 6.92, height = 5.5)
 print(full_plot)

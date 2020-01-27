@@ -185,7 +185,7 @@ full_plot <- plot_grid(p1, p2, p3, p4, p5, p6,
                        label_size = 12, rel_widths = c(1,1,1),
                        nrow = 2)
 
-print(full_plot)
+# print(full_plot)
 
 cairo_pdf("../figures/fig3.pdf", width = 6.92, height = 5.5)
 print(full_plot)

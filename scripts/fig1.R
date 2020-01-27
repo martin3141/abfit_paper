@@ -60,7 +60,7 @@ p2 <- function() {
 full_plot <- plot_grid(p1, p2, labels = c('A', 'B'), label_size = 12,
                        rel_widths = c(0.92, 1))
 
-print(full_plot)
+# print(full_plot)
 
 cairo_pdf("../figures/fig1.pdf", width = 6.92, height = 3.4, pointsize = 10)
 print(full_plot)
