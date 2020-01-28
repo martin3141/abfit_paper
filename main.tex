@@ -21,6 +21,9 @@
 % added for highlighting
 \usepackage{soul}
 
+% added for nice links
+\usepackage{hyperref}
+
 % added for margin notes
 \usepackage{marginnote}
 
@@ -30,16 +33,12 @@
 \usepackage{siunitx}
 
 % Graphics. Always show the figures but float to the end
-% code listing
 \usepackage[final]{subfig, listings}
 \usepackage[nofiglist]{endfloat}
 
 \graphicspath{{./figures/}}
 
-% Update article type if known
 \papertype{Full paper}
-% Include section in journal if known, otherwise delete
-% \paperfield{Journal Section}
 
 \title{Adaptive Baseline Fitting for $^{\textbf{1}}$H MR Spectroscopy Analysis}
 
@@ -107,7 +106,7 @@ Automated methods to determine the correct degree of baseline flexibility are im
 
 Finding the optimal degree of baseline flexibility is a crucial question in MRS analysis research, yet few studies have investigated this topic in detail. Using simulated data, Ratiney et al.\ demonstrated how the interference between metabolite and baseline signals was reduced by increasing the number of omitted data points, but this came at the cost of inflating errors due to noise~\cite{Ratiney2004}. More recently, Near et al.\ showed how the estimated baseline in LCModel can depend strongly on spectral SNR and metabolite FWHM, and that errors caused by baseline instability may dominate over errors from spectral noise in some cases~\cite{Near2013}. The influence of baseline flexibility has also been explored using experimentally acquired data, with a recent study demonstrating a 15\% difference in metabolite levels when comparing between a default and less flexible baseline model~\cite{Giapitzakis2019}. Baseline flexibility has also been shown to have a strong influence of the measurement of 2-hydroxyglutarate~\cite{Wenger2019}.
 
-In this study we introduce a new method to automatically determine the optimal degree of baseline flexibility for a frequency-domain spline based fitting algorithm. Firstly, background is given on the use of penalized splines for optimal data smoothing. A fully-automated fitting algorithm is presented, incorporating a novel method to automatically estimate the optimal level of baseline flexibility. Finally, the new method is validated with simulated and experimentally acquired MRSI data.
+In this study, we introduce a new method to automatically determine the optimal degree of baseline flexibility for a frequency-domain spline based fitting algorithm. Firstly, background is given on the use of penalized splines for optimal data smoothing. A fully-automated fitting algorithm is presented, incorporating a novel method to automatically estimate the optimal level of baseline flexibility. Finally, the new method is validated with simulated and experimentally acquired MRSI data.
 
 \section{Theory}
 \subsection{Penalized spline smoothing}
@@ -345,8 +344,10 @@ In the first simulation study a broad simulated peak with a Gaussian lineshape (
 \subsection{Validation with experimentally acquired data}
 Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
-% TODO
-% all analysis done in R - with abfit integrated into the spant package under an open source license.
+TODO
+
+\subsection{Software implementation}
+The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely available under the GPL software license as part of the SPectroscopy Analysis Toolkit (spant) package (v1.0.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.2) running under Ubuntu 18.04.3. All code and data required to reproduce the presented results are available from: \url{https://github.com/martin3141/abfit_paper}.
 
 \section{Results}
 \subsection{Simulation}
@@ -403,17 +404,26 @@ In the final simulation test, the first test was repeated with broader metabolit
 \end{figure}
 
 \section{Discussion and Conclusions}
-% highlight findings 100 words
+A new algorithm to automatically determine the correct level of baseline flexibility has been developed and validated using simulated and acquired MRS data. Other approaches...
+
+% highlight findings and compare with LCM and other published methods
 
 % compare with other approaches 200 words
 
+% describe that this method will likely have the same problem as LCModel outlined by Jamie N, potential solutions include exp acq bls and fixed bl flex following visual confirmation of good data quality
+
+% comment on the appropriateness of visual assessment comparing fig X,Y - visual assessment not good for detecting bias from inaccurate MM bl
+
 % open science goodness 150 words
+
 
 MRM open science paper: https://onlinelibrary.wiley.com/doi/full/10.1002/mrm.27939
 
 % all data and code required to generate the paper figures is available from github repos
 
-% limitations 200 words
+% limitations 200 words (3T only, 1H only) - comment on 31P Jan paper ref
+
+% frequency dependent phase correction is an option
 
 % state some limitations like a good scientist - eg only deals with broad baseline features
 
