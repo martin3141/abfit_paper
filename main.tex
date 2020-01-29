@@ -342,9 +342,11 @@ A series of simulations were performed to evaluate the performance of ABfit acro
 In the first simulation study a broad simulated peak with a Gaussian lineshape (FWHM 100 Hz) at 1.3 ppm was combined with metabolites and the macromolecular signal with a spectral SNR of 54. The second simulation study was identical to the first, however the broad simulated peak was removed to yield a perfectly flat baseline. The third simulation study was identical to the first, however the amplitude of the simulated broad resonance was increased by a factor of 2. The simulated data for fourth simulation study was identical to the second, with a perfectly flat baseline and an experimentally derived macromolecular signal. However, the experimentally derived macromolecular signal was removed from the fitting basis set and replaced with the set of simulated lipid and macromolecular signals commonly used by default in the LCModel and TARQUIN algorithms, as listed in Supporting Information Table S2. The final simulation study was identical to the first, however 12 Hz linebroading was applied to the molecular basis rather than 6 Hz --- resulting in a spectral SNR of 34.
 
 \subsection{Validation with experimentally acquired data}
-Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
+%Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
-TODO
+MR data was acquired from a healthy volunteer with a 3 T Siemens Magnetom Prisma (Siemens Healthcare, Erlangen, Germany) system using a 32‐channel receiver head coil‐array. T1-weighted MRI was acquired with a 3D-MPRAGE sequence: FOV = 208 x 256 x 256 mm, resolution = 1 x 1 x 1 mm, TE/TR = 2 ms/2000 ms, inversion time = 880 ms, flip angle = \ang{8} and GRAPPA acceleration factor = 2. MRSI data was acquired using 2D MRSI: FOV = 160 x 160 x 15 mm, nominal voxel resolution 10 x 10 x 15mm, TE/TR = 40 ms/2000 ms, complex data points = 1024, sampling frequency = 2000 Hz. The MRSI slice was aligned axially, parallel to the subcallosal line with an approximately 1 mm gap from the upper surface of the corpus callosum. The semi-LASER method \cite{Scheenen2008} was used localize a 100 x 100 x 15 mm ROI, central to the FOV, and 4 saturation regions were placed orthogonal to the slice, intersecting the four corners of the semi-LASER ROI to suppress scalp lipids.
+
+Following acquisition, the four corner voxels were excluded from the central grid of 8x8, and ABfit was performed on the remaining 60 voxels. The percentage of white matter, gray matter and CSF contribution to each voxel was calculated from segmentation of the T1 MRI using the FAST method \cite{Zhang2001} as implemented in the FSL software package (v6.0.1).
 
 \subsection{Software implementation}
 The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely available under the GPL software license as part of the SPectroscopy Analysis Toolkit (spant) package (v1.0.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.2) running under Ubuntu 18.04.3. All code and data required to reproduce the presented results are available from: \url{https://github.com/martin3141/abfit_paper}.
@@ -352,16 +354,6 @@ The ABfit analysis algorithm was implemented in the R \cite{R2019} programming l
 \section{Results}
 \subsection{Simulation}
 The first simulation test contained a baseline distortion to mimic a spurious signal from scalp lipids, and the results of ABfit analyses are shown in Figure \ref{broad_bl}. The metabolite estimation error plot as a function of baseline flexibility shows the same characteristics as the simpler analysis model used in Figure \ref{mrs_bl_simple}A, however the errors are elevated due to the increased number of parameters in the ABfit model --- necessary to handle variations common in acquired MRS data, such as phase and linewidth. The automated estimate for the baseline flexibility (dashed vertical line) represents a reasonable trade-off between bias introduced by insufficient flexibility (part B) and instability --- evidenced by increasing standard deviation error bars for greater baseline flexibility (part D). A fit corresponding to the automatically determined baseline flexibility is shown in part C, where the true shape of a broad Gaussian peak centered at 1.3 ppm is apparent from the baseline estimate.
-
-The baseline distortion was removed for the second simulation study to test the ABfit approach for ideal spectra where the molecular basis alone is sufficient for accurate analysis. The error plot is shown in Figure \ref{flat_bl}, illustrating the absence of bias due to baseline underfitting. A compromise between bias and variance is unnecessary in the ideal case, as the correctly determined baseline flexibility has the lowest error and variability.
-
-In the third simulation test the amplitude of the broad distortion at 1.3 ppm was doubled compared to the first. A reasonable estimate of the optimal baseline flexibility is found using the ABfit method (Figure \ref{big_broad_bl}A) with comparable levels of accuracy relative to the reduced amplitude baseline distortion (Figure \ref{broad_bl}A).
-
-In the fourth simulation test a set of independent broad lipid and macromolecular signals in the basis were used to model the experimentally derived macromolecular profile. Figure \ref{sim_lip_mm_basis}A shows the lowest mean errors are obtained at higher levels of baseline flexibility (part D) --- indicating a stronger bias at lower level of flexibility (parts B, C) compared to the previous simulations. This is likely explained by inadequate modeling of the broad macromolecular components around 3.8 ppm since these are not present in the commonly used individual macromolecular and lipid basis (Supporting Information Table S2).
-
-In the final simulation test, the first test was repeated with broader metabolite signals to evaluate the efficacy of the automated baseline determination for poorly shimmed data. Errors are larger compared to the first test, due to the reduction in SNR and spectral resolution, however a reasonable estimate of the optimal baseline flexibility of approximately 4 ED per ppm is found (Figure \ref{broad_bl_bad_shim}A).
-
-\subsection{Experimental}
 
 \begin{figure}
   \begin{center}
@@ -371,6 +363,8 @@ In the final simulation test, the first test was repeated with broader metabolit
   \end{center}
 \end{figure}
 
+The baseline distortion was removed for the second simulation study to test the ABfit approach for ideal spectra where the molecular basis alone is sufficient for accurate analysis. The error plot is shown in Figure \ref{flat_bl}, illustrating the absence of bias due to baseline underfitting. A compromise between bias and variance is unnecessary in the ideal case, as the correctly determined baseline flexibility has the lowest error and variability.
+
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig5.pdf}
@@ -378,6 +372,8 @@ In the final simulation test, the first test was repeated with broader metabolit
     \label{flat_bl}
   \end{center}
 \end{figure}
+
+In the third simulation test the amplitude of the broad distortion at 1.3 ppm was doubled compared to the first. A reasonable estimate of the optimal baseline flexibility is found using the ABfit method (Figure \ref{big_broad_bl}A) with comparable levels of accuracy relative to the reduced amplitude baseline distortion (Figure \ref{broad_bl}A).
 
 \begin{figure}
   \begin{center}
@@ -387,6 +383,8 @@ In the final simulation test, the first test was repeated with broader metabolit
   \end{center}
 \end{figure}
 
+In the fourth simulation test a set of independent broad lipid and macromolecular signals in the basis were used to model the experimentally derived macromolecular profile. Figure \ref{sim_lip_mm_basis}A shows the lowest mean errors are obtained at higher levels of baseline flexibility (part D) --- indicating a stronger bias at lower level of flexibility (parts B, C) compared to the previous simulations. This is likely explained by inadequate modeling of the broad macromolecular components around 3.8 ppm since these are not present in the commonly used individual macromolecular and lipid basis (Supporting Information Table S2).
+
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig7.pdf}
@@ -395,6 +393,8 @@ In the final simulation test, the first test was repeated with broader metabolit
   \end{center}
 \end{figure}
 
+In the final simulation test, the first test was repeated with broader metabolite signals to evaluate the efficacy of the automated baseline determination for poorly shimmed data. Errors are larger compared to the first test, due to the reduction in SNR and spectral resolution, however a reasonable estimate of the optimal baseline flexibility of approximately 4 ED per ppm is found (Figure \ref{broad_bl_bad_shim}A).
+
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig8.pdf}
@@ -402,6 +402,9 @@ In the final simulation test, the first test was repeated with broader metabolit
     \label{broad_bl_bad_shim}
   \end{center}
 \end{figure}
+
+\subsection{Experimental}
+TODO
 
 \section{Discussion and Conclusions}
 A new algorithm to automatically determine the correct level of baseline flexibility has been developed and validated using simulated and acquired MRS data. Other approaches...
