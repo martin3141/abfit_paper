@@ -409,8 +409,9 @@ TODO
 \section{Discussion and Conclusions}
 A new algorithm to automatically determine the optimal level of baseline flexibility has been developed and validated using simulated and acquired MRS data. LCModel is currently the most widely used approach for automatically estimating the optimal baseline flexibility, where the optimal penalty parameter ($\alpha_{B}$) is chosen by gradually increasing its value until the boundary of the 50\% confidence region for the fit is achieved --- estimated by comparing successive fits to the first in the series \cite{Provencher1982, Provencher1993}. In contrast to LCModel, the method presented here uses a modification to the AIC to determine the optimal penalty factor --- as part of a four-step fitting procedure. An additional difference is the use of P-splines in ABfit compared to smoothing spline approach \cite{OSullivan} used in LCModel.
 
-Sima and Van Huffel proposed the use of the classical generalized cross-validation (GCV) criterion, combined with a golden-section search, to determine the optimal penalty parameter value \cite{Sima2006}. High accuracy was demonstrated for simulated data, however the method was only tested with good starting values for the non-linear fitting parameters, which are not typically available for experimentally acquired MRS. In ABfit, these non-linear parameters are estimated using a simplified initial fit (step 2) and subsequently refined (step 4). More recently, Zhang and Shen
-showed that a measure of the baseline uncertainty is also a useful criterion to determine baseline smoothness for simulated and experimentally acquired data \cite{Zhang2014}.
+Sima and Van Huffel proposed the use of the classical generalized cross-validation (GCV) criterion, combined with a golden-section search, to determine the optimal penalty parameter value \cite{Sima2006}. High accuracy was demonstrated for simulated data, however the method was only tested with good starting values for the non-linear fitting parameters, which are not typically available for experimentally acquired MRS. In ABfit, these non-linear parameters are estimated using a simplified initial fit (step 2) and subsequently refined (step 4). More recently, Zhang and Shen showed that a measure of the baseline uncertainty is also a useful criterion to determine baseline smoothness for simulated and experimentally acquired data \cite{Zhang2014}.
+
+ABfit was shown to find a reasonable compromise between bias and variance for the majority of simulation tests. However, in the fourth simulation test, where the macromolecular basis signals were not identical to those in the simulated data, the optimal flexibility was less easily determined.
 
 % limitations:
 % describe that this method will likely have the same problem as LCModel outlined by Jamie N, potential solutions include exp acq bls and fixed bl flex following visual confirmation of good data quality
@@ -419,6 +420,10 @@ showed that a measure of the baseline uncertainty is also a useful criterion to 
 
 % comment on the appropriateness of visual assessment comparing fig X,Y - visual assessment not good for detecting bias from inaccurate MM bl
 % Comment on bias vs variance - bias may be ok when only changes in metabolite levels are needed && data quality (eg SNR, LW) is consistent.
+%
+% Automated and accurate baseline estimation is an important goal for MRS analysis, however the concept of an ``optimal'' baseline depends heavily on the underlying research or clinical question. For instance,
+
+% bais vs variance may depend on the question being asked - hence the use of the AIC - which can be intuitively modified. Alternatively the bl flex could be used as a QC metric and a fixed value used for all data that passes QA
 
 % open science goodness 150 words
 % MRM open science paper: \cite{Stikov2019}
