@@ -407,38 +407,22 @@ In the final simulation test, the first test was repeated with broader metabolit
 TODO
 
 \section{Discussion and Conclusions}
-A new algorithm to automatically determine the correct level of baseline flexibility has been developed and validated using simulated and acquired MRS data. Other approaches...
+A new algorithm to automatically determine the optimal level of baseline flexibility has been developed and validated using simulated and acquired MRS data. LCModel is currently the most widely used approach for automatically estimating the optimal baseline flexibility, where the optimal penalty parameter ($\alpha_{B}$) is chosen by gradually increasing its value until the boundary of the 50\% confidence region for the fit is achieved --- estimated by comparing successive fits to the first in the series \cite{Provencher1982, Provencher1993}. In contrast to LCModel, the method presented here uses a modification to the AIC to determine the optimal penalty factor --- as part of a four-step fitting procedure. An additional difference is the use of P-splines in ABfit compared to smoothing spline approach \cite{OSullivan} used in LCModel.
 
-% highlight findings and compare with LCM and other published methods
+Sima and Van Huffel proposed the use of the classical generalized cross-validation (GCV) criterion, combined with a golden-section search, to determine the optimal penalty parameter value \cite{Sima2006}. High accuracy was demonstrated for simulated data, however the method was only tested with good starting values for the non-linear fitting parameters, which are not typically available for experimentally acquired MRS. In ABfit, these non-linear parameters are estimated using a simplified initial fit (step 2) and subsequently refined (step 4). More recently, Zhang and Shen
+showed that a measure of the baseline uncertainty is also a useful criterion to determine baseline smoothness for simulated and experimentally acquired data \cite{Zhang2014}.
 
-% compare with other approaches 200 words
-
+% limitations:
 % describe that this method will likely have the same problem as LCModel outlined by Jamie N, potential solutions include exp acq bls and fixed bl flex following visual confirmation of good data quality
-
-% comment on the appropriateness of visual assessment comparing fig X,Y - visual assessment not good for detecting bias from inaccurate MM bl
-
-% open science goodness 150 words
-
-% Comment on bias vs variance - bias may be ok when only changes in metabolite levels are needed && data quality (eg SNR, LW) is consistent.
-
-
-MRM open science paper: \cite{Stikov2019}
-
-% all data and code required to generate the paper figures is available from github repos
-
 % limitations 200 words (3T only, 1H only) - comment on 31P Jan paper ref
-
 % frequency dependent phase correction is an option
 
-% state some limitations like a good scientist - eg only deals with broad baseline features
+% comment on the appropriateness of visual assessment comparing fig X,Y - visual assessment not good for detecting bias from inaccurate MM bl
+% Comment on bias vs variance - bias may be ok when only changes in metabolite levels are needed && data quality (eg SNR, LW) is consistent.
 
-% compare with LCModel P-spline approach which is more like O'Sullivan1986.
-
-\cite{OSullivan1986}
-
-% comment on following paper : Regularized semiparametric model identification with application to nuclear magnetic resonance signal quantification with unknown macromolecular base‐line.
-
-% Comment on Brian S's paper
+% open science goodness 150 words
+% MRM open science paper: \cite{Stikov2019}
+% all data and code required to generate the paper figures is available from github repos
 
 % conclude 150 words
 
