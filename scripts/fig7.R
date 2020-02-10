@@ -120,14 +120,16 @@ if (file.exists(fname)) {  # don't recalc unless we have to
                         bl_comps_pppm = 25, pre_fit_bl_ed_pppm = 10)
     
     res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
-                             basis = approx_basis, parallel = parallel_fits)
+                             basis = approx_basis, parallel = parallel_fits,
+                             time = FALSE)
   }
 
   opts  <- abfit_opts(max_bl_ed_pppm = 15, bl_comps_pppm = 25,
                       pre_fit_bl_ed_pppm = 10)
   
   res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
-                               basis = approx_basis, parallel = parallel_fits)
+                               basis = approx_basis, parallel = parallel_fits,
+                               time = FALSE)
   
   if (parallel_fits) stopCluster(cl)
   cat("Saving precomputed results :", fname, "\n")

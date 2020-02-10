@@ -96,7 +96,7 @@ if (file.exists(fname)) {  # don't recalc unless we have to
                         bl_comps_pppm = 40, pre_align = FALSE)
     
     res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
-                             basis = full_basis)
+                             basis = full_basis, time = FALSE)
   }
   cat("Saving precomputed results :", fname, "\n")
   saveRDS(res_list, fname)
