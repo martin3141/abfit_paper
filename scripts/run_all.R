@@ -5,6 +5,10 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
   setwd(this.dir)
 }
 
+# install any necessary packages
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(spant, ggplot2, cowplot, doParallel)
+
 system("Rscript fig1.R")
 system("Rscript fig2.R")
 system("Rscript fig3.R")

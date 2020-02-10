@@ -5,7 +5,7 @@ library(cowplot)
 
 # are we going to run the fitting in parallel, and if so how many jobs?
 parallel_fits <- TRUE
-jobs <- 32
+jobs <- 4
 
 theme_set(theme_cowplot(font_size = 10))
 
@@ -15,8 +15,6 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
   this.dir <- dirname(parent.frame(2)$ofile)
   setwd(this.dir)
 }
-
-source("~/abfit/abfit.R")
 
 ft <- def_acq_paras()$ft
 

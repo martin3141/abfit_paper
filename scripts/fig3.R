@@ -11,8 +11,6 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
   setwd(this.dir)
 }
 
-source("~/abfit/abfit.R")
-
 ft <- def_acq_paras()$ft
 
 ala    <- get_mol_paras("ala")

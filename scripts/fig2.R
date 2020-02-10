@@ -1,5 +1,4 @@
-source("~/abfit/abfit.R")
-
+library(spant)
 library(ggplot2)
 library(cowplot)
 
@@ -29,8 +28,6 @@ y      <- ytrue + rnorm(200, 0, 0.3)  # add noise
 comps        <- 50                    # number of spline functions in the basis
 spline_basis <- bbase(length(x), comps - 3)
 deriv_mat    <- diff(diag(comps), differences = 2)
-
-auto_smo_res <- auto_pspline_smoother(y, spline_basis, deriv_mat)
 
 y_true_lab <- "true : y = sin(x)"
 y1 <- calc_yhat(y, spline_basis, deriv_mat, 0.0)

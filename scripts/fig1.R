@@ -1,5 +1,5 @@
+library(spant)
 library(cowplot)
-source("~/abfit/abfit.R")
 
 # change the working directory to the source file location
 # when "Sourcing" from the RStudio GUI
