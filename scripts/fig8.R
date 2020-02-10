@@ -179,3 +179,8 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 cairo_pdf("../figures/fig8.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
+
+tiff("../figures/fig8.tiff", width = 300 * 6.92, height = 300 * 5.5,
+     pointsize = 10, res = 300)
+print(full_plot)
+dev.off()
