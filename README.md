@@ -6,7 +6,9 @@
 - R (all required packages will be automatically installed)
 - git (optional but recommended)
 
-### Install on Linux or OSX
+### Generate results on Linux or OSX
+
+Run the following on the command line:
 
 ```
 git clone https://github.com/martin3141/abfit_paper.git
@@ -14,9 +16,9 @@ cd abfit_paper/scripts
 Rscript run_all.R
 ```
 
-### Install on other (or without git)
+### Generate results without git
 
-Download the repository zip using the green "Clone or download" button above. Extract the archive and run run_all.R (located in the scripts directory) with the R interpreter.
+Download the repository zip using the green "Clone or download" button above. Extract the archive and run run_all.R (located in the "scripts" directory) with the R interpreter.
 
 ### Notes
 
