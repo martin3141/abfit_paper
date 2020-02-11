@@ -54,8 +54,6 @@
 
 \corremail{wilsonmp@bham.ac.uk}
 
-% \fundinginfo{Funder One, Funder One Department, Grant/Award Number: 123456, 123457 and 123458; Funder Two, Funder Two Department, Grant/Award Number: 123459}
-
 % Include the name of the author that should appear in the running header
 \runningauthor{Wilson}
 
@@ -78,13 +76,15 @@
 
 \maketitle
 
+\section{Abstract1}
 \begin{abstract}
-\textbf{Purpose:} \\
-\textbf{Methods:} \\
-\textbf{Results:} \\
-\textbf{Conclusion:} 
-\keywords{TODO}
+  \textbf{Purpose:} Accurate baseline modeling is essential for reliable MRS analysis and interpretation --- particularly at short echo-times, where enhanced metabolite information coincides with elevated baseline interference. The degree of baseline smoothness is a key analysis parameter for metabolite estimation, and in this study a new fully-automated method (ABfit) is presented to estimate its optimal value. \\
+  \textbf{Methods:} A spline basis is incorporated into a frequency-domain fitting model with a penalty parameter to enforce smoothness. A series of candidate analyses are performed over a range of smoothness penalties, as part of a four stage algorithm, and the Akaike information criterion is used to automatically estimate the appropriate penalty. ABfit is applied to a set of simulated spectra with differing baseline features and an experimentally acquired 2D MRSI dataset.
+  \textbf{Results:} \\
+  \textbf{Conclusion:}
+  \keywords{ABfit; MRSI; spectral analysis; automated; open-source; spline}
 \end{abstract}
+\section{Abstract2}
 
 Word count : TODO
 
@@ -347,6 +347,8 @@ In the first simulation study a broad simulated peak with a Gaussian lineshape (
 MR data was acquired from a healthy volunteer with a 3 T Siemens Magnetom Prisma (Siemens Healthcare, Erlangen, Germany) system using a 32‐channel receiver head coil‐array. T1-weighted MRI was acquired with a 3D-MPRAGE sequence: FOV = 208 x 256 x 256 mm, resolution = 1 x 1 x 1 mm, TE/TR = 2 ms/2000 ms, inversion time = 880 ms, flip angle = \ang{8} and GRAPPA acceleration factor = 2. MRSI data was acquired using 2D MRSI: FOV = 160 x 160 x 15 mm, nominal voxel resolution 10 x 10 x 15mm, TE/TR = 40 ms/2000 ms, complex data points = 1024, sampling frequency = 2000 Hz. The MRSI slice was aligned axially, parallel to the subcallosal line with an approximately 1 mm gap from the upper surface of the corpus callosum. The semi-LASER method \cite{Scheenen2008} was used localize a 100 x 100 x 15 mm ROI, central to the FOV, and 4 saturation regions were placed orthogonal to the slice, intersecting the four corners of the semi-LASER ROI to suppress scalp lipids.
 
 Following acquisition, the four corner voxels were excluded from the central grid of 8x8, and ABfit was performed on the remaining 60 voxels. The percentage of white matter, gray matter and CSF contribution to each voxel was calculated from segmentation of the T1 MRI using the FAST method \cite{Zhang2001} as implemented in the FSL software package (v6.0.1).
+
+The study was conducted with the approval of an Institutional Ethics Board.
 
 \subsection{Software implementation}
 The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely available under the GPL software license as part of the SPectroscopy Analysis Toolkit (spant) package (v1.0.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.2) running under Ubuntu 18.04.3. All code and data required to reproduce the presented results are available from: \url{https://github.com/martin3141/abfit_paper}.
