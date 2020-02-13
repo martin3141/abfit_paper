@@ -31,17 +31,24 @@ res_asym <- fit_mrs(asy_vox, opts = opts, basis = basis)
 opts <- abfit_opts(max_asym = 1e-4)
 res_sym <- fit_mrs(asy_vox, opts = opts, basis = basis)
 
-sym_plot_fn  <- function() plot(res_sym)
-asym_plot_fn <- function() plot(res_asym)
+sym_plot_fn  <- function() {
+  par(cex = 0.75)
+  plot(res_sym)
+}
+
+asym_plot_fn <- function() {
+  par(cex = 0.75)
+  plot(res_asym)
+}
 
 full_plot <- plot_grid(sym_plot_fn, asym_plot_fn, labels = c('A', 'B'),
                        label_size = 12, rel_widths = c(1,1), ncol = 2)
 
-cairo_pdf("../figures/fig10.pdf", width = 6.92, height = 4.0)
+cairo_pdf("../figures/fig10.pdf", width = 6.92, height = 3.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig10.tiff", width = 300 * 6.92, height = 300 * 4.0,
+tiff("../figures/fig10.tiff", width = 300 * 6.92, height = 300 * 3.5,
      pointsize = 10, res = 300)
 print(full_plot)
 dev.off()
