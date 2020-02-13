@@ -40,7 +40,7 @@ basis <- sim_basis_1h_brain(seq_slaser_ideal,
 # all default fitting options
 opts <- abfit_opts()
 
-force_refit <- TRUE
+force_refit <- FALSE
 fname <- "../data/fig9.rds"
 
 if (file.exists(fname) && !force_refit) {
@@ -55,15 +55,9 @@ if (file.exists(fname) && !force_refit) {
 summary(res)
 
 # extract some metabolite maps
-tcr_tnaa_metab_map  <- get_fit_map(res, "TCr")  / get_fit_map(res, "TNAA")
-tcho_tnaa_metab_map <- get_fit_map(res, "TCho") / get_fit_map(res, "TNAA")
-glx_tnaa_metab_map  <- get_fit_map(res, "Glx")  / get_fit_map(res, "TNAA")
-ins_tnaa_metab_map  <- get_fit_map(res, "Ins")  / get_fit_map(res, "TNAA")
-tcho_tcr_metab_map  <- get_fit_map(res, "TCho") / get_fit_map(res, "TCr")
-glu_tcr_metab_map   <- get_fit_map(res, "Glu")  / get_fit_map(res, "TCr")
-glx_tcr_metab_map   <- get_fit_map(res, "Glx")  / get_fit_map(res, "TCr")
 tnaa_tcr_metab_map  <- get_fit_map(res, "TNAA") / get_fit_map(res, "TCr")
-ins_tcr_metab_map   <- get_fit_map(res, "Ins")  / get_fit_map(res, "TCr")
+tcho_tcr_metab_map  <- get_fit_map(res, "TCho") / get_fit_map(res, "TCr")
+glx_tcr_metab_map   <- get_fit_map(res, "Glx")  / get_fit_map(res, "TCr")
 
 # read the segmented T1 MRI
 seg_data <- readNifti(mri_seg_f)
@@ -86,9 +80,7 @@ seg_res <- get_mrsi2d_seg(mrs_data_cropped, seg_data_crop, psf_ker)
 metab_gmf <- data.frame(gmf = seg_res$GMF,
                         tnaa_tcr  = as.vector(tnaa_tcr_metab_map),
                         tcho_tcr  = as.vector(tcho_tcr_metab_map),
-                        glx_tcr   = as.vector(glx_tcr_metab_map),
-                        glu_tcr   = as.vector(glu_tcr_metab_map),
-                        ins_tcr   = as.vector(ins_tcr_metab_map))
+                        glx_tcr   = as.vector(glx_tcr_metab_map))
 
 # remove any rows with missing values (eg masked voxels at the corners)
 metab_gmf <- na.omit(metab_gmf)
@@ -97,8 +89,6 @@ metab_gmf <- na.omit(metab_gmf)
 tnaa_tcr_res <- lm(tnaa_tcr ~ gmf, metab_gmf)
 tcho_tcr_res <- lm(tcho_tcr ~ gmf, metab_gmf)
 glx_tcr_res  <- lm(glx_tcr  ~ gmf, metab_gmf)
-glu_tcr_res  <- lm(glu_tcr  ~ gmf, metab_gmf)
-ins_tcr_res  <- lm(ins_tcr  ~ gmf, metab_gmf)
 
 # extract some R2 and p vals for the linear model
 tnaa_p_val <- summary(tnaa_tcr_res)$coefficients[2,4]
@@ -118,7 +108,7 @@ tnaa_lab <- c(paste("italic(R)^2 ==", round(tnaa_R2, 2)),
             
 tnaa_plt <- ggplot(metab_gmf, aes(x = gmf, y = tnaa_tcr)) + geom_point() +
             geom_smooth(method = "lm") +
-            annotate("text", x = 43, y = c(2.1, 2.0), label = tnaa_lab,
+            annotate("text", x = 43, y = c(1.98, 1.9), label = tnaa_lab,
                      parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
             ylab("tNAA / tCr")
 
@@ -127,7 +117,7 @@ tcho_lab <- c(paste("italic(R)^2 ==", round(tcho_R2, 2)),
             
 tcho_plt <- ggplot(metab_gmf, aes(x = gmf, y = tcho_tcr)) + geom_point() +
             geom_smooth(method = "lm") +
-            annotate("text", x = 43, y = c(0.45, 0.425), label = tcho_lab,
+            annotate("text", x = 43, y = c(0.37, 0.35), label = tcho_lab,
                      parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
             ylab("tCho / tCr")
 
@@ -136,7 +126,7 @@ glx_lab <- c(paste("italic(R)^2 ==", round(glx_R2, 2)),
             
 glx_plt <- ggplot(metab_gmf, aes(x = gmf, y = glx_tcr)) + geom_point() +
            geom_smooth(method = "lm") +
-           annotate("text", x = 43, y = c(1.4, 1.3), label = glx_lab,
+           annotate("text", x = 43, y = c(1.5, 1.4), label = glx_lab,
                     parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
            ylab("Glx / tCr")
 
