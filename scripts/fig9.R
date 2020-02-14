@@ -1,6 +1,7 @@
 library(spant)   # mrs processing
 library(ggplot2) # fancy plots
 library(cowplot) # fancier plots
+library(doParallel)
 
 # change the working directory to the source file location
 # when "Sourcing" from the RStudio GUI
@@ -9,7 +10,8 @@ if (Sys.getenv("RSTUDIO") == "1") {
   setwd(this.dir)
 }
 
-# fitting jobs to run in parallel
+# are we going to run the fitting in parallel, and if so how many jobs?
+parallel_fits <- TRUE
 jobs <- 4
 
 # mrs data file
@@ -40,14 +42,22 @@ basis <- sim_basis_1h_brain(seq_slaser_ideal,
 # all default fitting options
 opts <- abfit_opts()
 
-force_refit <- FALSE
 fname <- "../data/fig9.rds"
 
-if (file.exists(fname) && !force_refit) {
+if (file.exists(fname)) {  # don't recalc unless we have to
+  cat("Reading precomputed results :", fname, "\n")
   res <- readRDS(fname) 
 } else {
-  doParallel::registerDoParallel(cores = 4)
-  res <- fit_mrs(mrs_data_cropped, opts = opts, basis = basis, parallel = TRUE)
+  if (parallel_fits) {
+    cl <- makeCluster(jobs, type = "FORK")
+    registerDoParallel(cl)
+  }
+  
+  res <- fit_mrs(mrs_data_cropped, opts = opts, basis = basis,
+                 parallel = parallel_fits, time = FALSE)
+  
+  if (parallel_fits) stopCluster(cl)
+  cat("Saving precomputed results :", fname, "\n")
   saveRDS(res, fname)
 }
 
@@ -143,7 +153,6 @@ im_plot_fn <- function() {
          xyz = c(105, 112, 102), alpha = 0.6, zlim = c(300, 2000),
          zlim_ol = c(0.6, 1.8), bg = "white", mar = rep(0.5, 4), ch_lwd = 0.5)
 }
-
 
 full_plot <- plot_grid(im_plot_fn, tnaa_plt, tcho_plt, glx_plt,
                        labels = c('A', 'B', 'C', 'D'), label_size = 12,
