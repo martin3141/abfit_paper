@@ -41,7 +41,7 @@ asym_plot_fn <- function() {
   plot(res_asym)
 }
 
-full_plot <- plot_grid(sym_plot_fn, asym_plot_fn, labels = c('A', 'B'),
+full_plot <- plot_grid(asym_plot_fn, sym_plot_fn, labels = c('A', 'B'),
                        label_size = 12, rel_widths = c(1, 1), ncol = 2)
 
 cairo_pdf("../figures/fig10.pdf", width = 6.92, height = 3.5)
