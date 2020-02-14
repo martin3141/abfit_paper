@@ -10,10 +10,10 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
 }
 
 # mrs data file
-mrs_f    <- "../data/2D_MRSI.IMA"
+mrs_f    <- "../data/2D_MRSI.rds"
 
 # read the mrs data
-mrs_data <- read_mrs(mrs_f, format = "ima")
+mrs_data <- readRDS(mrs_f)
 
 # extract a voxel with asymmetric lineshape
 asy_vox <- get_voxel(mrs_data, 9, 12)
