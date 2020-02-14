@@ -1,4 +1,6 @@
 # Ignore rds files
 *.rds
 
+2D_MRSI.ima
+
 !2D_MRSI.rds
