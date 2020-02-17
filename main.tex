@@ -268,8 +268,6 @@ Unprocessed MRS data typically have an unknown and erroneous frequency offset $f
 
 where superscript TD and FD denote time and frequency-domain signal representations --- calculated with the discrete Fourier transform. We simulate a reference data set $\mathbf{r}^{\mathrm{TD}}$, with twice the number of data points $2N$ sampled at $\mathit{fs}$, containing three resonances corresponding to the main singlet metabolites typically present in $^1\mathrm{H}$ MRS data at 2.01, 3.03 and 3.22 ppm. The acquired data $\mathbf{y}^{\mathrm{TD}}$ is zero-filled to twice the original length --- before convolving with  $\mathbf{r}^{\mathrm{TD}}$ to estimate the frequency offset $f_{o}$.
 
-% TODO check above is correct - surely the FD versions (not TD) of y and r are convolved?
-
 \subsubsection{Approximate iterative fitting (step 2)}
 The goal of this stage of the algorithm is to find estimates of the three parameters with the largest influence on the fit residual: 1) the signal phase $\phi_{0}$; 2) an approximate lineshape parameter $d_{g}$ and 3) an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
 
@@ -342,9 +340,9 @@ In the first simulation study a broad simulated peak with a Gaussian lineshape (
 \subsection{Validation with experimentally acquired data}
 %Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to accurately reproduce the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to typical distortions such as residual water, shimming variations and minor shifts in metabolite frequency.
 
-MR data was acquired from a healthy volunteer with a 3 T Siemens Magnetom Prisma (Siemens Healthcare, Erlangen, Germany) system using a 32‐channel receiver head coil‐array. T1-weighted MRI was acquired with a 3D-MPRAGE sequence: FOV = 208 x 256 x 256 mm, resolution = 1 x 1 x 1 mm, TE/TR = 2 ms/2000 ms, inversion time = 880 ms, flip angle = \ang{8} and GRAPPA acceleration factor = 2. MRSI data was acquired using 2D MRSI: FOV = 160 x 160 x 15 mm, nominal voxel resolution 10 x 10 x 15mm, TE/TR = 40 ms/2000 ms, complex data points = 1024, sampling frequency = 2000 Hz. The MRSI slice was aligned axially in the subcallosal plane with an approximately 1 mm gap from the upper surface of the corpus callosum. The semi-LASER method \cite{Scheenen2008} was used localize a 100 x 100 x 15 mm ROI, central to the FOV, 4 saturation regions were placed around the ROI prescribing a 100 x 100 mm interior, and an addition 4 saturation regions were positioned to intersect the four corners of the semi-LASER ROI to provide additional scalp lipid suppression.
+MR data was acquired from a healthy adult male with a 3 T Siemens Magnetom Prisma (Siemens Healthcare, Erlangen, Germany) system using a 32‐channel receiver head coil‐array. T1-weighted MRI was acquired with a 3D-MPRAGE sequence: FOV = 208 x 256 x 256 mm, resolution = 1 x 1 x 1 mm, TE/TR = 2 ms/2000 ms, inversion time = 880 ms, flip angle = \ang{8} and GRAPPA acceleration factor = 2. MRSI data was acquired using 2D MRSI: FOV = 160 x 160 x 15 mm, nominal voxel resolution 10 x 10 x 15mm, TE/TR = 40 ms/2000 ms, complex data points = 1024, sampling frequency = 2000 Hz. The MRSI slice was aligned axially in the subcallosal plane with an approximately 1 mm gap from the upper surface of the corpus callosum. The semi-LASER method \cite{Scheenen2008} was used localize a 100 x 100 x 15 mm ROI, central to the FOV, 4 saturation regions were placed around the ROI prescribing a 100 x 100 mm interior, and an addition 4 saturation regions were positioned to intersect the four corners of the semi-LASER ROI to provide additional scalp lipid suppression.
 
-Following acquisition, the four corner voxels were excluded from the central 8 by 8 grid, and ABfit was performed on the remaining 60 voxels. The percentage of white matter, gray matter and CSF contribution to each voxel was calculated from segmentation of the T1 MRI using the FAST method \cite{Zhang2001} as implemented in the FSL software package (v6.0.1).
+Following acquisition, the four corner voxels were excluded from the central 8 by 8 grid, and ABfit was performed on the remaining 60 voxels. The percentage of white matter, gray matter and CSF contribution to each voxel was measured from segmentation of the T1 MRI using the FAST method \cite{Zhang2001} as implemented in the FSL software package (v6.0.1). The gray matter fraction was calculated as the percentage volume of gray matter divided by the sum of gray and white matter volumes, and compared with metabolite ratios.
 
 The study was conducted with the approval of an Institutional Ethics Board.
 
@@ -405,7 +403,9 @@ In the final simulation test, the first test was repeated with broader metabolit
 \end{figure}
 
 \subsection{Experimental}
-TODO
+The results of ABfit applied to experimentally acquired 2D MRSI data are shown in Figure \ref{mrsi_res}. A strong correlation between metabolite levels and the underlying tissue contribution is visually apparent from part A, with an increased tNAA / tCr ratio in white matter compared to gray matter (tNAA = NAA + NAAG, tCr = PCr + Cr). A linear regression of select metabolite ratios with the gray matter fraction is plotted in Figure \ref{mrsi_res} parts B, C and D, with strong correlations observed --- in good agreement with high field observations \cite{Nassirpour2018, Hangel2018}. The mean full-width at half maximum resolution across the voxels analyzed was 0.032 ppm, measured from the tNAA resonance. The mean SNR was 85, with the noise region defined as the real valued data points between -0.5 and -2.5 ppm.
+
+Figure \ref{lineshape_res}.
 
 \begin{figure}
   \begin{center}
@@ -418,13 +418,11 @@ TODO
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig10.pdf}
-    \caption{ABfit result plot for a voxel within a 2D MRSI semi-LASER acquisition with an asymmetric lineshape. A) default analysis with an asymmetric lineshape fit model, B) analysis where the lineshape asymmetry parameter ($a_{g}$) is restricted to $\pm 0.0001$.}
+    \caption{ABfit result plot for a voxel within a 2D MRSI semi-LASER acquisition with an asymmetric lineshape. A) default analysis with an asymmetric lineshape fit model, B) analysis with the lineshape asymmetry parameter ($a_{g}$) restricted to $\pm 0.0001$.}
     \label{lineshape_res}
   \end{center}
 \end{figure}
 
-\cite{Nassirpour2018}
-\cite{Hangel2018}
 
 \section{Discussion and Conclusions}
 A new algorithm to automatically determine the optimal level of baseline flexibility has been developed and validated using simulated and acquired MRS data. LCModel is currently the most widely used approach for automatically estimating the optimal baseline flexibility, where the optimal penalty parameter ($\alpha_{B}$) is chosen by gradually increasing its value until the boundary of the 50\% confidence region for the fit is achieved --- estimated by comparing successive fits to the first in the series \cite{Provencher1982, Provencher1993}. In contrast to LCModel, the method presented here uses a modification to the AIC to determine the optimal penalty factor --- as part of a four-step fitting procedure. An additional difference is the use of P-splines in ABfit compared to smoothing spline approach \cite{OSullivan} used in LCModel.
