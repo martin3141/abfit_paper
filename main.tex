@@ -405,7 +405,7 @@ In the final simulation test, the first test was repeated with broader metabolit
 \subsection{Experimental}
 The results of ABfit applied to experimentally acquired 2D MRSI data are shown in Figure \ref{mrsi_res}. A strong correlation between metabolite levels and the underlying tissue contribution is visually apparent from part A, with an increased tNAA / tCr ratio in white matter compared to gray matter (tNAA = NAA + NAAG, tCr = PCr + Cr). A linear regression of select metabolite ratios with the gray matter fraction is plotted in Figure \ref{mrsi_res} parts B, C and D, with strong correlations observed --- in good agreement with high field observations \cite{Nassirpour2018, Hangel2018}. The mean full-width at half maximum resolution across the voxels analyzed was 0.032 ppm, measured from the tNAA resonance. The mean SNR was 85, with the noise region defined as the real valued data points between -0.5 and -2.5 ppm.
 
-Figure \ref{lineshape_res}.
+Two example fits from one of the voxels in the MRSI data set are shown Figure \ref{lineshape_res}. In part A, the ABfit method is applied as described previously, and in part B the lineshape asymmetry parameter ($a_{g}$) is heavily constrained to enforce a symmetric lineshape model. A smaller fit residual in the tNAA spectral region is found for the asymmetric lineshape model, justifying the minor increase in modeling complexity associated with an additional fit parameter.
 
 \begin{figure}
   \begin{center}
@@ -429,25 +429,18 @@ A new algorithm to automatically determine the optimal level of baseline flexibi
 
 Sima and Van Huffel proposed the use of the classical generalized cross-validation (GCV) criterion, combined with a golden-section search, to determine the optimal penalty parameter value \cite{Sima2006}. High accuracy was demonstrated for simulated data, however the method was only tested with good starting values for the non-linear fitting parameters, which are not typically available for experimentally acquired MRS. In ABfit, these non-linear parameters are estimated using a simplified initial fit (step 2) and subsequently refined (step 4). More recently, Zhang and Shen showed that a measure of the baseline uncertainty is also a useful criterion to determine baseline smoothness for simulated and experimentally acquired data \cite{Zhang2014}.
 
-ABfit was shown to find a reasonable compromise between bias and variance for the majority of simulation tests. However, in the fourth simulation test, where the macromolecular basis signals were not identical to those in the simulated data, the optimal flexibility was less easily determined.
+ABfit was shown to find a reasonable compromise between bias and variance for the majority of simulation tests. However, in the fourth simulation test, where the macromolecular basis signals were not identical to those in the simulated data, the optimal flexibility was less easily determined. This is likely due to the bias associated with overly rigid baseline being approximately matched with greater fitting instability from an overly flexible baseline. Reduced SNR would likely enhance the fitting instability and therefore a more rigid baseline would be automatically chosen in this case --- resulting in greater bias. This represents a significant challenge for automated baseline selection, as data with poor SNR will have more biased metabolite levels compared to data with high SNR --- a problem previously identified by Near et al \cite{Near2013} using the LCModel package.
 
-% limitations:
-% describe that this method will likely have the same problem as LCModel outlined by Jamie N, potential solutions include exp acq bls and fixed bl flex following visual confirmation of good data quality
-% limitations 200 words (3T only, 1H only) - comment on 31P Jan paper ref
-% frequency dependent phase correction is an option
+Potential solutions to reduce metabolite estimation bias associated with variable data quality include the use of more accurate macromolecular modeling \cite{Birch2017} and opting to use a fixed level of baseline flexibility. Whist the default approach for ABfit is to automatically select the level of baseline flexibility, fitting options are implemented to specify a fixed degree. Each of these approaches has advantages and weaknesses and should be justified depending on the study aims. For example, in functional-MRS a small change in metabolite levels is generally sought, and therefore a less flexible baseline may be preferred --- since any metabolite estimation bias is eliminated when the change is normalized to a well determined signal.
 
-% comment on the appropriateness of visual assessment comparing fig X,Y - visual assessment not good for detecting bias from inaccurate MM bl
-% Comment on bias vs variance - bias may be ok when only changes in metabolite levels are needed && data quality (eg SNR, LW) is consistent.
-%
-% Automated and accurate baseline estimation is an important goal for MRS analysis, however the concept of an ``optimal'' baseline depends heavily on the underlying research or clinical question. For instance,
-
-% bais vs variance may depend on the question being asked - hence the use of the AIC - which can be intuitively modified. Alternatively the bl flex could be used as a QC metric and a fixed value used for all data that passes QA
 
 % open science goodness 150 words
 % MRM open science paper: \cite{Stikov2019}
 % all data and code required to generate the paper figures is available from github repos
 
 % conclude 150 words
+
+In conclusion, new MRS analysis method with adaptive baseline modeling is presented and validated on simulated and experimentally acquired data. The approach is fully-automated and integrated into a free and open-source software package --- providing a transparent and reproducible platform for future MRS studies \cite{Stikov2019}.
 
 %\section*{ACKNOWLEDGEMENTS}
 
