@@ -1,5 +1,0 @@
-Note the the eps files have been generated with imagemagick from the tiff versions because Wiley uses antiquated publishing technology. Eg:
-
-convert figX.tiff eps3:figX.eps
-
-TODO automate this step in the Makefile
