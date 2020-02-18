@@ -110,7 +110,7 @@ Baseline signals have a characteristically smooth spectral appearance, and must 
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=1\textwidth]{fig1.eps}
+    \includegraphics[width=1\textwidth]{fig1}
     \caption{A) Cubic B-spline basis of 15 components with each component offset vertically to reduce overlap. B) P-spline regression of a noisy signal with an underlying smooth trend.}
     \label{bspline_regression}
   \end{center}
@@ -179,7 +179,7 @@ where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.9\textwidth]{fig2.eps}
+    \includegraphics[width=0.9\textwidth]{fig2}
     \caption{A) Penalized spline smoother applied to a simulated sine function over a range of smoothness penalties $\lambda$. B) Plots of the fit residual, smoother effective dimension (ED), fit error and Akaike information criterion (AIC) as a function of $\lambda$.}
     \label{pspline_error}
   \end{center}
@@ -235,7 +235,7 @@ Setting $m$ to a value of 5 was found to be a good compromise between bias and v
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.9\textwidth]{fig3.eps}
+    \includegraphics[width=0.9\textwidth]{fig3}
     \caption{P-spline MRS baseline estimation of simulated data with a broad artefact at 1.3 ppm. A) metabolite estimate error as a function of baseline flexibility. Error bars represent standard deviations, increased by a factor of 5 to aid visualization. B) AIC and modified-AIC as a function of baseline flexibility. C) - F) Fit results with the baseline shown (black) underlying the simulated data (black) and fit (red). The fit residual is shown above the data and fit results are presented for the following values of baseline ED per ppm: C) 1, D) 4.2, E) 6.0, F) 25.}
     \label{mrs_bl_simple}
   \end{center}
@@ -353,8 +353,8 @@ The first simulation test contained a baseline distortion to mimic a spurious si
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig4.eps}
-    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dotted vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.1 and D) 15.0 ED per ppm.}
+    \includegraphics[width=0.8\textwidth]{fig4}
+    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dashed vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.1 and D) 15.0 ED per ppm.}
     \label{broad_bl}
   \end{center}
 \end{figure}
@@ -363,8 +363,8 @@ The baseline distortion was removed for the second simulation study to test the 
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig5.eps}
-    \caption{ABfit analysis results for simulated data without baseline distortion. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dotted vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.5 and D) 15.0 ED per ppm.}
+    \includegraphics[width=0.8\textwidth]{fig5}
+    \caption{ABfit analysis results for simulated data without baseline distortion. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dashed vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.5 and D) 15.0 ED per ppm.}
     \label{flat_bl}
   \end{center}
 \end{figure}
@@ -373,8 +373,8 @@ In the third simulation test the amplitude of the broad distortion at 1.3 ppm wa
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig6.eps}
-    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm and twice the amplitude compared to Figure \ref{broad_bl}. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dotted vertical line. ABfit results with baseline flexibility of B) 0.5, C) 5.1 and D) 15.0 ED per ppm.}
+    \includegraphics[width=0.8\textwidth]{fig6}
+    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm and twice the amplitude compared to Figure \ref{broad_bl}. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dashed vertical line. ABfit results with baseline flexibility of B) 0.5, C) 5.1 and D) 15.0 ED per ppm.}
     \label{big_broad_bl}
   \end{center}
 \end{figure}
@@ -383,8 +383,8 @@ In the fourth simulation test a set of independent broad lipid and macromolecula
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig7.eps}
-    \caption{ABfit analysis results for simulated data without baseline distortion, but with the true macromolecular basis signal replaced with individually simulated lipid and macromolecular signals. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dotted vertical line. ABfit results with baseline flexibility of B) 0.5, C) 1.6 and D) 15.0 ED per ppm.}
+    \includegraphics[width=0.8\textwidth]{fig7}
+    \caption{ABfit analysis results for simulated data without baseline distortion, but with the true macromolecular basis signal replaced with individually simulated lipid and macromolecular signals. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dashed vertical line. ABfit results with baseline flexibility of B) 0.5, C) 1.6 and D) 15.0 ED per ppm.}
     \label{sim_lip_mm_basis}
   \end{center}
 \end{figure}
@@ -394,7 +394,7 @@ In the final simulation test, the first test was repeated with broader metabolit
 \begin{figure}
   \begin{center}
     \includegraphics[width=0.8\textwidth]{fig8.eps}
-    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm and metabolite FWHM of 0.1 ppm. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a dotted vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.1 and D) 15.0 ED per ppm.}
+    \caption{ABfit analysis results for simulated data with broad baseline distortion at 1.3 ppm and metabolite FWHM of 0.1 ppm. A) metabolite estimate error of ABfit, with the automatically determined level of baseline flexibility shown as a deashed vertical line. ABfit results with baseline flexibility of B) 0.5, C) 4.1 and D) 15.0 ED per ppm.}
     \label{broad_bl_bad_shim}
   \end{center}
 \end{figure}
@@ -406,7 +406,7 @@ Two example fits from one of the voxels in the MRSI data set are shown Figure \r
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig9.eps}
+    \includegraphics[width=0.8\textwidth]{fig9}
     \caption{ABfit results from a 2D MRSI semi-LASER acquisition. A) Orthogonal T1 MRI slices intersecting the analysis region --- shown as a colored tNAA / tCr metabolite map overlay. Linear regression of key metabolite ratios with the gray matter fraction are shown in parts B, C and D. The line of best fit is plotted in blue with the 95\% confidence region in gray.}
     \label{mrsi_res}
   \end{center}
@@ -414,7 +414,7 @@ Two example fits from one of the voxels in the MRSI data set are shown Figure \r
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{fig10.eps}
+    \includegraphics[width=0.8\textwidth]{fig10}
     \caption{ABfit result plot for a voxel within a 2D MRSI semi-LASER acquisition with an asymmetric lineshape. A) default analysis with an asymmetric lineshape fit model, B) analysis with the lineshape asymmetry parameter ($a_{g}$) restricted to $\pm 0.0001$.}
     \label{lineshape_res}
   \end{center}

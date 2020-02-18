@@ -1,6 +1,6 @@
 all: figures/fig1.eps figures/fig2.eps figures/fig3.eps figures/fig4.eps figures/fig5.eps figures/fig6.eps figures/fig7.eps figures/fig8.eps figures/fig9.eps figures/fig10.eps 
-	latexmk main.tex
-	latexmk supporting_info.tex
+	latexmk -pdf main.tex
+	latexmk -pdf supporting_info.tex
 
 figures/fig1.eps: figures/fig1.tiff
 	convert figures/fig1.tiff eps3:figures/fig1.eps
@@ -33,14 +33,14 @@ figures/fig10.eps: figures/fig10.tiff
 	convert figures/fig10.tiff eps3:figures/fig10.eps
 
 clean:
-	latexmk -C main.tex
+	latexmk -pdf -C main.tex
 	rm -f main.fff
 	rm -f main.bbl
 	rm -f main.synctex.gz
 	rm -rf main.prv
 	rm -rf auto
 
-	latexmk -C supporting_info.tex
+	latexmk -pdf -C supporting_info.tex
 	rm -f supporting_info.fff
 	rm -f supporting_info.bbl
 	rm -f supporting_info.synctex.gz
