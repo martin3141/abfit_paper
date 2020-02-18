@@ -7,7 +7,7 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
 
 # install any necessary packages
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load(spant, ggplot2, cowplot, doParallel)
+pacman::p_load(spant, ggplot2, cowplot, doParallel, gridGraphics)
 
 system("Rscript fig1.R")
 system("Rscript fig2.R")
