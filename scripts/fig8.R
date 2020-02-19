@@ -3,18 +3,20 @@ library(doParallel)
 library(ggplot2)
 library(cowplot)
 
-# are we going to run the fitting in parallel, and if so how many jobs?
-parallel_fits <- TRUE
-jobs <- 4
-
-theme_set(theme_cowplot(font_size = 10))
-
 # change the working directory to the source file location
 # when "Sourcing" from the RStudio GUI
 if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
   this.dir <- dirname(parent.frame(2)$ofile)
   setwd(this.dir)
 }
+
+# are we going to run the fitting in parallel?
+parallel_fits <- TRUE
+
+# use the same number of parallel jobs as we have available cores
+jobs <- detectCores()
+
+theme_set(theme_cowplot(font_size = 10))
 
 ft <- def_acq_paras()$ft
 
@@ -91,7 +93,9 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   res_list <- readRDS(fname) 
 } else {
   if (parallel_fits) {
-    cl <- makeCluster(jobs, type = "FORK")
+    # clusters are platform dependant
+    clust_type <- ifelse(.Platform$OS.type == "unix", "FORK", "PSOCK") 
+    cl <- makeCluster(jobs, type = clust_type)
     registerDoParallel(cl)
   }
   

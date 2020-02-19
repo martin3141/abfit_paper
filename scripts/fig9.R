@@ -10,9 +10,11 @@ if (Sys.getenv("RSTUDIO") == "1" & !is.null(parent.frame(2)$ofile)) {
   setwd(this.dir)
 }
 
-# are we going to run the fitting in parallel, and if so how many jobs?
+# are we going to run the fitting in parallel?
 parallel_fits <- TRUE
-jobs <- 4
+
+# use the same number of parallel jobs as we have available cores
+jobs <- detectCores()
 
 # mrs data file
 mrs_f     <- "../data/2D_MRSI.rds"
@@ -49,7 +51,9 @@ if (file.exists(fname)) {  # don't recalc unless we have to
   res <- readRDS(fname) 
 } else {
   if (parallel_fits) {
-    cl <- makeCluster(jobs, type = "FORK")
+    # clusters are platform dependant
+    clust_type <- ifelse(.Platform$OS.type == "unix", "FORK", "PSOCK") 
+    cl <- makeCluster(jobs, type = clust_type)
     registerDoParallel(cl)
   }
   
