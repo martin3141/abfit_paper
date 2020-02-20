@@ -185,11 +185,11 @@ full_plot <- plot_grid(p1, p2, p3, p4, p5, p6,
 
 # print(full_plot)
 
-cairo_pdf("../figures/fig3.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig3.pdf", width = 6.92, height = 5.0)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig3.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/fig3.tiff", width = 300 * 6.92, height = 300 * 5.0,
      pointsize = 10, res = 300)
 print(full_plot)
 dev.off()
