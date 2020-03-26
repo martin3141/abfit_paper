@@ -1,0 +1,92 @@
+Referee: 1
+
+R1.1 It was not clear early in the paper if the basis set for simulated MMol was a single function (with all peaks included) or a set of individual functions at typical locations.  This may be in the Supplemental data, but should be clarified in the paper.  One more sentence should do. This was further complicated by your description of Figure 7 data when you say that '... a set of independent ... mmol signals in the basis were used to model the ... mmol profile." Section 3.2 says it a bit more clearly, but, please just clarify if the set of lines were used to create and fit the MMol in the data, or just to fit the (previously created) MMol in the data.
+
+R1.2 It does not seem that you show the actual simulated data in any of your figures. You show the summed/simulated spectra with metab + mmol + baseline + noise, but never the actual noiseless functions for the metab, mmol and baseline signals. I'd like to see some of these at least once for Figure 4 and maybe Figure 7 and 8 if they differ from 4? And you never seem to compare the resultant fitted baseline to the actual baseline signal.  Which is easy to do since you have simulated all this.  I know that at the end of the day, you want to fit the metabolites, but when introducing a new fitting method, discerning readers want to know if/how the baseline interacts with the other parts of the model. This might most easily be added to each figure by doing a separate 'residual' plot for each noiseless metab, noiseless mmol, noiseless baseline as well as the noisy standard residual you now show? And then you should add a bit more discussion about where any variance seemed to occur in your example fitted data as you have more/less baseline signal, or more/less signal fitted to mmol or metabs.
+
+R1.3 I liked your basic progression of examples, but there's one you did not provide that I'm quite interested in. Your fourth simulation used a single experimental mmol signal (all mmol peaks in one FID?) in the data fitted by a group of individual lipid and mmol peaks in the basis, but there is no baseline in that data.  I'd like to see one more example just like this which also has some baseline signal added in.  I'd like to know if the mmol basis group tries to fit the baseline signal, vs the penalized splines fitting it.  Ideally, you would also show what happens when a simulated dataset that has an experimental mmol signal included, is attempted to be fitted with a mmol basis function (one FID for all mmol peaks) that is not quite exactly accurate for the mmol in the data. This is what can happen when we try to fit a cohort of data with a 'group mean' mmol basis function.  Some of the mmol mismatch then has to be taken up by either the metabolites OR the baseline models.  And that's really an important factor in considering how well an adaptive baseline algorithm works.
+
+R1.4 I'm not sure if your examples of SI data add enough to this paper to warrant their inclusion. Yes, you show that this method can fit SI data. But, again you are not showing much detail of what variety of data quality, linewidths, spurious baseline signals, etc. are being accommodated by the ABFit method versus any other method. You're just saying that there are reasonable and typical trends in GM/WM metabolite ratios and that maybe an asymmetric lineshape gives a numerical improvement in the fit. Honestly, I can not visualize a significant difference between Fig 10 a/b.  As such, the SI material might better be presented at more length in a separate paper.  However, if you choose to leave it in, I have some comments on what I'd like to see shown and discussed below.
+
+R1.5 page 3 line 25. 'must to be accurately' awkward
+
+R1.6 page 4 line 16. Give just a bit more detail why you use the second order derivative to penalize here please.
+
+R1.7 page 4 line 32. What do you mean by 'augmenting' here?  Please clarify.
+
+R1.8 page 5 line 12. Why does ED approach 2 with 2nd order derivative?  Would it approach 1 if using 1st derivative? Just for clarity please.
+
+R1.9 page 5 line 44. "The AIC is typically used to compare models ..." is a bit too brief. This is a key point of your new method, please expand on how you came to want to use it and why its a good thing.
+
+R1.10 page 6 line 30. When you say the 'compound NAA' did you mean the nominal NAA singlet peak?  It's likely a more accurate description of that peak, but it does engenders some confusion on reading it that way.
+
+R1.11 page 6 line 31. Can you please clarify just how you get ED/ppm please?  Did not see that in any of the equations.
+
+R1.12 page 6 line 38. Clarify if the metab estimation error was calculated from the noiseless simulated metab signal minus the fitted metab model signal, or something else.
+
+R1.13 page 6 line 41.  Please specify where the metabolite estimate errors come from, and what their units are (% or absolute)?
+
+R1.14 page 7 line 6. Setting m to 5 seems empirical for this data set. Please describe if this was how it was set, and whether this would have to be re-determined for other types of data.  Was it 5 for the SI data?
+
+R1.15 page 7 line 48. Ref for the correlation B0 correction method, please.  MRM 40, p. 822 (1996) unless you have anything earlier?
+
+R1.16 page 8 line 14. What is d sub g?  Is this a typo?
+
+R1.17 page 8 line 14. Can you give a bit more info *here* on why you chose to only have a Gaussian lineshape function.  If it's due to the asymmetry you add later, that's fine, but mention why it's Gaussian here. Also, was line broadening added to the Mmol basis function during optimization?
+
+R1.18 page 8 line 21. Eqn 13, in the M prime super TD term, the prime is really hard to see making the first glance at the Eqn sort of a stumble. Maybe change to bar or hat?
+
+R1.19 page 8 line 44. Was an ED of 1 chosen empirically?  Is it only applicable to this type of data?  Please clarify what you mean by 15 P-spline components per ppm.  Is this 15 of the peaks shown in Fig 1 or something else?
+
+R1.20 page 8 line 47. Change specified to constrained, if this is accomplished via constraints in the simplex algorithm for consistency.
+
+R1.21 page 9 line 31. 'eliminated that when the' awkward, please clarify.
+
+R1.22 page 10 line 10. Please indicate what figure shows the simulated data mentioned here 'first (Figure x)'  'second (Figure x)'
+
+R1.23 page 10 line 33. What was total acquisition time for SI data set?
+
+R1.24 page 10 line 35. Why were the corners removed?
+
+R1.25 page 10 line 45. Recommend re-licensure under BSD license.  It's more permissive for others to re-use in an open source community.
+
+R1.26 page 12 line 9. Add value of 0.032 ppm in Hz please.
+
+R1.27 page 12 line 11. A general comment on SI results, if they stay in the paper. I'd like to see what sort of range of spurious baseline signals were found in the slice and what ABFit did to fit them. Maybe from just one typical row or column. Also, it would be interesting to see a parametric map of ED for the slice. Assuming that ED was allowed to vary? Also please discuss any variations to the settings you made for SI vs simulated SVS data.
+
+R1.28 page 12 line 41. I find this sentence to be unclear. Did you mean a rigid baseline versus an overly flexible Mmol model?  If not, please clarify.  And expand on how these interact beyond the description of the metab estimation error. Does the signal get fitted incorrectly or not at all?
+
+R1.29 Figures 3-8. The y-axis for metabolite estimation error all seem to be different. Please note if scale is linear or log just for clarity in the caption. Also, are the error bars in all figures x5 for clarity, or just for Fig 3.
+
+R1.30 Figures 4-8. Please mention in caption what value the dotted line represents for clarity.
+
+Referee: 2
+
+R2.1 it is not very clear what is meant by baseline, as such in the introduction the reader can easily get confused and consider that baseline =MM. Maybe this is because on page 2 lines 18-19 the author mentions only the presence of metabolite signals in the basis set and then in the next sentence baseline is defined as broad signals not present in the basis set.
+Please define at the beginning of the introduction what baseline means (e.g. page 2, line 22). Most important that it does not contain MM but mainly “artifacts” present in the spectra
+
+R2.2 page 2 lines 18-16 – the basis set can contain simulated or in vitro acquired metabolite signals. Can you please correct this point?
+
+R2.3 page 2 – QUEST – this fitting algorithm does not contain a specific estimation of the baseline, as far as I know. For QUEST the background is equal with the MM+baseline. Please in the introduction make a clear distinction between fitting algorithms which do a separate baseline estimation and which do not
+
+R2.4 page 2, lines 35-36 – for LCModel the definition provided refers to the dkntmn parameter?
+
+R2.5 the information on B0 is missing in the abstract and in the title – can you please add it?
+
+R2.6 page 6 – some questions: why so high SNR? Is this relevant for in vivo data, I think that yes for human data, so please add this information? Why only one resonance at 1.3ppm  for baseline distortions? Usually if the shim in not perfect the WS will neither be and thus a broad baseline signal will appear between 4.7-3.5ppm aprox.
+
+R2.7 page 7 – ED definition – please mention that a low value = non-flexible baseline, while a high value= flexible baseline. This is “contrary” to LCModel for instance, where a high value for dkntmn = non-flexible baseline (of course the definition of each parameter is different, but the reader might get confused)
+
+R2.8 page 6, lines 36-37 – can you please provide more details on how there 32 spectra were generated? Are these spectra needed for the SD and are all similar just the noise is different but keeping the same value? If yes maybe replace “generated” with “used”?
+
+R2.9 page 7 end- why zero feeling is needed? Is the freq offset calculated using 3 reference metabolites? Why not only one?
+
+R2.10 page 10, line 19 – what “molecular basis ” means?
+
+R2.11 page 11 – results. Please provide in the text the best values found for the baseline for each simulation test and please also mention the level of flexibility needed/required
+
+R2.12 page 12- experimental – same as question 11
+
+R2.13 discussion – I miss a conclusion about what is best, flexible or non-flexible baseline or something in between. Recently for LCModel some researchers have suggested the usage of flat baseline (i.e. dkntmn=5) and I’m not sure that this is a good idea. Flat baseline should be imposed only when the acquired MRS data are perfect like in your simulation test no 4. But in real life these MRS data are not always available. Since in the present manuscript simulations were performed with known metabolite concentrations, a conclusion can be drawn since the true values are known.
+
+R2.14 metabolite estimation error, page 6 lines 37-38 – is done for all metabolites and MM together, i.e sum of true values vs sum of estimated values? I guess these errors are not in % so what is the max allowed value?  In some figures these errors are extremely high.
