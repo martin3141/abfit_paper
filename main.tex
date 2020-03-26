@@ -61,13 +61,13 @@
 \soulregister\ref7 % needed for soul to work with this macro
 \soulregister\cite7 % needed for soul to work with this macro
 
-% revision two highlighting
-%\newcommand{\revtwo}[2]{\hl{#1}\marginnote{\hl{#2}}}
-%\newcommand{\revtwonm}[1]{\hl{#1}} % no margin label
+% revision one highlighting
+\newcommand{\revone}[2]{\hl{#1}\marginnote{\hl{#2}}}
+\newcommand{\revonenm}[1]{\hl{#1}} % no margin label
 
 % uncomment next two lines to hide revision two highlighting
-%\newcommand{\revtwo}[2]{#1}
-%\newcommand{\revtwonm}[1]{#1}
+%\newcommand{\revone}[2]{#1}
+%\newcommand{\revonenm}[1]{#1}
 
 \begin{document}
 
@@ -106,7 +106,7 @@ In this study, we introduce a new method to automatically determine the optimal 
 \section{Theory}
 \subsection{Penalized spline smoothing}
 
-Baseline signals have a characteristically smooth spectral appearance, and must to be accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed~\cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
+Baseline signals have a characteristically smooth spectral appearance, and \revone{must be}{R1.5} accurately modeled to avoid biasing metabolite estimates. In good quality \proton\ MRS of brain tissue baseline signals have a low intensity, relative to the primary metabolite resonances, and are therefore challenging to estimate in the presence of noise. Estimating a smooth function from noisy data is known in statistics as ``scatterplot smoothing'', and a number of approaches have been developed~\cite{Ruppert2003}. In this section we briefly outline the method of penalized splines in the simpler context of scatterplot smoothing, before describing their use as part of an MRS fitting algorithm.
 
 \begin{figure}
   \begin{center}
