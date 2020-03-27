@@ -88,7 +88,7 @@ ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
 lip09  <- get_mol_paras("lip09",  ft)
 lip13a <- get_mol_paras("lip13a", ft)
 lip13b <- get_mol_paras("lip13b", ft)
-lip20  <- get_mol_paras("lip13b", ft)
+lip20  <- get_mol_paras("lip20",  ft)
 mm09   <- get_mol_paras("mm09",   ft)
 mm12   <- get_mol_paras("mm12",   ft)
 mm14   <- get_mol_paras("mm14",   ft)

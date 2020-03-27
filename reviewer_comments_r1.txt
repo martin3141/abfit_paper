@@ -190,3 +190,5 @@ Response : TODO
 Author revisions
 
 R0.1 p2 line 20 two adjacent sentences start with "One of the". First sentence now starts with "An important distinction...".
+
+R0.2 a mistake was found in the code to generate Figure 7 where two identical Lip13b signals were in the basis set used for fitting, and the Lip20 was not present. This has been corrected to have one Lip13b and one Lip20 signal (in addition to the others). This resulted in a very minor change in the y axis range of part A, but the overall shape of the curve remained the same.
