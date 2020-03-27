@@ -186,3 +186,7 @@ Response : TODO
 R2.14 metabolite estimation error, page 6 lines 37-38 – is done for all metabolites and MM together, i.e sum of true values vs sum of estimated values? I guess these errors are not in % so what is the max allowed value?  In some figures these errors are extremely high.
 
 Response : TODO
+
+Author revisions
+
+R0.1 p2 line 20 two adjacent sentences start with "One of the". First sentence now starts with "An important distinction...".

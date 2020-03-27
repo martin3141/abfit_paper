@@ -69,9 +69,9 @@ if (file.exists(fname)) {  # don't recalc unless we have to
 summary(res)
 
 # extract some metabolite maps
-tnaa_tcr_metab_map  <- get_fit_map(res, "TNAA") / get_fit_map(res, "TCr")
-tcho_tcr_metab_map  <- get_fit_map(res, "TCho") / get_fit_map(res, "TCr")
-glx_tcr_metab_map   <- get_fit_map(res, "Glx")  / get_fit_map(res, "TCr")
+tnaa_tcr_metab_map  <- get_fit_map(res, "tNAA") / get_fit_map(res, "tCr")
+tcho_tcr_metab_map  <- get_fit_map(res, "tCho") / get_fit_map(res, "tCr")
+glx_tcr_metab_map   <- get_fit_map(res, "Glx")  / get_fit_map(res, "tCr")
 
 # read the segmented T1 MRI
 seg_data <- readNifti(mri_seg_f)
