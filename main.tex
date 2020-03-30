@@ -283,7 +283,7 @@ The lineshape parameter applies Gaussian line-broadening to each signal in the b
   \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}},
 \end{equation}
 
-where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix. Combining the modified basis with the P-spline basis and solving for $\hat{\mathbf{a}}$ in the least-squares sense with the same constraints as the previous section:
+where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix. \revone{TODO}{R1.17}. Combining the modified basis with the P-spline basis and solving for $\hat{\mathbf{a}}$ in the least-squares sense with the same constraints as the previous section:
 
 \begin{equation}
   \begin{bmatrix}
@@ -306,7 +306,7 @@ Note that following parametric modification in the time-domain, the data and bas
   \label{obj_fn}
 \end{equation}
 
-A $\lambda$ value corresponding to 1 ED per ppm is used with a P-spline basis with 15 components per ppm. Constraints are placed on the optimization algorithm to restrict the linebroading parameter to be positive and produce additional line-broadening of less than 15 Hz FWHM. The frequency offset is specified to be less than 10 Hz different from the coarse frequency alignment (step 1).
+A $\lambda$ value corresponding to 1 ED per ppm is used with a P-spline basis with 15 components per ppm. Constraints are placed on the optimization algorithm to restrict the linebroading parameter to be positive and produce additional line-broadening of less than 15 Hz FWHM. The frequency offset is \revone{also constrained}{R1.20} to be less than 10 Hz different from the coarse frequency alignment (step 1).
 
 \subsubsection{Baseline smoothness estimation (step 3)}
 Following the determination of the frequency offset, spectral phase and approximate lineshape the next step of ABfit is to estimate the optimal value for $\lambda$. A set of candidate fits are performed with differing level of baseline smoothness, whilst maintaining the three main fitting parameters constant at their optimized values. The maximum candidate baseline flexibility is set to a $\lambda$ value corresponding to 7 ED per ppm, and the minimum value set to an ED of 2 --- equivalent to straight line fit. 20 candidate fits are performed with logarithmic intervals between the maximum and minimum values, and the mAIC is calculated for each fit (Equation \ref{maic}). The optimal $\lambda$ value is found by selecting the candidate fit with the lowest mAIC. In contrast to the previous step, a wider spectral range of 0.2 to 4 ppm is analyzed to include the majority of conventionally measured metabolites.
@@ -322,7 +322,7 @@ In the final stage of ABfit, the overall lineshape model is refined alongside $f
   \mathbf{s}(\mathbf{f}) = \frac{2 d_{g}}{1 + \exp(a_{g} \ \mathbf{f})}.
 \end{equation}
 
-Note, the frequency dependence on the linewidth function is eliminated that when the asymmetry parameter $a_{g}=0$, leading to $\mathbf{s}=d_{g}$ and pure Gaussian broadening. $\mathbf{l}^{\mathrm{FD}}$ is transformed to the time-domain and applied to each of the molecular basis signals. Minor individual changes in the frequency offset and linewidth are applied to each molecular signal in the basis to accommodate variations in the acquired data:
+Note, the frequency dependence on the linewidth function is \revone{eliminated when the}{R1.21} asymmetry parameter $a_{g}=0$, leading to $\mathbf{s}=d_{g}$ and pure Gaussian broadening. $\mathbf{l}^{\mathrm{FD}}$ is transformed to the time-domain and applied to each of the molecular basis signals. Minor individual changes in the frequency offset and linewidth are applied to each molecular signal in the basis to accommodate variations in the acquired data:
 
 \begin{equation}
   \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star \mathbf{l}^{\mathrm{TD}} \star e^{(2i \pi \mathbf{f_{i}} - \pi \mathbf{d_{i}} ) \mathbf{t}},

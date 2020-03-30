@@ -86,11 +86,11 @@ Response : TODO
 
 R1.20 page 8 line 47. Change specified to constrained, if this is accomplished via constraints in the simplex algorithm for consistency.
 
-Response : TODO
+Response : changed as suggested.
 
 R1.21 page 9 line 31. 'eliminated that when the' awkward, please clarify.
 
-Response : TODO
+Response : removed "that".
 
 R1.22 page 10 line 10. Please indicate what figure shows the simulated data mentioned here 'first (Figure x)'  'second (Figure x)'
 
