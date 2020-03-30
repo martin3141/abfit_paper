@@ -46,7 +46,7 @@ Response : TODO
 
 R1.10 page 6 line 30. When you say the 'compound NAA' did you mean the nominal NAA singlet peak?  It's likely a more accurate description of that peak, but it does engenders some confusion on reading it that way.
 
-Response : TODO
+Response : changed as suggested.
 
 R1.11 page 6 line 31. Can you please clarify just how you get ED/ppm please?  Did not see that in any of the equations.
 
@@ -66,11 +66,11 @@ Response : TODO
 
 R1.15 page 7 line 48. Ref for the correlation B0 correction method, please.  MRM 40, p. 822 (1996) unless you have anything earlier?
 
-Response : TODO
+Response : the earliest reference I could find was in the appendix of the 1996 LCModel paper.
 
 R1.16 page 8 line 14. What is d sub g?  Is this a typo?
 
-Response : TODO
+Response : yes, should be g sub d.
 
 R1.17 page 8 line 14. Can you give a bit more info *here* on why you chose to only have a Gaussian lineshape function.  If it's due to the asymmetry you add later, that's fine, but mention why it's Gaussian here. Also, was line broadening added to the Mmol basis function during optimization?
 
