@@ -269,7 +269,7 @@ where superscript TD and FD denote time and frequency-domain signal representati
 The goal of this stage of the algorithm is to find estimates of the three parameters with the largest influence on the fit residual: 1) the signal phase $\phi_{0}$; 2) an approximate lineshape parameter $d_{g}$ and 3) an improved estimate of $f_{o}$. The phase and frequency offset are applied to the acquired data as follows:
 
 \begin{equation}
-  \mathbf{y'}^{\mathrm{TD}} = \mathbf{y}^{\mathrm{TD}} e^{i \phi_{0} + 2 i \pi f_{o} \mathbf{t}}
+    \underline{\mathbf{y}}^{\mathrm{TD}} = \mathbf{y}^{\mathrm{TD}} e^{i \phi_{0} + 2 i \pi f_{o} \mathbf{t}}
 \end{equation}
 
 The lineshape parameter applies Gaussian line-broadening to each signal in the basis set $\mathbf{M}$, and the scaling factor $\beta$ is introduced to define $d_{g}$ as the Full Width at Half Maximum (FWHM) measured in Hz:
@@ -280,18 +280,19 @@ The lineshape parameter applies Gaussian line-broadening to each signal in the b
 \end{equation}
 
 \begin{equation}
-  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}},
+    \underline{\mathbf{M}}^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star e^{-\beta \mathbf{t}^{2}},
+  \revone{}{R1.18}
 \end{equation}
 
 where $\star$ denotes element-wise multiplication of the line-broadening function for each column of the basis matrix. \revone{TODO}{R1.17}. Combining the modified basis with the P-spline basis and solving for $\hat{\mathbf{a}}$ in the least-squares sense with the same constraints as the previous section:
 
 \begin{equation}
   \begin{bmatrix}
-    \textbf{y}'^{\mathrm{FD}}_{s} \\ 0
+      \underline{\textbf{y}}^{\mathrm{FD}}_{s} \\ 0
   \end{bmatrix}
   \approx
   \begin{bmatrix}
-    \textbf{B} && \textbf{M}'^{\mathrm{FD}}_{s} \\ \sqrt{\lambda} \ \textbf{D} && 0
+      \textbf{B} && \underline{\textbf{M}}^{\mathrm{FD}}_{s} \\ \sqrt{\lambda} \ \textbf{D} && 0
   \end{bmatrix} \hat{\mathbf{a}} =
   \begin{bmatrix}
     \hat{\textbf{y}} \\ 0
@@ -302,7 +303,7 @@ where $\star$ denotes element-wise multiplication of the line-broadening functio
 Note that following parametric modification in the time-domain, the data and basis of known signals are zero-filled to twice their original length before being transformed to the frequency-domain. Only the real valued data points in frequency domain between 1.8 and 4 ppm are fit in this stage of the algorithm (denoted by subscript $s$) to reduce the influence of any contaminating lipid signals around 1.3 ppm. The parameters: $\phi_{0}$, $d_{g}$ and $f_{o}$ are estimated using Nelder-Mead simplex algorithm with bound constraints \cite{Box1965}, minimizing:
 
 \begin{equation}
-  \| \textbf{y}'^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} \|^{2}.
+    \| \underline{\textbf{y}}^{\mathrm{FD}}_{s}  - \hat{\textbf{y}} \|^{2}.
   \label{obj_fn}
 \end{equation}
 
@@ -325,7 +326,7 @@ In the final stage of ABfit, the overall lineshape model is refined alongside $f
 Note, the frequency dependence on the linewidth function is \revone{eliminated when the}{R1.21} asymmetry parameter $a_{g}=0$, leading to $\mathbf{s}=d_{g}$ and pure Gaussian broadening. $\mathbf{l}^{\mathrm{FD}}$ is transformed to the time-domain and applied to each of the molecular basis signals. Minor individual changes in the frequency offset and linewidth are applied to each molecular signal in the basis to accommodate variations in the acquired data:
 
 \begin{equation}
-  \mathbf{M}'^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star \mathbf{l}^{\mathrm{TD}} \star e^{(2i \pi \mathbf{f_{i}} - \pi \mathbf{d_{i}} ) \mathbf{t}},
+    \underline{\mathbf{M}}^{\mathrm{TD}} = \mathbf{M}^{\mathrm{TD}} \star \mathbf{l}^{\mathrm{TD}} \star e^{(2i \pi \mathbf{f_{i}} - \pi \mathbf{d_{i}} ) \mathbf{t}},
 \end{equation}
 
 where $\mathbf{f_{i}}$ is a column vector of frequency adjustments measured in Hz, and $\mathbf{d_{i}}$ a column vector of additional Lorenzian line broadening terms measured at FWMH in Hz. Both parameter vectors $\mathbf{f_{i}}$ and $\mathbf{d_{i}}$ are the same length as the number of molecular basis signals. Each of the global ($f_{o}$, $\phi_{0}$, $d_{g}$, $a_{g}$) and molecular basis signal specific ($\mathbf{f_{i}}$, $\mathbf{d_{i}}$) parameters are estimated using the Levenberg–Marquardt algorithm \cite{Levenberg1944} implemented with bound constraints, with the same objective function defined in Equations \ref{linear_fit} and \ref{obj_fn}. The optimal baseline smoothness parameter $\lambda$, (determined in step 3) is used, and the spectral range of 0.2 to 4 ppm included in the iterative optimization procedure. The same parameter constraints were used as in step 2, with the additional lineshape asymmetry parameter $a_{g}$ being bound between $\pm$0.25, $\mathbf{f_{i}}$ bound between $\pm1$ Hz and  $2 \geq \mathbf{d_{i}} \geq 0$ Hz.

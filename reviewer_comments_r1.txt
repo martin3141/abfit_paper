@@ -78,7 +78,7 @@ Response : TODO
 
 R1.18 page 8 line 21. Eqn 13, in the M prime super TD term, the prime is really hard to see making the first glance at the Eqn sort of a stumble. Maybe change to bar or hat?
 
-Response : TODO
+Response : Agreed, underline was found to be the clearest option.
 
 R1.19 page 8 line 44. Was an ED of 1 chosen empirically?  Is it only applicable to this type of data?  Please clarify what you mean by 15 P-spline components per ppm.  Is this 15 of the peaks shown in Fig 1 or something else?
 
