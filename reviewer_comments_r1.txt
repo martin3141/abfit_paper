@@ -102,15 +102,15 @@ Response : TODO
 
 R1.24 page 10 line 35. Why were the corners removed?
 
-Response : TODO
+Response : these voxels were close to the diagonal saturation regions - resulting in reduced SNR and complicating the partial volume calculation.
 
 R1.25 page 10 line 45. Recommend re-licensure under BSD license.  It's more permissive for others to re-use in an open source community.
 
-Response : TODO
+Response : There are a number of pros and cons between using the BSD and GPL licenses. I try and take a pragmatic view that the GPL licensed Linux kernel and FFTW library have both been enormously successful in both the open source and commercial environments and therefore represents a very reasonable choice.
 
 R1.26 page 12 line 9. Add value of 0.032 ppm in Hz please.
 
-Response : TODO
+Response : changed as suggested.
 
 R1.27 page 12 line 11. A general comment on SI results, if they stay in the paper. I'd like to see what sort of range of spurious baseline signals were found in the slice and what ABFit did to fit them. Maybe from just one typical row or column. Also, it would be interesting to see a parametric map of ED for the slice. Assuming that ED was allowed to vary? Also please discuss any variations to the settings you made for SI vs simulated SVS data.
 
