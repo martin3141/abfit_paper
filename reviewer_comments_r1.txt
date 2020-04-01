@@ -28,15 +28,15 @@ Response : removed the word "to".
 
 R1.6 page 4 line 16. Give just a bit more detail why you use the second order derivative to penalize here please.
 
-Response : TODO
+Response : wording has been adjusted and a further justification given in the following paragraph.
 
 R1.7 page 4 line 32. What do you mean by 'augmenting' here?  Please clarify.
 
-Response : TODO
+Response : the row-wise concatenation has been make explicit.
 
 R1.8 page 5 line 12. Why does ED approach 2 with 2nd order derivative?  Would it approach 1 if using 1st derivative? Just for clarity please.
 
-Response : TODO
+Response : text added for clarity.
 
 R1.9 page 5 line 44. "The AIC is typically used to compare models ..." is a bit too brief. This is a key point of your new method, please expand on how you came to want to use it and why its a good thing.
 
@@ -135,7 +135,7 @@ Response : TODO
 
 R2.2 page 2 lines 18-16 – the basis set can contain simulated or in vitro acquired metabolite signals. Can you please correct this point?
 
-Response : TODO
+Response : added the phrase "or experimentally measured".
 
 R2.3 page 2 – QUEST – this fitting algorithm does not contain a specific estimation of the baseline, as far as I know. For QUEST the background is equal with the MM+baseline. Please in the introduction make a clear distinction between fitting algorithms which do a separate baseline estimation and which do not
 
@@ -147,7 +147,7 @@ Response : TODO
 
 R2.5 the information on B0 is missing in the abstract and in the title – can you please add it?
 
-Response : TODO
+Response : B0 has been added to the abstract, but I would prefer to keep the title B0 independent as the method and theory is applicable to any field strength.
 
 R2.6 page 6 – some questions: why so high SNR? Is this relevant for in vivo data, I think that yes for human data, so please add this information? Why only one resonance at 1.3ppm  for baseline distortions? Usually if the shim in not perfect the WS will neither be and thus a broad baseline signal will appear between 4.7-3.5ppm aprox.
 

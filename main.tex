@@ -75,7 +75,7 @@
 
 \begin{abstract}
   \textbf{Purpose:} Accurate baseline modeling is essential for reliable MRS analysis and interpretation --- particularly at short echo-times, where enhanced metabolite information coincides with elevated baseline interference. The degree of baseline smoothness is a key analysis parameter for metabolite estimation, and in this study a new method is presented to estimate its optimal value. \\
-  \textbf{Methods:} An adaptive baseline fitting algorithm (ABfit) is described, incorporating a spline basis into a frequency-domain analysis model, with a penalty parameter to enforce baseline smoothness. A series of candidate analyses are performed over a range of smoothness penalties, as part of a four stage algorithm, and the Akaike information criterion is used to estimate the appropriate penalty. ABfit is applied to a set of simulated spectra with differing baseline features and an experimentally acquired 2D MRSI dataset. \\
+    \textbf{Methods:} An adaptive baseline fitting algorithm (ABfit) is described, incorporating a spline basis into a frequency-domain analysis model, with a penalty parameter to enforce baseline smoothness. A series of candidate analyses are performed over a range of smoothness penalties, as part of a four stage algorithm, and the Akaike information criterion is used to estimate the appropriate penalty. ABfit is applied to a set of simulated spectra with differing baseline features and experimentally acquired 2D MRSI --- \revone{both at a field strength of 3 Tesla}{R2.5}. \\
   \textbf{Results:} Simulated analyses demonstrate metabolite errors result from two main sources: bias from an inflexible baseline (underfitting) and increased variance from an overly flexible baseline (overfitting). In the case of an ideal flat baseline ABfit is shown to correctly estimate a highly rigid baseline, and for more realistic spectra a reasonable compromise between bias and variance is found. Analysis of experimentally acquired data demonstrates good agreement with known correlations between metabolite ratios and the contributing volumes of gray and white matter tissue. \\
   \textbf{Conclusion:} ABfit has been shown to perform accurate baseline estimation and is suitable for fully-automated routine MRS analysis.
   \keywords{ABfit; MRSI; spectral analysis; automated; open-source; spline}
@@ -91,7 +91,7 @@ A number of key metabolites may be detected using \proton\ Magnetic Resonance Sp
 
 MRS scans are typically performed at short (30 ms) or long (144 ms) TE's, with short-TE scans being preferred due to reduced T2 relaxation and dephasing of multiplets resulting in improved metabolite detection sensitivity~\cite{Wilson2019}. However, short-TE scans are typically more susceptible to artefacts originating from insufficient water and scalp lipid suppression, in addition, broad signals from macromolecules also become enhanced~\cite{Cudalbu2012}. Residual water signals, lipid signals and macromolecules all have the potential to bias metabolite measurements due to spectral overlap and interference. Therefore, appropriate analysis methodology is particularly important to achieve the full benefit of MRS at short-TE.
 
-Parametric fitting is currently the most widely used analysis method, and typically incorporates a set of simulated metabolite signals --- known as a basis set. \revone{An important distinction}{R0.1} between analysis methods is their approach for mitigating metabolite estimation bias from broad signals not present in the basis set, usually referred to as ``baseline modeling''. One of the most popular baseline modeling methods incorporates a set of smooth spline functions into the fitting procedure, with additional smoothness imposed by penalizing greater baseline complexity. The LCModel~\cite{Provencher1993} and AQSES~\cite{Poullet2007} algorithms both use penalized spline baseline modeling, with analysis performed in the frequency-domain and time-domain respectively.
+Parametric fitting is currently the most widely used analysis method, and typically incorporates a set of simulated or \revone{experimentally measured}{R2.2} metabolite signals --- known as a basis set. \revone{An important distinction}{R0.1} between analysis methods is their approach for mitigating metabolite estimation bias from broad signals not present in the basis set, usually referred to as ``baseline modeling''. One of the most popular baseline modeling methods incorporates a set of smooth spline functions into the fitting procedure, with additional smoothness imposed by penalizing greater baseline complexity. The LCModel~\cite{Provencher1993} and AQSES~\cite{Poullet2007} algorithms both use penalized spline baseline modeling, with analysis performed in the frequency-domain and time-domain respectively.
 
 An alternative approach to baseline modeling exploits the rapid decay of baseline signals in the time-domain by omitting the preliminary data points during the fitting process, reducing their interference with the more slowly decaying metabolites. The QUEST~\cite{Ratiney2005} and TARQUIN~\cite{Wilson2011} methods both use this time-domain truncation approach. The FITT~\cite{Young1998} algorithm combines the wavelet transform with Lowess filtering in the frequency-domain to separate metabolite and baseline signals.
 
@@ -127,7 +127,7 @@ An alternative to adjusting the number of spline basis functions to achieve a de
   \label{qb}
 \end{equation}
 
-The $\lambda$ parameter controls the degree of smoothness by penalizing solutions for $\hat{\mathbf{a}}$ that interact with the difference matrix $\mathbf{D}$. The difference matrix may be constructed to penalize the first, second or higher orders of differences between $\hat{\mathbf{a}}$ values. Here, we exclusively use a second order difference matrix, which acts to minimize the second derivative of the smooth estimate.
+The $\lambda$ parameter controls the degree of smoothness by penalizing solutions for $\hat{\mathbf{a}}$ that interact with the difference matrix $\mathbf{D}$. The difference matrix may be constructed to penalize the first, second or higher orders of differences between $\hat{\mathbf{a}}$ values. Here, we exclusively use a second order difference matrix, \revone{which is particularly effective for modeling the smooth baseline features typically found in MRS data.}{R1.6}
 
 \begin{equation}
   \mathbf{D} =
@@ -141,7 +141,7 @@ The $\lambda$ parameter controls the degree of smoothness by penalizing solution
   \label{d_mat}
 \end{equation}
 
-An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\hat{\mathbf{a}}$ consequently increase the penalty term in Equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{\mathbf{y}}$, to the point where $\hat{\mathbf{y}}$ becomes a straight line fit for very large penalties when using a second order difference matrix. The solution to Equation~(\ref{qb}) may be found by augmenting $\mathbf{B}$ and $\mathbf{y}$:
+An example of the second order difference matrix is given in~(\ref{d_mat}), which shows how increased differences between adjacent weighting factors in $\hat{\mathbf{a}}$ consequently increase the penalty term in Equation~(\ref{qb}). The minimization function $Q_{B}$ represents a compromise between minimizing the fit residual and smoothness, where a value of zero for $\lambda$ results in simple spline regression. Larger values of $\lambda$ encourage a smoother $\hat{\mathbf{y}}$, to the point where $\hat{\mathbf{y}}$ becomes a straight line fit for very large penalties when using a second order difference matrix. \revone{Approximately linear baselines, encouraged by a second order difference matrix, act as a good model for the tails of the residual water resonance typically found in MRS data.}{R1.6} The solution to Equation~(\ref{qb}) may be found \revone{by row-wise concatenation (augmentation) of $\mathbf{B}$ and $\sqrt{\lambda} \ \mathbf{D}$, and appending zeros to $\mathbf{y}$ to match the number of combined rows}{R1.7}:
 
 \begin{equation}
   \begin{bmatrix}
@@ -175,7 +175,7 @@ The general approach for penalized spline regression is to over-specify the numb
   \textsf{ED} = \textsf{tr}(\mathbf{H}),
 \end{equation}
 
-where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix.
+where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda$, ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix \revone{since a straight line fit has two degrees of freedom: the gradient and the y-intercept. Similarly, a heavily penalized first order difference matrix approaches an ED of 1, resulting in a perfectly horizontal baseline with one degree of freedom corresponding to the y-intercept value.}{R1.8}
 
 \begin{figure}
   \begin{center}
@@ -446,7 +446,3 @@ Table S1 Metabolite concentrations consistent with levels measured in normal bra
 Table S2 Parameters used to generate the individual simulated lipid and macromolecule basis signals. Listed components with the same name were summed to form a composite signal. \\
 
 \end{document}
-
-%%% Local Variables:
-%%% ispell-local-dictionary: "american"
-%%% End:
