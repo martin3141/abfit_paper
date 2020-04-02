@@ -40,7 +40,7 @@ Response : text added for clarity.
 
 R1.9 page 5 line 44. "The AIC is typically used to compare models ..." is a bit too brief. This is a key point of your new method, please expand on how you came to want to use it and why its a good thing.
 
-Response : TODO
+Response : The text has been adjusted to express a preference for the AIC due to its simpler form which is more intuitively modified. This gives the user freedom to adjust the baseline flexibility "to-taste" - depending on if they would prefer to minimize bias or variance in the metabolite levels.
 
 R1.10 page 6 line 30. When you say the 'compound NAA' did you mean the nominal NAA singlet peak?  It's likely a more accurate description of that peak, but it does engenders some confusion on reading it that way.
 
@@ -48,19 +48,19 @@ Response : changed as suggested.
 
 R1.11 page 6 line 31. Can you please clarify just how you get ED/ppm please?  Did not see that in any of the equations.
 
-Response : TODO
+Response : an example has been added in the following sentence.
 
 R1.12 page 6 line 38. Clarify if the metab estimation error was calculated from the noiseless simulated metab signal minus the fitted metab model signal, or something else.
 
-Response : TODO
+Response : The estimation error has been explicitly stated as the sum of squared differences between the true and estimated metabolite amplitudes.
 
 R1.13 page 6 line 41.  Please specify where the metabolite estimate errors come from, and what their units are (% or absolute)?
 
-Response : TODO
+Response : Clarification has been added.
 
 R1.14 page 7 line 6. Setting m to 5 seems empirical for this data set. Please describe if this was how it was set, and whether this would have to be re-determined for other types of data.  Was it 5 for the SI data?
 
-Response : TODO
+Response : TODO (relates to the discussion)
 
 R1.15 page 7 line 48. Ref for the correlation B0 correction method, please.  MRM 40, p. 822 (1996) unless you have anything earlier?
 
@@ -80,7 +80,7 @@ Response : Agreed, underline was found to be the clearest option.
 
 R1.19 page 8 line 44. Was an ED of 1 chosen empirically?  Is it only applicable to this type of data?  Please clarify what you mean by 15 P-spline components per ppm.  Is this 15 of the peaks shown in Fig 1 or something else?
 
-Response : TODO
+Response : Yes empirically. Text has been added to clarify the number of components and conditions where the ED is expected to need adjustment.
 
 R1.20 page 8 line 47. Change specified to constrained, if this is accomplished via constraints in the simplex algorithm for consistency.
 
