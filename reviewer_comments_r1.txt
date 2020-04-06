@@ -92,7 +92,7 @@ Response : removed "that".
 
 R1.22 page 10 line 10. Please indicate what figure shows the simulated data mentioned here 'first (Figure x)'  'second (Figure x)'
 
-Response : TODO
+Response : changed as suggested.
 
 R1.23 page 10 line 33. What was total acquisition time for SI data set?
 
@@ -131,7 +131,7 @@ Referee: 2
 R2.1 it is not very clear what is meant by baseline, as such in the introduction the reader can easily get confused and consider that baseline =MM. Maybe this is because on page 2 lines 18-19 the author mentions only the presence of metabolite signals in the basis set and then in the next sentence baseline is defined as broad signals not present in the basis set.
 Please define at the beginning of the introduction what baseline means (e.g. page 2, line 22). Most important that it does not contain MM but mainly “artifacts” present in the spectra
 
-Response : TODO
+Response : A sentence has been added to improve the distinction between the true and modeled baseline. Macromolecular signals are now mentioned alongside metabolites in the previous sentence to improve the distinction between MM and baseline.
 
 R2.2 page 2 lines 18-16 – the basis set can contain simulated or in vitro acquired metabolite signals. Can you please correct this point?
 
@@ -143,7 +143,7 @@ Response : TODO
 
 R2.4 page 2, lines 35-36 – for LCModel the definition provided refers to the dkntmn parameter?
 
-Response : TODO
+Response : unfortunately this is difficult for me to say for sure - so I'd prefer not to speculate. The dkntmn parameter is not defined in the original LCModel paper or the most recent version of the manual, and my previous correspondence with the author of LCModel regarding technical details has not been enlightening.
 
 R2.5 the information on B0 is missing in the abstract and in the title – can you please add it?
 
@@ -151,11 +151,11 @@ Response : B0 has been added to the abstract, but I would prefer to keep the tit
 
 R2.6 page 6 – some questions: why so high SNR? Is this relevant for in vivo data, I think that yes for human data, so please add this information? Why only one resonance at 1.3ppm  for baseline distortions? Usually if the shim in not perfect the WS will neither be and thus a broad baseline signal will appear between 4.7-3.5ppm aprox.
 
-Response : TODO
+Response : the SNR level was chosen to by typical for human brain MRS at 3 T. Baseline distortions at 1.3 PPM were chosen because they are generally a bigger problem than baseline from residual water - which are more easily suppressed with HSVD or similar.
 
 R2.7 page 7 – ED definition – please mention that a low value = non-flexible baseline, while a high value= flexible baseline. This is “contrary” to LCModel for instance, where a high value for dkntmn = non-flexible baseline (of course the definition of each parameter is different, but the reader might get confused)
 
-Response : TODO
+Response : This point has been added.
 
 R2.8 page 6, lines 36-37 – can you please provide more details on how there 32 spectra were generated? Are these spectra needed for the SD and are all similar just the noise is different but keeping the same value? If yes maybe replace “generated” with “used”?
 
