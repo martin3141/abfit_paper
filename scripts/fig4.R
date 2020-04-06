@@ -71,10 +71,13 @@ amps <- c( 0.80,  # 1  Ala
 set.seed(1)
 
 # simulate mrs data
-lb_para   <- 6
-noise_N   <- 32
-metab_mm  <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
-broad_sig <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1)
+lb_para    <- 6
+noise_N    <- 32
+metab_mm   <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
+amps_no_mm <- c(amps[1:(length(amps) - 1)], 0)
+metab      <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps_no_mm)
+metab      <- lb(metab, lb_para)
+broad_sig  <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1)
 
 mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
 mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
@@ -173,16 +176,25 @@ p4 <- function() {
   plot(res_list[[15]], restore_def_par = FALSE)
 }
 
-full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
+p5 <- function() {
+  par(cex = 0.75)
+  stacked_data <- append_dyns(mrs_data_nn, metab, broad_sig,
+                              mrs_data_nn - metab - broad_sig)  
+  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 20)
+}
+
+full_plot <- plot_grid(p1, p2, p3, p4, p5, labels = c('A', 'B', 'C', 'D', 'E'),
                        label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
 
 # print(full_plot)
 
-cairo_pdf("../figures/fig4.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig4.pdf", width = 6.92, height = 7.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig4.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/fig4.tiff", width = 300 * 6.92, height = 300 * 7.5,
      pointsize = 10, res = 300)
 print(full_plot)
 dev.off()
