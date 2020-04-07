@@ -72,7 +72,7 @@ Response : yes, should be g sub d.
 
 R1.17 page 8 line 14. Can you give a bit more info *here* on why you chose to only have a Gaussian lineshape function.  If it's due to the asymmetry you add later, that's fine, but mention why it's Gaussian here. Also, was line broadening added to the Mmol basis function during optimization?
 
-Response : TODO
+Response : Gaussian broadening was chosen due to it being a single parameter and therefore more robust compared to complex models with additional parameters. Marshall (MRM 1997 37 651) showed you can get pretty good results by assuming an overall Gaussian lineshape, and that has been my experience also.
 
 R1.18 page 8 line 21. Eqn 13, in the M prime super TD term, the prime is really hard to see making the first glance at the Eqn sort of a stumble. Maybe change to bar or hat?
 
@@ -120,11 +120,11 @@ Response : TODO
 
 R1.29 Figures 3-8. The y-axis for metabolite estimation error all seem to be different. Please note if scale is linear or log just for clarity in the caption. Also, are the error bars in all figures x5 for clarity, or just for Fig 3.
 
-Response : TODO
+Response : y-axis scale is now mentioned in the caption when log. Error bars are only x5 for Fig 3.
 
 R1.30 Figures 4-8. Please mention in caption what value the dotted line represents for clarity.
 
-Response : TODO
+Response : Changed as suggested.
 
 Referee: 2
 
@@ -139,7 +139,7 @@ Response : added the phrase "or experimentally measured".
 
 R2.3 page 2 – QUEST – this fitting algorithm does not contain a specific estimation of the baseline, as far as I know. For QUEST the background is equal with the MM+baseline. Please in the introduction make a clear distinction between fitting algorithms which do a separate baseline estimation and which do not
 
-Response : TODO
+Response : Whilst the jMRUI implementation of QUEST does not include MM signals by default, I don't see why they couldn't be added to the basis. It's possible this could invalidate some of the assumptions used to separate the baseline from metabolites, but I wouldn't like to speculate on this point. Instead, I have mentioned which methods include these signals by default (LCModel and TARQUIN), informed by the work of Seeger et al MRM 2003.
 
 R2.4 page 2, lines 35-36 – for LCModel the definition provided refers to the dkntmn parameter?
 
@@ -163,7 +163,7 @@ Response : TODO
 
 R2.9 page 7 end- why zero feeling is needed? Is the freq offset calculated using 3 reference metabolites? Why not only one?
 
-Response : TODO
+Response : zero filling gives a slightly more accurate estimate due to increased spectral resolution. 3 reference signals are better for clinical MRS and don't cause a problem for normal appearing brain.
 
 R2.10 page 10, line 19 – what “molecular basis ” means?
 
