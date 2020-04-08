@@ -60,7 +60,7 @@ Response : Clarification has been added.
 
 R1.14 page 7 line 6. Setting m to 5 seems empirical for this data set. Please describe if this was how it was set, and whether this would have to be re-determined for other types of data.  Was it 5 for the SI data?
 
-Response : TODO (relates to the discussion)
+Response : 5 was chosen empirically and kept constant for all analyses presented. A comment has been added to the discussion on when this may need to be adjusted. 
 
 R1.15 page 7 line 48. Ref for the correlation B0 correction method, please.  MRM 40, p. 822 (1996) unless you have anything earlier?
 
@@ -167,11 +167,11 @@ Response : zero filling gives a slightly more accurate estimate due to increased
 
 R2.10 page 10, line 19 – what “molecular basis ” means?
 
-Response : TODO
+Response : Mentions of "molecular basis" have been removed as I agree this is confusing. The original idea was to distinguish between the spline basis and the basis of known signals eg metabolites, lipids and MMs, as mathematically they are both "basis sets". However, readers with an MRS background would assume basis-set only refers to the set of metabolite, lipid and MM signals (not spline functions).
 
 R2.11 page 11 – results. Please provide in the text the best values found for the baseline for each simulation test and please also mention the level of flexibility needed/required
 
-Response : TODO
+Response : Values found by ABfit are now given in the figure captions (see R1.30). The exact level of flexibility needed is subjective and therefore not possible to define exactly. I think is better to say the values found are a reasonable compromise between bias (baseline too flat) and variance (baseline too flexible) based on the shape of the error curve and the variance of the estimates (illustrated by the error bars).
 
 R2.12 page 12- experimental – same as question 11
 
@@ -183,7 +183,7 @@ Response : TODO
 
 R2.14 metabolite estimation error, page 6 lines 37-38 – is done for all metabolites and MM together, i.e sum of true values vs sum of estimated values? I guess these errors are not in % so what is the max allowed value?  In some figures these errors are extremely high.
 
-Response : TODO
+Response : Errors are measured as the sum of squared differences between true and estimated values, eg sum of (NAA_true - NAA_estimate)^2 + (Cr_true - Cr_estimate)^2 ... and does not include MM or lipid signals. The text has been adjusted to clarify. The maximum acceptable error value is very specific to the application, so I'd prefer not to give bounds. For example, the simple presence or absence of NAA may be useful information for brain tumour studies - so very high errors are acceptable. Conversely the detection of metabolite differences between healthy and subjects with a psychiatric condition may be far more subtle and require much lower errors.
 
 Author revisions
 
