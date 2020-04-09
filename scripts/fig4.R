@@ -176,16 +176,7 @@ p4 <- function() {
   plot(res_list[[15]], restore_def_par = FALSE)
 }
 
-p5 <- function() {
-  par(cex = 0.75)
-  stacked_data <- append_dyns(mrs_data_nn, metab, broad_sig,
-                              mrs_data_nn - metab - broad_sig)  
-  
-  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 20)
-}
-
-full_plot <- plot_grid(p1, p2, p3, p4, p5, labels = c('A', 'B', 'C', 'D', 'E'),
+full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
                        label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
 
 # print(full_plot)
@@ -198,3 +189,64 @@ tiff("../figures/fig4.tiff", width = 300 * 6.92, height = 300 * 7.5,
      pointsize = 10, res = 300)
 print(full_plot)
 dev.off()
+
+# supp. figure
+
+true_full  <- crop_spec(td2fd(zf(mrs_data_nn)), xlim = c(4, 0.2))
+true_metab <- crop_spec(td2fd(zf(metab)), xlim = c(4, 0.2))
+true_bl    <- crop_spec(td2fd(zf(broad_sig)), xlim = c(4, 0.2))
+true_mm    <- crop_spec(td2fd(zf(mrs_data_nn - metab - broad_sig)),
+                        xlim = c(4, 0.2))
+true_noise <- crop_spec(td2fd(zf(get_dyns(mrs_data_noise, closest_dyn))),
+                        xlim = c(4, 0.2))
+
+dummy <- true_full
+fit_tab  <- res_list[[16]]$fits[[closest_dyn]]
+
+est_full <- dummy
+est_full$data[1,1,1,1,1,1,] <- fit_tab$Fit + fit_tab$Baseline
+
+est_bl <- dummy
+est_bl$data[1,1,1,1,1,1,] <- fit_tab$Baseline
+
+est_mm <- dummy
+est_mm$data[1,1,1,1,1,1,] <- fit_tab$MM
+
+est_metab <- dummy
+est_metab$data[1,1,1,1,1,1,] <- rowSums(fit_tab[5:21])
+
+labs <- c("true", "est.", "resid.", "noise")
+# full
+sp1 <- function() {
+  stacked_data <- append_dyns(true_full, est_full, true_full - est_full,
+                              true_noise)
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 10, bl_lty = 2, labels = labs)
+}
+
+# metab
+sp2 <- function() {
+  stacked_data <- append_dyns(true_metab, est_metab, true_metab - est_metab,
+                              true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 20, bl_lty = 2, labels = labs)
+}
+
+# bl
+sp3 <- function() {
+  stacked_data <- append_dyns(true_bl, est_bl, true_bl - est_bl, true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 50, bl_lty = 2, labels = labs)
+}
+
+# mm
+sp4 <- function() {
+  stacked_data <- append_dyns(true_mm, est_mm, true_mm - est_mm, true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 200, bl_lty = 2, labels = labs)
+}
+
+full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
+                            label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
+
+print(full_plot_supp)
