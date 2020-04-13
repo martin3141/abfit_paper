@@ -45,7 +45,7 @@ res <- fit_mrs(mrs_data_cropped, opts = opts, basis = basis,
 
 if (parallel_fits) stopCluster(cl)
 
-plot_cex <- 0.8
+plot_cex <- 0.6
 
 plot_1 <- function() {
   par(cex = plot_cex)
@@ -103,6 +103,15 @@ plot_8 <- function() {
   text(1.6, 8800, adj = 0, paste("ED per\nppm =", ed_pppm))
 }
 
-plot_grid(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7, plot_8,
-          labels = c('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'),
-          label_size = 12, ncol = 4, scale = 1.0)
+labs <- c('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H') 
+full_plot <- plot_grid(plot_1, plot_2, plot_3, plot_4, plot_5, plot_6, plot_7,
+                       plot_8, labels = labs, label_size = 10, ncol = 4,
+                       label_x = -0.02)
+
+cairo_pdf("../figures/figY.pdf", width = 6.92, height = 3.5)
+print(full_plot)
+dev.off()
+
+tiff("../figures/figY.tiff", width = 300 * 6.92, height = 300 * 3.5, res = 300)
+print(full_plot)
+dev.off()

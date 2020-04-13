@@ -181,7 +181,7 @@ p6 <- function() {
 full_plot <- plot_grid(p1, p2, p3, p4, p5, p6,
                        labels = c('A', 'B', 'C', 'D', 'E', 'F'),
                        label_size = 12, rel_widths = c(1,1,1),
-                       nrow = 2)
+                       nrow = 2, label_x = -0.01)
 
 # print(full_plot)
 
@@ -189,7 +189,6 @@ cairo_pdf("../figures/fig3.pdf", width = 6.92, height = 5.0)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig3.tiff", width = 300 * 6.92, height = 300 * 5.0,
-     pointsize = 10, res = 300)
+tiff("../figures/fig3.tiff", width = 300 * 6.92, height = 300 * 5.0, res = 300)
 print(full_plot)
 dev.off()

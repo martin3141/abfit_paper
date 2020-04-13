@@ -42,13 +42,13 @@ asym_plot_fn <- function() {
 }
 
 full_plot <- plot_grid(asym_plot_fn, sym_plot_fn, labels = c('A', 'B'),
-                       label_size = 12, rel_widths = c(1, 1), ncol = 2)
+                       label_size = 12, rel_widths = c(1, 1), ncol = 2,
+                       label_x = -0.01)
 
 cairo_pdf("../figures/fig10.pdf", width = 6.92, height = 3.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig10.tiff", width = 300 * 6.92, height = 300 * 3.5,
-     pointsize = 10, res = 300)
+tiff("../figures/fig10.tiff", width = 300 * 6.92, height = 300 * 3.5, res = 300)
 print(full_plot)
 dev.off()

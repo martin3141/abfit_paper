@@ -166,7 +166,6 @@ cairo_pdf("../figures/fig9.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig9.tiff", width = 300 * 6.92, height = 300 * 5.5,
-     pointsize = 10, res = 300)
+tiff("../figures/fig9.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
 print(full_plot)
 dev.off()
