@@ -221,7 +221,7 @@ sp1 <- function() {
   stacked_data <- append_dyns(true_full, est_full, true_full - est_full,
                               true_noise)
   stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 10, bl_lty = 2, labels = labs)
+            y_offset = 10, bl_lty = 2, labels = labs, right_marg = 3)
 }
 
 # metab
@@ -229,24 +229,33 @@ sp2 <- function() {
   stacked_data <- append_dyns(true_metab, est_metab, true_metab - est_metab,
                               true_noise)  
   stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 20, bl_lty = 2, labels = labs)
+            y_offset = 20, bl_lty = 2, labels = labs, right_marg = 3)
 }
 
 # bl
 sp3 <- function() {
   stacked_data <- append_dyns(true_bl, est_bl, true_bl - est_bl, true_noise)  
   stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 50, bl_lty = 2, labels = labs)
+            y_offset = 50, bl_lty = 2, labels = labs, right_marg = 3)
 }
 
 # mm
 sp4 <- function() {
   stacked_data <- append_dyns(true_mm, est_mm, true_mm - est_mm, true_noise)  
   stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 200, bl_lty = 2, labels = labs)
+            y_offset = 200, bl_lty = 2, labels = labs, right_marg = 3)
 }
 
 full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
                             label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
 
+# print(full_plot_supp)
+
+cairo_pdf("../figures/fig_sX.pdf", width = 6.92, height = 5.5, pointsize = 10)
 print(full_plot_supp)
+dev.off()
+
+tiff("../figures/fig_sY.tiff", width = 300 * 6.92, height = 300 * 5.5,
+     res = 300, pointsize = 10)
+print(full_plot_supp)
+dev.off()
