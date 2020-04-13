@@ -26,7 +26,7 @@ mri_f     <- "../data/T1_vol_deface.nii.gz"
 mri_seg_f <- "../data/brain_seg.nii.gz"
 
 # read the mrs data
-mrs_data <- readRDS(mrs_f)
+mrs_data <- read_mrs(mrs_f, "rds")
 
 # extract the central 8x8 matrix of spectra
 mrs_data_cropped <- mrs_data %>% crop_xy(8, 8)
