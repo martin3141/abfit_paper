@@ -106,7 +106,7 @@ approx_basis_list <- append(metab_basis_list, lip_mm_basis_list)
 approx_basis <- sim_basis(approx_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
 
-fname <- "../data/fig7.rds"        # precomputed results
+fname <- "../data/fig8_S5.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")

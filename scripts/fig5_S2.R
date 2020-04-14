@@ -89,7 +89,7 @@ ed_pppm_N     <- 15
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                            length.out = ed_pppm_N))
 
-fname <- "../data/fig5.rds"        # precomputed results
+fname <- "../data/fig5_S2.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
