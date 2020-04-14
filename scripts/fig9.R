@@ -1,7 +1,7 @@
-library(spant)   # mrs processing
-library(ggplot2) # fancy plots
-library(cowplot) # fancier plots
+library(spant)
 library(doParallel)
+library(ggplot2)
+library(cowplot)
 
 # change the working directory to the source file location
 # when "Sourcing" from the RStudio GUI
@@ -16,39 +16,84 @@ parallel_fits <- TRUE
 # use the same number of parallel jobs as we have available cores
 jobs <- detectCores()
 
-# mrs data file
-mrs_f     <- "../data/2D_MRSI.rds"
+theme_set(theme_cowplot(font_size = 10))
 
-# mri data file
-mri_f     <- "../data/T1_vol_deface.nii.gz"
+ft <- def_acq_paras()$ft
 
-# segmented mri data file
-mri_seg_f <- "../data/brain_seg.nii.gz"
+ala    <- get_mol_paras("ala")
+asp    <- get_mol_paras("asp")
+cr     <- get_mol_paras("cr")
+gaba   <- get_mol_paras("gaba")
+glc    <- get_mol_paras("glc")
+gln    <- get_mol_paras("gln")
+glu    <- get_mol_paras("glu")
+gpc    <- get_mol_paras("gpc")
+gsh    <- get_mol_paras("gsh")
+ins    <- get_mol_paras("ins")
+lac    <- get_mol_paras("lac")
+naa    <- get_mol_paras("naa")
+naag   <- get_mol_paras("naag")
+pch    <- get_mol_paras("pch")
+pcr    <- get_mol_paras("pcr")
+sins   <- get_mol_paras("sins")
+tau    <- get_mol_paras("tau")
+mm_exp <- get_mol_paras("mm_3t", ft)
 
-# read the mrs data
-mrs_data <- read_mrs(mrs_f, "rds")
+metab_basis_list <- list(ala, asp, cr, gaba, glc, gln, glu, gpc, gsh, ins, lac,
+                         naa, naag, pch, pcr, sins, tau)
 
-# extract the central 8x8 matrix of spectra
-mrs_data_cropped <- mrs_data %>% crop_xy(8, 8)
+full_basis_list  <- append(metab_basis_list, list(mm_exp))
 
-# crop the corner voxels as they are close to the diagonal saturation bands
-mask <- matrix(FALSE, 8, 8)
-mask[1, 1] <- mask[1, 8] <- mask[8, 1] <- mask[8, 8] <- TRUE
-mrs_data_cropped <- mrs_data_cropped %>% mask_xy_mat(mask)
+full_basis <- sim_basis(full_basis_list, pul_seq = seq_slaser_ideal,
+                        xlim = c(0.5, 4.2))
 
-# simulate the basis set
-basis <- sim_basis_1h_brain(seq_slaser_ideal,
-                            acq_paras = get_acq_paras(mrs_data), TE1 = 0.012,
-                            TE2 = 0.012, TE3 = 0.016, xlim = c(0.5, 4.1))
+# metab values from de Graff book
 
-# all default fitting options
-opts <- abfit_opts()
+amps <- c( 0.80,  # 1  Ala
+           1.00,  # 2  Asp
+           7.50,  # 3  Cr
+           1.50,  # 4  GABA
+           1.50,  # 5  Glc
+           4.50,  # 6  Gln
+           9.25,  # 7  Glu
+           1.00,  # 8  GPC
+           2.25,  # 9  GSH
+           6.50,  # 10 Ins
+           0.60,  # 11 Lac
+          12.25,  # 13 NAA
+           1.50,  # 14 NAAG
+           0.60,  # 15 PCh
+           4.25,  # 16 PCr
+           0.35,  # 17 sIns
+           4.00,  # 18 Tau
+          30.00)  # 12 MMexp
 
-fname <- "../data/fig9.rds"
+set.seed(1)
+
+# simulate mrs data
+lb_para    <- 12
+noise_N    <- 32
+metab_mm   <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps)
+amps_no_mm <- c(amps[1:(length(amps) - 1)], 0)
+metab      <- basis2mrs_data(full_basis, sum_elements = TRUE, amp = amps_no_mm)
+metab      <- lb(metab, lb_para)
+broad_sig  <- sim_resonances(freq = 1.3, amp = 150, lw = 100, lg = 1)
+
+mrs_data_nn    <- lb(metab_mm, lb_para) + broad_sig    # no noise data
+mrs_data_noise <- sim_noise(sd = 2.0, fd = FALSE, dyns = noise_N)
+mrs_data       <- rep_dyn(mrs_data_nn, noise_N) + mrs_data_noise
+
+ed_pppm_start <- 2.01 / (4 - 0.2)
+ed_pppm_end   <- 15
+ed_pppm_N     <- 15
+ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
+                           length.out = ed_pppm_N))
+
+fname <- "../data/fig8.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
-  res <- readRDS(fname) 
+  res_list <- readRDS(fname) 
 } else {
   if (parallel_fits) {
     # clusters are platform dependant
@@ -57,110 +102,85 @@ if (file.exists(fname)) {  # don't recalc unless we have to
     registerDoParallel(cl)
   }
   
-  res <- fit_mrs(mrs_data_cropped, opts = opts, basis = basis,
-                 parallel = parallel_fits, time = FALSE)
+  res_list <- vector(mode = "list", length = (ed_pppm_N + 1))
+  for (n in 1:ed_pppm_N) {
+    
+    opts  <- abfit_opts(auto_bl_flex = FALSE, bl_ed_pppm = ed_pppm_vec[n],
+                        bl_comps_pppm = 25, pre_fit_bl_ed_pppm = 10)
+    
+    res_list[[n]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
+                             basis = full_basis, parallel = parallel_fits,
+                             time = FALSE)
+  }
+  
+  opts  <- abfit_opts(max_bl_ed_pppm = 15, bl_comps_pppm = 25,
+                      pre_fit_bl_ed_pppm = 10)
+  
+  res_list[[n + 1]] <- fit_mrs(mrs_data, method = "abfit", opts = opts,
+                               basis = full_basis, parallel = parallel_fits,
+                               time = FALSE)
   
   if (parallel_fits) stopCluster(cl)
   cat("Saving precomputed results :", fname, "\n")
-  saveRDS(res, fname)
+  saveRDS(res_list, fname)
 }
 
-# print data quality summary
-summary(res)
+error_vec        <- rep(NA, ed_pppm_N)
+sd_error_vec     <- rep(NA, ed_pppm_N)
 
-# extract some metabolite maps
-tnaa_tcr_metab_map  <- get_fit_map(res, "tNAA") / get_fit_map(res, "tCr")
-tcho_tcr_metab_map  <- get_fit_map(res, "tCho") / get_fit_map(res, "tCr")
-glx_tcr_metab_map   <- get_fit_map(res, "Glx")  / get_fit_map(res, "tCr")
-
-# read the segmented T1 MRI
-seg_data <- readNifti(mri_seg_f)
-
-# get the approximate MRSI excitation region
-mrsi_mask     <- get_mrsi_voi(mrs_data %>% crop_xy(10, 10), seg_data)
-
-# mask the segmented data by the excitation region
-seg_data_crop <- seg_data * mrsi_mask
-
-# calculate the PSF for convolution with the segementation data
-mat_size <- Nx(mrs_data)
-psf_ker  <- Re(get_2d_psf(FOV = mrs_data$resolution[2] * mat_size + 1,
-               mat_size = mat_size))
-
-# calculate the CSF, WM, GM contribution to each voxel
-seg_res <- get_mrsi2d_seg(mrs_data_cropped, seg_data_crop, psf_ker)
-
-# make a data frame combining metabolite levels and GM fraction
-metab_gmf <- data.frame(gmf = seg_res$GMF,
-                        tnaa_tcr  = as.vector(tnaa_tcr_metab_map),
-                        tcho_tcr  = as.vector(tcho_tcr_metab_map),
-                        glx_tcr   = as.vector(glx_tcr_metab_map))
-
-# remove any rows with missing values (eg masked voxels at the corners)
-metab_gmf <- na.omit(metab_gmf)
-
-# calculate some linear models
-tnaa_tcr_res <- lm(tnaa_tcr ~ gmf, metab_gmf)
-tcho_tcr_res <- lm(tcho_tcr ~ gmf, metab_gmf)
-glx_tcr_res  <- lm(glx_tcr  ~ gmf, metab_gmf)
-
-# extract some R2 and p vals for the linear model
-tnaa_p_val <- summary(tnaa_tcr_res)$coefficients[2,4]
-tnaa_R2    <- summary(tnaa_tcr_res)$r.squared
-
-tcho_p_val <- summary(tcho_tcr_res)$coefficients[2,4]
-tcho_R2    <- summary(tcho_tcr_res)$r.squared
-
-glx_p_val  <- summary(glx_tcr_res)$coefficients[2,4]
-glx_R2     <- summary(glx_tcr_res)$r.squared
-
-# set ggplot2 theme
-theme_set(theme_cowplot(font_size = 10))
-
-tnaa_lab <- c(paste("italic(R)^2 ==", round(tnaa_R2, 2)),
-              paste("italic(p)*'-value' ==", sprintf("%.1e", tnaa_p_val)))
-            
-tnaa_plt <- ggplot(metab_gmf, aes(x = gmf, y = tnaa_tcr)) + geom_point() +
-            geom_smooth(method = "lm") +
-            annotate("text", x = 43, y = c(1.98, 1.9), label = tnaa_lab,
-                     parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
-            ylab("tNAA / tCr")
-
-tcho_lab <- c(paste("italic(R)^2 ==", round(tcho_R2, 2)),
-              paste("italic(p)*'-value' ==", sprintf("%.1e", tcho_p_val)))
-            
-tcho_plt <- ggplot(metab_gmf, aes(x = gmf, y = tcho_tcr)) + geom_point() +
-            geom_smooth(method = "lm") +
-            annotate("text", x = 43, y = c(0.37, 0.35), label = tcho_lab,
-                     parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
-            ylab("tCho / tCr")
-
-glx_lab <- c(paste("italic(R)^2 ==", round(glx_R2, 2)),
-             paste("italic(p)*'-value' ==", sprintf("%.1e", glx_p_val)))
-            
-glx_plt <- ggplot(metab_gmf, aes(x = gmf, y = glx_tcr)) + geom_point() +
-           geom_smooth(method = "lm") +
-           annotate("text", x = 43, y = c(1.5, 1.4), label = glx_lab,
-                    parse = T, hjust = 0) + xlab("Gray matter fraction (%)") +
-           ylab("Glx / tCr")
-
-# resice MRI to match MRSI
-mri_data <- readNifti(mri_f)
-mri_data_resliced <- reslice_to_mrs(mri_data, mrs_data)
-
-# generate 8x8 metabolite map
-mrsi_volume_map <- get_mrsi_voi(mrs_data_cropped, mri_data_resliced,
-                                tnaa_tcr_metab_map)
-
-im_plot_fn <- function() {
-  ortho3(mri_data_resliced[,,90:256], mrsi_volume_map[,,90:256], 
-         xyz = c(105, 112, 102), alpha = 0.6, zlim = c(300, 2000),
-         zlim_ol = c(0.6, 1.8), bg = "white", mar = rep(0.5, 4), ch_lwd = 0.5)
+# calc amp est errors
+for (n in 1:ed_pppm_N) {
+  amp_inds <- c(6:22)
+  fit_amp_mat  <- res_list[[n]]$res_tab[amp_inds]
+  true_amp_mat <- matrix(amps[-18], nrow(fit_amp_mat), ncol(fit_amp_mat),
+                         byrow = TRUE)
+  
+  error           <- (true_amp_mat - fit_amp_mat) ^ 2
+  mean_error      <- mean(rowSums(error))
+  sd_error        <- sd(rowSums(error))
+  error_vec[n]    <- mean_error
+  sd_error_vec[n] <- sd_error
 }
 
-full_plot <- plot_grid(im_plot_fn, tnaa_plt, tcho_plt, glx_plt,
-                       labels = c('A', 'B', 'C', 'D'), label_size = 12,
-                       rel_widths = c(1,1), ncol = 2)
+df <- data.frame(ed_pppm_vec, error_vec, sd_error_vec)
+
+mean_ed_pppm <- mean(res_list[[16]]$res_tab$bl_ed_pppm)
+
+breaks <- c(0.5, 1, 2, 3, 5, 10, 25)
+
+p1 <- ggplot(data = df, aes(x = ed_pppm_vec)) + 
+             geom_line(aes(y = error_vec)) + geom_point(aes(y = error_vec)) +
+             geom_errorbar(aes(ymin = error_vec - sd_error_vec,
+                           ymax = error_vec + sd_error_vec), width = .02) +
+             scale_x_continuous(trans = "log10", breaks = breaks) + 
+             xlab("Baseline ED per ppm") + 
+             ylab("Metabolite estimate error") +
+             geom_vline(xintercept = mean_ed_pppm, linetype = "dashed") +
+             scale_y_continuous(trans = "log10")
+
+p2 <- function() {
+  par(cex = 0.75)
+  plot(res_list[[1]], restore_def_par = FALSE)
+}
+
+# find a fit closest to the automically determined mean ED pppm
+closest_dyn <- which.min((mean_ed_pppm - res_list[[16]]$res_tab$bl_ed_pppm) ^ 2)
+
+p3 <- function() {
+  par(cex = 0.75)
+  plot(res_list[[16]], restore_def_par = FALSE, dyn = closest_dyn)
+}
+
+p4 <- function() {
+  par(cex = 0.75)
+  plot(res_list[[15]], restore_def_par = FALSE)
+}
+
+full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
+                       label_size = 12, rel_widths = c(1,1,1,1), ncol = 2,
+                       label_x = -0.01)
+
+# print(full_plot)
 
 cairo_pdf("../figures/fig9.pdf", width = 6.92, height = 5.5)
 print(full_plot)
@@ -168,4 +188,74 @@ dev.off()
 
 tiff("../figures/fig9.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
 print(full_plot)
+dev.off()
+
+# supp. figure
+
+true_full  <- crop_spec(td2fd(zf(mrs_data_nn)), xlim = c(4, 0.2))
+true_metab <- crop_spec(td2fd(zf(metab)), xlim = c(4, 0.2))
+true_bl    <- crop_spec(td2fd(zf(broad_sig)), xlim = c(4, 0.2))
+true_mm    <- crop_spec(td2fd(zf(mrs_data_nn - metab - broad_sig)),
+                        xlim = c(4, 0.2))
+true_noise <- crop_spec(td2fd(zf(get_dyns(mrs_data_noise, closest_dyn))),
+                        xlim = c(4, 0.2))
+
+dummy <- true_full
+fit_tab  <- res_list[[16]]$fits[[closest_dyn]]
+
+est_full <- dummy
+est_full$data[1,1,1,1,1,1,] <- fit_tab$Fit + fit_tab$Baseline
+
+est_bl <- dummy
+est_bl$data[1,1,1,1,1,1,] <- fit_tab$Baseline
+
+est_mm <- dummy
+est_mm$data[1,1,1,1,1,1,] <- fit_tab$MM
+
+est_metab <- dummy
+est_metab$data[1,1,1,1,1,1,] <- rowSums(fit_tab[5:21])
+
+labs <- c("true", "est.", "resid.", "noise")
+# full
+sp1 <- function() {
+  stacked_data <- append_dyns(true_full, est_full, true_full - est_full,
+                              true_noise)
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 10, bl_lty = 2, labels = labs, right_marg = 3)
+}
+
+# metab
+sp2 <- function() {
+  stacked_data <- append_dyns(true_metab, est_metab, true_metab - est_metab,
+                              true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 20, bl_lty = 2, labels = labs, right_marg = 3)
+}
+
+# bl
+sp3 <- function() {
+  stacked_data <- append_dyns(true_bl, est_bl, true_bl - est_bl, true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 50, bl_lty = 2, labels = labs, right_marg = 3)
+}
+
+# mm
+sp4 <- function() {
+  stacked_data <- append_dyns(true_mm, est_mm, true_mm - est_mm, true_noise)  
+  stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
+            y_offset = 200, bl_lty = 2, labels = labs, right_marg = 3)
+}
+
+full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
+                            label_size = 12, rel_widths = c(1,1,1,1), ncol = 2)
+
+# print(full_plot_supp)
+
+cairo_pdf("../figures/figS6.pdf", width = 6.92, height = 5.5, pointsize = 10)
+print(full_plot_supp)
+dev.off()
+
+tiff("../figures/figS6.tiff", width = 300 * 6.92, height = 300 * 5.5,
+     res = 300, pointsize = 10)
+print(full_plot_supp)
 dev.off()
