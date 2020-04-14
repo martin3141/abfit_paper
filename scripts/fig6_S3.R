@@ -89,7 +89,7 @@ ed_pppm_N     <- 15
 ed_pppm_vec   <- 10 ^ (seq(log10(ed_pppm_start), log10(ed_pppm_end),
                            length.out = ed_pppm_N))
 
-fname <- "../data/fig7_S4.rds"        # precomputed results
+fname <- "../data/fig6_S3.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -182,11 +182,11 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot)
 
-cairo_pdf("../figures/fig7.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig6.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig7.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
+tiff("../figures/fig6.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
 print(full_plot)
 dev.off()
 
@@ -251,11 +251,11 @@ full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot_supp)
 
-cairo_pdf("../figures/figS4.pdf", width = 6.92, height = 5.5, pointsize = 10)
+cairo_pdf("../figures/figS3.pdf", width = 6.92, height = 5.5, pointsize = 10)
 print(full_plot_supp)
 dev.off()
 
-tiff("../figures/figS4.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/figS3.tiff", width = 300 * 6.92, height = 300 * 5.5,
      res = 300, pointsize = 10)
 print(full_plot_supp)
 dev.off()

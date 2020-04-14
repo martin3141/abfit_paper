@@ -106,7 +106,7 @@ approx_basis_list <- append(metab_basis_list, lip_mm_basis_list)
 approx_basis <- sim_basis(approx_basis_list, pul_seq = seq_slaser_ideal,
                         xlim = c(0.5, 4.2))
 
-fname <- "../data/fig6_S3.rds"        # precomputed results
+fname <- "../data/fig8_S5.rds"        # precomputed results
 
 if (file.exists(fname)) {  # don't recalc unless we have to
   cat("Reading precomputed results :", fname, "\n")
@@ -199,11 +199,11 @@ full_plot <- plot_grid(p1, p2, p3, p4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot)
 
-cairo_pdf("../figures/fig6.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/fig8.pdf", width = 6.92, height = 5.5)
 print(full_plot)
 dev.off()
 
-tiff("../figures/fig6.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
+tiff("../figures/fig8.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
 print(full_plot)
 dev.off()
 
@@ -268,11 +268,11 @@ full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
 
 print(full_plot_supp)
 
-cairo_pdf("../figures/figS3.pdf", width = 6.92, height = 5.5, pointsize = 10)
+cairo_pdf("../figures/figS5.pdf", width = 6.92, height = 5.5, pointsize = 10)
 print(full_plot_supp)
 dev.off()
 
-tiff("../figures/figS3.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/figS5.tiff", width = 300 * 6.92, height = 300 * 5.5,
      res = 300, pointsize = 10)
 print(full_plot_supp)
 dev.off()
