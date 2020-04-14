@@ -251,11 +251,11 @@ full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot_supp)
 
-cairo_pdf("../figures/figS6.pdf", width = 6.92, height = 5.5, pointsize = 10)
+cairo_pdf("../figures/figS6.pdf", width = 6.92, height = 6.5, pointsize = 10)
 print(full_plot_supp)
 dev.off()
 
-tiff("../figures/figS6.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/figS6.tiff", width = 300 * 6.92, height = 300 * 6.5,
      res = 300, pointsize = 10)
 print(full_plot_supp)
 dev.off()

@@ -162,10 +162,11 @@ full_plot <- plot_grid(im_plot_fn, tnaa_plt, tcho_plt, glx_plt,
                        labels = c('A', 'B', 'C', 'D'), label_size = 12,
                        rel_widths = c(1,1), ncol = 2)
 
-cairo_pdf("../figures/figS7.pdf", width = 6.92, height = 5.5)
+cairo_pdf("../figures/figS7.pdf", width = 6.92, height = 5.5, pointsize = 10)
 print(full_plot)
 dev.off()
 
-tiff("../figures/figS7.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300)
+tiff("../figures/figS7.tiff", width = 300 * 6.92, height = 300 * 5.5, res = 300,
+     pointsize = 10)
 print(full_plot)
 dev.off()

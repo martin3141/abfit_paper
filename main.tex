@@ -418,20 +418,11 @@ Two example fits from one of the voxels in the MRSI data set are shown Figure \r
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=0.8\textwidth]{figS7}
-    \caption{ABfit results from a 2D MRSI semi-LASER acquisition. A) Orthogonal T1 MRI slices intersecting the analysis region --- shown as a colored tNAA / tCr metabolite map overlay. Linear regression of key metabolite ratios with the gray matter fraction are shown in parts B, C and D. The line of best fit is plotted in blue with the 95\% confidence region in gray.}
-    \label{mrsi_res}
+    \includegraphics[width=1.0\textwidth]{fig10}
+    \caption{TODO}
+    \label{TODO2}
   \end{center}
 \end{figure}
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[width=0.8\textwidth]{figS8}
-    \caption{ABfit result plot for a voxel within a 2D MRSI semi-LASER acquisition with an asymmetric lineshape. A) default analysis with an asymmetric lineshape fit model, B) analysis with the lineshape asymmetry parameter ($a_{g}$) restricted to $\pm 0.0001$.}
-    \label{lineshape_res}
-  \end{center}
-\end{figure}
-
 
 \section{Discussion and Conclusions}
 A new algorithm to automatically determine the optimal level of baseline flexibility has been developed and validated using simulated and acquired MRS data. LCModel is currently the most widely used approach for automatically estimating the optimal baseline flexibility, where the optimal penalty parameter ($\alpha_{B}$) is chosen by gradually increasing its value until the boundary of the 50\% confidence region for the fit is achieved --- estimated by comparing successive fits to the first in the series \cite{Provencher1982, Provencher1993}. In contrast to LCModel, the method presented here uses a modification to the AIC to determine the optimal penalty factor --- as part of a four-step fitting procedure. An additional difference is the use of P-splines in ABfit compared to smoothing spline approach \cite{OSullivan1986} used in LCModel.

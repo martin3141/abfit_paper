@@ -236,7 +236,7 @@ sp2 <- function() {
 sp3 <- function() {
   stacked_data <- append_dyns(true_bl, est_bl, true_bl - est_bl, true_noise)  
   stackplot(stacked_data, xlim = c(4, 0.2), restore_def_par = FALSE,
-            y_offset = 50, bl_lty = 2, labels = labs, right_marg = 3)
+            y_offset = 10, bl_lty = 2, labels = labs, right_marg = 3)
 }
 
 # mm
@@ -251,11 +251,11 @@ full_plot_supp <- plot_grid(sp1, sp2, sp3, sp4, labels = c('A', 'B', 'C', 'D'),
 
 # print(full_plot_supp)
 
-cairo_pdf("../figures/figS3.pdf", width = 6.92, height = 5.5, pointsize = 10)
+cairo_pdf("../figures/figS3.pdf", width = 6.92, height = 6.5, pointsize = 10)
 print(full_plot_supp)
 dev.off()
 
-tiff("../figures/figS3.tiff", width = 300 * 6.92, height = 300 * 5.5,
+tiff("../figures/figS3.tiff", width = 300 * 6.92, height = 300 * 6.5,
      res = 300, pointsize = 10)
 print(full_plot_supp)
 dev.off()
