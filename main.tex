@@ -62,6 +62,7 @@
 \soulregister\cite7 % needed for soul to work with this macro
 \soulregister\textit7 % needed for soul to work with this macro
 \soulregister\textbf7 % needed for soul to work with this macro
+\soulregister\url7 % needed for soul to work with this macro
 
 % revision one highlighting
 \newcommand{\revone}[2]{\hl{#1}\marginnote{\hl{#2}}}
@@ -347,11 +348,7 @@ MR data were acquired from \revone{two healthy adults}{R1.4,\linebreak R1.27} wi
 
 Following acquisition, the four corner voxels were excluded from the central 8 by 8 grid \revone{due to their close proximity to the diagonal saturation regions}{R1.24}, and ABfit was performed on the remaining 60 voxels. \revone{ABfit was applied without any manual adjustments, and exactly the same algorithm was used to analyze the simulated and acquired data.}{R1.27} The percentage of white matter, gray matter and CSF contribution to each voxel was measured from segmentation of the T1 MRI using the FAST method \cite{Zhang2001} as implemented in the FSL software package (v6.0.1). The gray matter fraction was calculated as the percentage volume of gray matter divided by the sum of gray and white matter volumes, and compared with metabolite ratios.
 
-The study was conducted with the approval of an Institutional Ethics Board.
-
-\subsection{Software implementation}
-The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely licensed under the GPL and integrated into the SPectroscopy Analysis Toolkit (spant) package (v1.0.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.2) running under Ubuntu 18.04.3. All code and data required to reproduce the presented figures and results are freely available from:\\ \url{https://github.com/martin3141/abfit_paper} and
-\url{https://github.com/martin3141/spant}.
+\revonenm{The acquisition of human data included in this study} was conducted with the approval of an Institutional Ethics Board.
 
 \section{Results}
 \subsection{Simulation}
@@ -441,7 +438,10 @@ Potential solutions to reduce metabolite estimation bias associated with variabl
 
 In conclusion, new MRS analysis method with adaptive baseline modeling is presented and validated on simulated and experimentally acquired data. The approach is fully-automated and integrated into a free and open-source software package --- providing a transparent and reproducible platform for future MRS studies \cite{Stikov2019}.
 
-%\section*{ACKNOWLEDGEMENTS}
+\section*{DATA AVAILABILITY STATEMENT}
+\revonenm{The code and data that supports the findings of this study are openly available in Github at \url{https://github.com/martin3141/abfit_paper}, SHA-1 hash: XXXX and \url{https://github.com/martin3141/spant}, SHA-1 hash: YYYY.}
+
+% The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely licensed under the GPL and integrated into the SPectroscopy Analysis Toolkit (spant) package (v1.4.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.3) running under Ubuntu 18.04.3. All code and data required to reproduce the presented figures and results are freely available from:\\ \url{https://github.com/martin3141/abfit_paper} and \url{https://github.com/martin3141/spant}.}
 
 \bibliography{main}
 
