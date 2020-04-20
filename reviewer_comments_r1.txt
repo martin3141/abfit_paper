@@ -22,7 +22,11 @@ A simulation has also been performed to test the method against a mismatch betwe
 
 R1.4 I'm not sure if your examples of SI data add enough to this paper to warrant their inclusion. Yes, you show that this method can fit SI data. But, again you are not showing much detail of what variety of data quality, linewidths, spurious baseline signals, etc. are being accommodated by the ABFit method versus any other method. You're just saying that there are reasonable and typical trends in GM/WM metabolite ratios and that maybe an asymmetric lineshape gives a numerical improvement in the fit. Honestly, I can not visualize a significant difference between Fig 10 a/b.  As such, the SI material might better be presented at more length in a separate paper.  However, if you choose to leave it in, I have some comments on what I'd like to see shown and discussed below.
 
-Response : TODO
+Response : The following statement has been added to the method section as justification for inclusion of the SI data:
+
+"Whilst simulation studies are important to assess the true accuracy of a method, it is challenging to adequately model the true range of variation present in MRS data. Therefore, ABfit was tested on experimentally acquired MRSI data to ensure validity and robustness to common artifacts - such as baseline distortions from scalp lipids, shimming variations and minor shifts in metabolite frequency."
+
+An additional dataset has been analysed to demonstrate how the adaptive baseline approach deals with variable levels of baseline distortion typically seen in SI data (Figure 10).
 
 R1.5 page 3 line 25. 'must to be accurately' awkward
 
@@ -114,7 +118,7 @@ Response : changed as suggested.
 
 R1.27 page 12 line 11. A general comment on SI results, if they stay in the paper. I'd like to see what sort of range of spurious baseline signals were found in the slice and what ABFit did to fit them. Maybe from just one typical row or column. Also, it would be interesting to see a parametric map of ED for the slice. Assuming that ED was allowed to vary? Also please discuss any variations to the settings you made for SI vs simulated SVS data.
 
-Response : TODO
+Response : Figure 10 has been added to show how the adaptive fitting automatically finds an appropriate level of baseline flexibility (ED per ppm) for experimentally acquired MRSI data. A statement has been added to confirm there were no differences in the ABfit algorithm applied to the simulated or experimentally acquired MRSI data.
 
 R1.28 page 12 line 41. I find this sentence to be unclear. Did you mean a rigid baseline versus an overly flexible Mmol model?  If not, please clarify.  And expand on how these interact beyond the description of the metab estimation error. Does the signal get fitted incorrectly or not at all?
 
