@@ -185,7 +185,7 @@ Response : TODO
 
 R2.14 metabolite estimation error, page 6 lines 37-38 – is done for all metabolites and MM together, i.e sum of true values vs sum of estimated values? I guess these errors are not in % so what is the max allowed value?  In some figures these errors are extremely high.
 
-Response : Errors are measured as the sum of squared differences between true and estimated values, eg sum of (NAA_true - NAA_estimate)^2 + (Cr_true - Cr_estimate)^2 ... and does not include MM or lipid signals. The text has been adjusted to clarify. The maximum acceptable error value is very specific to the application, so I'd prefer not to give bounds. For example, the simple presence or absence of NAA may be useful information for brain tumour studies - so very high errors are acceptable. Conversely the detection of metabolite differences between healthy and subjects with a psychiatric condition may be far more subtle and require much lower errors.
+Response : Errors are measured as the sum of squared differences between true and estimated values, eg sum of (NAA_true - NAA_estimate)^2 + (Cr_true - Cr_estimate)^2 ... and does not include MM or lipid signals. The text has been adjusted to clarify. Figures S1 - S6 have been added to illustrate the error in the metabolite signal component. The maximum acceptable error value is very specific to the application, so I'd prefer not to give bounds. For example, the simple presence or absence of NAA may be useful information for brain tumour studies - so very high errors are acceptable. Conversely the detection of metabolite differences between healthy and subjects with a psychiatric condition may be far more subtle and require much lower errors.
 
 Author revisions
 
