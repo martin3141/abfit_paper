@@ -102,7 +102,7 @@ Response : changed as suggested.
 
 R1.23 page 10 line 33. What was total acquisition time for SI data set?
 
-Response : TODO
+Response : The total MRSI acquisition time was 5 minutes and 6 seconds.
 
 R1.24 page 10 line 35. Why were the corners removed?
 
