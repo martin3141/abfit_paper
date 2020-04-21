@@ -2,6 +2,8 @@ all: figures/fig1.eps figures/fig2.eps figures/fig3.eps figures/fig4.eps figures
 	latexmk -pdf main.tex
 	latexmk -pdf main_annotated.tex
 	latexmk -pdf supporting_info.tex
+	rm figures/*
+	rm fig*rds R1_3_figs.rds
 
 figures/fig1.eps: figures/fig1.tiff
 	convert figures/fig1.tiff eps3:figures/fig1.eps
