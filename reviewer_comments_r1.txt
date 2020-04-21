@@ -122,7 +122,7 @@ Response : Figure 10 has been added to show how the adaptive fitting automatical
 
 R1.28 page 12 line 41. I find this sentence to be unclear. Did you mean a rigid baseline versus an overly flexible Mmol model?  If not, please clarify.  And expand on how these interact beyond the description of the metab estimation error. Does the signal get fitted incorrectly or not at all?
 
-Response : TODO
+Response : I agree this was poorly explained, the paragraph has been adjusted for clarity.
 
 R1.29 Figures 3-8. The y-axis for metabolite estimation error all seem to be different. Please note if scale is linear or log just for clarity in the caption. Also, are the error bars in all figures x5 for clarity, or just for Fig 3.
 
@@ -165,7 +165,7 @@ Response : This point has been added.
 
 R2.8 page 6, lines 36-37 – can you please provide more details on how there 32 spectra were generated? Are these spectra needed for the SD and are all similar just the noise is different but keeping the same value? If yes maybe replace “generated” with “used”?
 
-Response : TODO
+Response : Yes, only the noise differs between the set of spectra. This sentence has been reworded for clarity.
 
 R2.9 page 7 end- why zero feeling is needed? Is the freq offset calculated using 3 reference metabolites? Why not only one?
 
@@ -181,7 +181,7 @@ Response : Values found by ABfit are now given in the figure captions (see R1.30
 
 R2.12 page 12- experimental – same as question 11
 
-Response : TODO
+Response : The addition of Figure 10 shows how the method accommodates a wide range of real baseline distortions.
 
 R2.13 discussion – I miss a conclusion about what is best, flexible or non-flexible baseline or something in between. Recently for LCModel some researchers have suggested the usage of flat baseline (i.e. dkntmn=5) and I’m not sure that this is a good idea. Flat baseline should be imposed only when the acquired MRS data are perfect like in your simulation test no 4. But in real life these MRS data are not always available. Since in the present manuscript simulations were performed with known metabolite concentrations, a conclusion can be drawn since the true values are known.
 
