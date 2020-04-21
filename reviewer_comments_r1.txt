@@ -185,7 +185,7 @@ Response : The addition of Figure 10 shows how the method accommodates a wide ra
 
 R2.13 discussion – I miss a conclusion about what is best, flexible or non-flexible baseline or something in between. Recently for LCModel some researchers have suggested the usage of flat baseline (i.e. dkntmn=5) and I’m not sure that this is a good idea. Flat baseline should be imposed only when the acquired MRS data are perfect like in your simulation test no 4. But in real life these MRS data are not always available. Since in the present manuscript simulations were performed with known metabolite concentrations, a conclusion can be drawn since the true values are known.
 
-Response : TODO
+Response : I agree there seems to be a recent tendency to enforce very flat baselines, and this confers a risk of introducing unwanted bias to the metabolite levels. Some guidance points have been added to the discussion.
 
 R2.14 metabolite estimation error, page 6 lines 37-38 – is done for all metabolites and MM together, i.e sum of true values vs sum of estimated values? I guess these errors are not in % so what is the max allowed value?  In some figures these errors are extremely high.
 
