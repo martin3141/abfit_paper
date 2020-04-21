@@ -63,6 +63,12 @@ clean:
 	rm -f main.synctex.gz
 	rm -rf main.prv
 	rm -rf auto
+	
+	latexmk -pdf -C main_annotated.tex
+	rm -f main_annotated.fff
+	rm -f main_annotated.bbl
+	rm -f main_annotated.synctex.gz
+	rm -rf main_annotated.prv
 
 	latexmk -pdf -C supporting_info.tex
 	rm -f supporting_info.fff
