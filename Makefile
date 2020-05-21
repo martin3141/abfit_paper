@@ -1,6 +1,6 @@
 all: figures/fig1.eps figures/fig2.eps figures/fig3.eps figures/fig4.eps figures/fig5.eps figures/fig6.eps figures/fig7.eps figures/fig8.eps figures/fig9.eps figures/fig10.eps figures/figS1.eps figures/figS2.eps figures/figS3.eps figures/figS4.eps figures/figS5.eps figures/figS6.eps figures/figS7.eps figures/figS8.eps 
 	latexmk -pdf main.tex
-	latexmk -pdf main_annotated.tex
+	latexmk -pdf main_annotated_r1.tex
 	latexmk -pdf supporting_info.tex
 
 figures/fig1.eps: figures/fig1.tiff
@@ -64,7 +64,7 @@ clean:
 	rm -rf main.prv
 	rm -rf auto
 	
-	latexmk -pdf -C main_annotated.tex
+	latexmk -pdf -C main_annotated_r1.tex
 	rm -f main_annotated.fff
 	rm -f main_annotated.bbl
 	rm -f main_annotated.synctex.gz
