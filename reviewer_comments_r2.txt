@@ -16,19 +16,19 @@ Response : changed as suggested.
 
 R1.3 page 7 line 14.  awkward, "with a low AIC values ..."
 
-Response : TODO
+Response : changed to "value".
 
 R1.4 page 7 line 24.  sorry to be pedantic, but please emphasize "... for all simulated and in vivo analyses ...".  I'd actually be interested in how m has to change as SNR or LW changes in SI data due to acquisition settings or data quality.  Maybe in another paper?
 
-Response : TODO
+Response : changed as suggested. I agree more extensive testing over a greater range of data quality would make an interesting paper.
 
 R1.5 page 8 line 46. Thank you for the clarification you provided on the Gaussian lineshape. However, your third sentence you added seems a bit unclear as to whether you are saying that your simulated metabolite basis set contains Lorentzian contribution for each metabolite, OR that that method is one way that *other* techniques can create a Voigt lineshape. Definitely leave this sentence in, but clarify which you are saying for ABfit.
 
-Response : TODO
+Response : phrase added to make it clear that the metabolite signals used had a Lorentzian lineshape - which was made Voigt in step 2 of ABfit.
 
 R1.6 page 9 line 22. change to 'broadening', and is frequency offset constraint +/- 10 Hz?
 
-Response : TODO
+Response : updated as suggested, +/- 10 Hz added for clarification.
 
 R1.7 page 9 line 31. I've lost track of what you are doing in this step when I read this sentence. I understand that you are using ED to simplify how you 'dial in' bias versus variance in baseline model optimization. But I don't understand what parameters in the model are being set for each candidate fit based on this sentence. Is it lambda? Are you back-calculating the lambda value based on a range of ED>2?  And, do you give the 7 ED/ppm value to let us know how many splines you set across the data PPM? Or do the number of splines change across the various candidate fits? Please clarify what actual parameters are being set for each candidate fit. And whether this is being automatically calculated by some unseen software step, or if you had to set up the candidate fits to correspond to the ED range manually. I'm fine with either answer, I just want to understand how to repeat your work if I wanted to from the info given in the paper.
 
@@ -36,10 +36,10 @@ Response : TODO
 
 R1.8 page 10 line 9.  Start a new paragraph with "Minor individual changes in ..." for clarity.
 
-Response : TODO
+Response : changed as suggested.
 
 R1.9 page 10 line 15.  Where do you get your starting amplitudes for the metabolite basis function, macromolecule basis function(s) and Pspline functions, both here and in Step 2?
 
-Response : TODO
+Response : starting amplitudes are not necessary when using the active-set method. Clarification added to section 2.2.
 
 
