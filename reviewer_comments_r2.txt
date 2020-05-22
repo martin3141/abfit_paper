@@ -4,15 +4,15 @@ Comments to the Author
 
 I appreciate the amount and clarity of information given by the author in response to my previous review. This is really impressive work and exciting to see that the software is available on Github.  Will the test data sets from this paper also be available on Github?
 
-Response : TODO
+Response : Yes, the test data is currently on Github. Unfortunately, I am unable to share the data files directly from the scanner due to the risk of having subject identifiers in the public domain, therefore the data is stored in the standard R serialization format (rds). Myself, and others in the MRS community, are currently working towards developing a more suitable approach for sharing MRS data based on the NIfTI and (Brain Imaging Data Structure) BIDS specification. Once completed, the data will be converted to this format.
 
 R1.1 page 5 line 18. need comma, "For small value of lambda, ED approaches"
 
-Response : TODO
+Response : changed as suggested.
 
 R1.2 page 6 line 6.  don't indent paragraph.
 
-Response : TODO
+Response : changed as suggested.
 
 R1.3 page 7 line 14.  awkward, "with a low AIC values ..."
 

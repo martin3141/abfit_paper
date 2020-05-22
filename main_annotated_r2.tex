@@ -64,13 +64,13 @@
 \soulregister\textbf7 % needed for soul to work with this macro
 \soulregister\url7 % needed for soul to work with this macro
 
-% revision one highlighting
-%\newcommand{\revone}[2]{\hl{#1}\marginnote{\hl{#2}}}
-%\newcommand{\revonenm}[1]{\hl{#1}} % no margin label
+% revision two highlighting
+\newcommand{\revtwo}[2]{\hl{#1}\marginnote{\hl{#2}}}
+\newcommand{\revtwonm}[1]{\hl{#1}} % no margin label
 
 % uncomment next two lines to hide revision two highlighting
-%\newcommand{\revone}[2]{#1}
-%\newcommand{\revonenm}[1]{#1}
+%\newcommand{\revtwo}[2]{#1}
+%\newcommand{\revtwonm}[1]{#1}
 
 \begin{document}
 
@@ -179,7 +179,7 @@ The general approach for penalized spline regression is to over-specify the numb
   \textsf{ED} = \textsf{tr}(\mathbf{H}),
 \end{equation}
 
-where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda$ ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix since a straight line fit has two degrees of freedom: the gradient and the y-intercept. Similarly, a heavily penalized first order difference matrix approaches an ED of 1, resulting in a perfectly horizontal baseline with one degree of freedom corresponding to the y-intercept value. Note, in contrast to the LCModel parameter for adjusting baseline flexibility (DKNTMN), a smaller value of ED corresponds to a smoother baseline estimate.
+where $\textsf{tr}$ denotes the trace of a matrix. For a small value of $\lambda$\revtwo{,}{R1.1} ED approaches the number of spline functions in the basis $\mathbf{B}$, and for large values, ED approaches 2 when using a second order difference matrix since a straight line fit has two degrees of freedom: the gradient and the y-intercept. Similarly, a heavily penalized first order difference matrix approaches an ED of 1, resulting in a perfectly horizontal baseline with one degree of freedom corresponding to the y-intercept value. Note, in contrast to the LCModel parameter for adjusting baseline flexibility (DKNTMN), a smaller value of ED corresponds to a smoother baseline estimate.
 
 \begin{figure}
   \begin{center}
@@ -199,8 +199,7 @@ Determining the optimal value for the smoothness parameter is one of the primary
   \textsf{AIC} = \ln \left[ \|\mathbf{y} - \hat{\mathbf{y}}\|^{2}_{2} \right] + 2 \textsf{ED} / n,
   \label{aic}
 \end{equation}
-
-where $\ln$ denotes the natural logarithm and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A commonly used alternative is known as the \textit{Bayesian information criterion} (BIC), however the AIC is chosen here for its simpler form, which may be intuativly modified --- as shown in the following section. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
+\revtwo{where}{R1.2} $\ln$ denotes the natural logarithm and $n$ is the number of data points. The AIC is typically used to compare models, with lower values indicating an improved balance between bias and instability. A commonly used alternative is known as the \textit{Bayesian information criterion} (BIC), however the AIC is chosen here for its simpler form, which may be intuativly modified --- as shown in the following section. A plot of the AIC as a function of $\lambda$ is shown in the lower panel of Figure \ref{pspline_error}B, and the $\lambda$ value with the lowest AIC shows good agreement with the true minimum error.
 
 \subsection{MRS baseline estimation using P-splines}
 
