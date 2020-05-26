@@ -32,7 +32,7 @@ Response : updated as suggested, +/- 10 Hz added for clarification.
 
 R1.7 page 9 line 31. I've lost track of what you are doing in this step when I read this sentence. I understand that you are using ED to simplify how you 'dial in' bias versus variance in baseline model optimization. But I don't understand what parameters in the model are being set for each candidate fit based on this sentence. Is it lambda? Are you back-calculating the lambda value based on a range of ED>2?  And, do you give the 7 ED/ppm value to let us know how many splines you set across the data PPM? Or do the number of splines change across the various candidate fits? Please clarify what actual parameters are being set for each candidate fit. And whether this is being automatically calculated by some unseen software step, or if you had to set up the candidate fits to correspond to the ED range manually. I'm fine with either answer, I just want to understand how to repeat your work if I wanted to from the info given in the paper.
 
-Response : TODO
+Response : Additional statements have been added to sections 3.1.2 and 3.1.3 to clarify the points raised.
 
 R1.8 page 10 line 9.  Start a new paragraph with "Minor individual changes in ..." for clarity.
 
