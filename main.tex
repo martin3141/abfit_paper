@@ -30,8 +30,8 @@
 \bibliographystyle{vancouver-authoryear}
 
 % Graphics. Always show the figures but float to the end
-\usepackage[final]{subfig, listings}
-\usepackage[nofiglist]{endfloat}
+%\usepackage[final]{subfig, listings}
+%\usepackage[nofiglist]{endfloat}
 
 \graphicspath{{./figures/}}
 
@@ -448,23 +448,6 @@ In conclusion, new MRS analysis method with adaptive baseline modeling is presen
 % The ABfit analysis algorithm was implemented in the R \cite{R2019} programming language, freely licensed under the GPL and integrated into the SPectroscopy Analysis Toolkit (spant) package (v1.4.0) --- available from the Comprehensive R Archive Network. All analyses were performed using the 64-bit version of R (v3.6.3) running under Ubuntu 18.04.3. All code and data required to reproduce the presented figures and results are freely available from:\\ \url{https://github.com/martin3141/abfit_paper} and \url{https://github.com/martin3141/spant}.}
 
 \bibliography{main}
-
-\clearpage
-\listoffigures
-
-\section*{List of Figures for Supporting Information}
-\textbf{Figure S1} Example ABfit analysis result for simulated data with a broad baseline distortion at 1.3 ppm. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S2} Example ABfit analysis result for simulated data without baseline distortion. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S3} Example ABfit analysis result for simulated data with a broad baseline distortion at 1.3 ppm with twice the amplitude compared to Figures 4 and S1. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S4} Example ABfit analysis result for simulated data without baseline distortion, but with the true macromolecular basis signal replaced with individually simulated lipid and macromolecular signals. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S5} Example ABfit analysis result for simulated data with a broad baseline distortion at 1.3 ppm and the true macromolecular basis signal replaced with individually simulated lipid and macromolecular signals. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S6} Example ABfit analysis result for simulated data with a broad baseline distortion at 1.3 ppm and metabolite FWHM of 0.1 ppm. Fitting was performed on data comprised of known metabolite, baseline, macromoleclar and noise components (part A ``true'' + ``noise''). Parts B, C and D compare the true and estimated signals separately for the metabolite, baseline and macromolecular components respectively. The simulated noise-free signal (``true'') is shown in each subplot for comparison with the estimate from ABfit (``est.''). The difference between the true and estimated (``true'' - ``est.'') signals are also shown (``resid''). Horizontal dashed lines represent an intensity of zero for each of the four traces.\\
-\textbf{Figure S7} ABfit results from a 2D MRSI semi-LASER acquisition. A) Orthogonal T1 MRI slices intersecting the analysis region --- shown as a colored tNAA / tCr metabolite map overlay. Linear regression of key metabolite ratios with the gray matter fraction are shown in parts B, C and D. The line of best fit is plotted in blue with the 95\% confidence region in gray.\\
-\textbf{Figure S8} ABfit result plot for a voxel within a 2D MRSI semi-LASER acquisition with an asymmetric lineshape. A) default analysis with an asymmetric lineshape fit model, B) analysis with the lineshape asymmetry parameter ($a_{g}$) restricted to $\pm 0.0001$.\\
-
-\section*{List of Tables for Supporting Information}
-\textbf{Table S1} Metabolite concentrations consistent with levels measured in normal brain tissue. \\
-\textbf{Table S2} Parameters used to generate the individual simulated lipid and macromolecule basis signals. Listed components with the same name were summed to form a composite signal. \\
 
 \end{document}
 
